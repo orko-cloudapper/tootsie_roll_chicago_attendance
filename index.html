@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chicago Union Attendance - CloudApper Tile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+ --ink:#69270A;
+ --ink-2:#4A1B07;
+ --teal:#C68A3D;
+ --teal-light:#F6EBD9;
+ --gold:#C1440E;
+ --gold-light:#FBEAE0;
+ --gold-ink:#9A3412;
+ --rust:#EE3124;
+ --rust-light:#FDE4E1;
+ --canvas:#F7F2EE;
+ --card:#FFFFFF;
+ --border:#E8DDD3;
+ --text:#2B1B12;
+ --muted:#7A6A5D;
+ --muted-2:#9C8D80;
+ --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{ width:100%; }
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+    background:var(--canvas);
+    color:var(--text);
+ -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    padding:20px clamp(12px, 3vw, 32px) 60px clamp(12px, 3vw, 32px);
+  }
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ================= TILE ================= */
+  .tile{
+    width:100%;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:0 1px 2px rgba(20,30,50,.04), 0 10px 28px rgba(20,30,50,.07);
+    overflow:visible;
+  }
+
+  .tile-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    padding:18px 20px 14px 20px;
+  }
+  .tile-head .title-block{display:flex;gap:11px;align-items:flex-start;}
+  .tile-icon{
+    width:34px;height:34px;border-radius:9px;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .tile-icon svg{width:18px;height:18px;color:#fff;}
+  .tile-head h1{font-size:15.5px;font-weight:700;color:var(--ink);margin:0 0 2px 0;}
+  .tile-head p{font-size:11.5px;color:var(--muted);margin:0;}
+
+  /* ---- tab bar ---- */
+  .tab-bar{
+    display:flex;gap:16px;
+    padding:0 20px;
+    border-bottom:1px solid var(--border);
+  }
+  .tab-btn{
+    background:none;border:none;
+    padding:10px 14px 11px 14px;
+    font-size:12.5px;font-weight:600;color:var(--muted);
+    border-bottom:2px solid transparent;
+    display:flex;align-items:center;gap:6px;
+    margin-bottom:-1px;
+  }
+  .tab-btn svg{width:14px;height:14px;}
+  .tab-btn:hover{color:var(--ink);}
+  .tab-btn.active{color:var(--ink);border-bottom-color:var(--ink);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  @media (max-width: 560px){
+    .tab-bar{padding:0 16px;overflow-x:auto;}
+    .tab-btn{padding:9px 10px 10px 10px;font-size:11.5px;white-space:nowrap;}
+  }
+
+  .head-actions{display:flex;align-items:center;gap:6px;}
+  .sync-pill{
+    display:flex;align-items:center;gap:6px;
+    background:var(--teal-light);color:var(--teal);
+    border:none;border-radius:100px;padding:5px 11px 5px 9px;
+    font-size:11px;font-weight:600;
+  }
+  .sync-pill svg{width:11px;height:11px;}
+  .sync-pill.spin svg{animation:spin .6s linear;}
+  @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+  .icon-btn{
+    width:28px;height:28px;border-radius:8px;
+    border:1px solid var(--border);background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);position:relative;
+  }
+  .icon-btn:hover{background:#F7F8FA;}
+  .icon-btn svg{width:15px;height:15px;}
+
+  .menu{
+    position:absolute; top:34px; right:0;
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    box-shadow:0 8px 24px rgba(20,30,50,.14);
+    min-width:168px; padding:6px; z-index:40;
+    display:none;
+  }
+  .menu.open{display:block;}
+  .menu button{
+    display:flex;align-items:center;gap:9px;width:100%;
+    background:none;border:none;text-align:left;
+    padding:8px 9px;border-radius:7px;font-size:12.5px;color:var(--text);
+  }
+  .menu button:hover{background:#F2F4F7;}
+  .menu button svg{width:14px;height:14px;color:var(--muted);}
+
+  /* ---- sub row: employee search + open tickets ---- */
+  .sub-row{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    padding:16px 20px 14px 20px;
+    gap:12px;
+    position:relative;
+    flex-wrap:wrap;
+  }
+  .search-wrap{ position:relative; flex:1; min-width:200px; max-width:380px; }
+  .sub-tools{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .emp-search{
+    display:flex;align-items:center;gap:8px;
+    background:#F7F8FA;border:1px solid var(--border);border-radius:9px;
+    padding:8px 11px;width:100%;
+  }
+  .emp-search.focused{border-color:var(--teal); background:#fff; box-shadow:0 0 0 3px var(--teal-light);}
+  .emp-search svg{width:14px;height:14px;color:var(--muted-2);flex-shrink:0;}
+  .emp-search input{
+    border:none;outline:none;background:transparent;font-family:inherit;
+    font-size:12.5px;color:var(--text);width:100%;font-weight:500;
+  }
+  .emp-search input::placeholder{color:var(--muted-2);font-weight:400;}
+  .emp-search .clear-btn{
+    background:none;border:none;color:var(--muted-2);width:16px;height:16px;
+    flex-shrink:0;display:none;align-items:center;justify-content:center;
+  }
+  .emp-search .clear-btn.show{display:flex;}
+  .emp-search .clear-btn svg{width:12px;height:12px;}
+
+  .emp-menu{
+    position:absolute; top:calc(100% + 6px); left:0; right:0;
+    background:#fff;border:1px solid var(--border);border-radius:10px;
+    box-shadow:0 8px 24px rgba(20,30,50,.14);
+    padding:6px;z-index:40;display:none;
+    max-height:280px; overflow-y:auto;
+  }
+  .emp-menu.open{display:block;}
+  .emp-menu .opt{
+    display:flex;flex-direction:column;gap:1px;width:100%;
+    background:none;border:none;text-align:left;padding:8px 10px;border-radius:7px;
+  }
+  .emp-menu .opt:hover{background:#F2F4F7;}
+  .emp-menu .opt .n{font-size:12.5px;font-weight:600;color:var(--text);}
+  .emp-menu .opt .s{font-size:11px;color:var(--muted-2);}
+  .emp-menu .opt.active{background:var(--teal-light);}
+  .emp-menu .opt.active .n{color:var(--teal);}
+  .emp-menu .empty{padding:10px;font-size:12px;color:var(--muted-2);}
+  .emp-menu mark{background:var(--gold-light);color:inherit;border-radius:3px;padding:0 1px;}
+
+  .tickets-badge{
+    display:flex;align-items:center;gap:6px;flex-shrink:0;
+    background:#fff;border:1px solid var(--border);border-radius:100px;
+    padding:8px 13px;font-size:11.5px;font-weight:600;color:var(--text);
+    height:fit-content;
+  }
+  .tickets-badge svg{width:12px;height:12px;color:var(--muted);}
+  .tickets-badge:hover{background:#F7F8FA;}
+
+  .emp-tool-btn{
+    display:flex;align-items:center;gap:6px;flex-shrink:0;
+    background:#fff;border:1px solid var(--border);border-radius:100px;
+    padding:8px 13px;font-size:11.5px;font-weight:600;color:var(--muted);
+    height:fit-content;
+  }
+  .emp-tool-btn svg{width:12px;height:12px;}
+  .emp-tool-btn:hover{background:#F7F8FA;color:var(--ink);}
+  .emp-tool-btn.spin svg{animation:spin .6s linear;}
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 560px){
+    .tile-head{padding:16px 16px 12px 16px;flex-wrap:wrap;gap:10px;}
+    .sub-row{padding:0 16px 12px 16px;}
+    .identity{margin:0 16px 12px 16px;}
+    .flag-banner{margin:0 16px 12px 16px;flex-wrap:wrap;}
+    .flag-btn{margin-top:4px;}
+    .tracks{margin:0 16px 4px 16px;}
+    .tile-foot{padding:14px 16px 16px 16px;flex-wrap:wrap;gap:10px;}
+    .sso-note{padding:0 16px 14px 16px;}
+    .search-wrap{max-width:none;flex-basis:100%;}
+    .sub-tools{flex-basis:100%;justify-content:flex-start;}
+    .t-count{display:none;}
+    .track-row{flex-wrap:wrap;row-gap:6px;}
+    .t-mid{flex-basis:calc(100% - 46px);}
+  }
+  @media (max-width: 380px){
+    .tile-head h1{font-size:14px;}
+    .tile-head p{display:none;}
+    .flag-text{font-size:11.5px;}
+    .modal{max-width:100%;}
+  }
+
+  /* ---- identity ---- */
+  .identity{
+    display:flex;align-items:center;gap:12px;
+    margin:0 20px 14px 20px;
+    padding:13px 14px;
+    background:#F7F8FA;
+    border-radius:10px;
+  }
+  .avatar{
+    width:40px;height:40px;border-radius:50%;
+    background:var(--ink);color:#fff;font-weight:700;font-size:14px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    border:none;
+  }
+  .avatar:hover{background:var(--ink-2);}
+  .id-text{flex:1;min-width:0;background:none;border:none;text-align:left;padding:0;}
+  .id-text .name{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .id-text .sub{font-size:11px;color:var(--muted);margin-top:1px;}
+  .id-chevron{color:var(--muted-2);width:14px;height:14px;flex-shrink:0;}
+
+  /* ---- HR flag banner ---- */
+  .flag-banner{
+    margin:0 20px 14px 20px;
+    background:var(--rust-light);
+    border-radius:10px;
+    padding:11px 14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .flag-banner.ack{background:#F1F3F5;}
+  .flag-banner svg.warn{width:16px;height:16px;color:var(--rust);flex-shrink:0;}
+  .flag-banner.ack svg.warn{color:var(--muted-2);}
+  .flag-text{flex:1;font-size:12px;font-weight:600;color:var(--rust);}
+  .flag-banner.ack .flag-text{color:var(--muted);font-weight:500;}
+  .flag-btn{
+    font-size:11.5px;font-weight:600;border-radius:7px;padding:6px 10px;border:none;
+  }
+  .flag-btn.ghost{background:#fff;color:var(--rust);border:1px solid #E6C3BA;margin-right:6px;}
+  .flag-btn.solid{background:var(--rust);color:#fff;}
+  .flag-banner.ack .flag-btn{display:none;}
+
+  /* ---- tracks ---- */
+  .tracks{margin:0 20px 4px 20px;display:flex;flex-direction:column;gap:8px;}
+  .track{
+    border:1px solid var(--border);border-radius:10px;overflow:hidden;
+  }
+  .track-row{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 14px;background:#fff;border:none;width:100%;text-align:left;
+  }
+  .track-row:hover{background:#FAFBFC;}
+  .t-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .t-icon svg{width:14px;height:14px;}
+  .t-mid{flex:1;min-width:0;}
+  .t-name{font-size:10.5px;font-weight:700;color:var(--muted-2);letter-spacing:.4px;margin-bottom:2px;}
+  .t-level{font-size:13.5px;font-weight:700;}
+  .t-ladder{display:flex;gap:2.5px;margin-top:7px;}
+  .t-ladder .seg{height:5px;flex:1;border-radius:3px;background:#E9EBEF;}
+  .t-ladder .seg.passed{background:#C9CFDA;}
+  .t-ladder .seg.cur-ok{background:var(--teal);}
+  .t-ladder .seg.cur-mid{background:var(--gold);}
+  .t-ladder .seg.cur-crit{background:var(--rust);}
+  .t-count{font-size:11px;color:var(--muted);text-align:right;flex-shrink:0;min-width:64px;}
+  .t-count b{color:var(--text);font-weight:700;}
+  .t-chevron{width:15px;height:15px;color:var(--muted-2);flex-shrink:0;transition:transform .15s;}
+  .track.open .t-chevron{transform:rotate(180deg);}
+
+  .t-detail{
+    max-height:0; overflow:hidden;
+    background:#FAFBFC;
+    border-top:1px solid transparent;
+    transition:max-height .2s ease;
+  }
+  .track.open .t-detail{max-height:640px;border-top:1px solid var(--border);overflow-y:auto;}
+  .t-detail-inner{padding:12px 14px 14px 14px;}
+  .occ-row{
+    display:flex;align-items:center;gap:10px;
+    padding:7px 0;font-size:12px;
+  }
+  .occ-row + .occ-row{border-top:1px dashed #E3E6EA;}
+  .occ-date{color:var(--muted);width:64px;flex-shrink:0;}
+  .occ-change{flex:1;color:var(--text);}
+  .occ-ticket{
+    background:none;border:none;color:var(--teal);font-weight:600;font-size:11.5px;
+    text-decoration:underline;text-underline-offset:2px;flex-shrink:0;
+  }
+  .occ-status{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:100px;flex-shrink:0;}
+  .occ-status.active{background:var(--rust-light);color:var(--rust);}
+  .occ-status.pending{background:var(--gold-light);color:var(--gold-ink);}
+  .occ-status.excused{background:#EDEFF2;color:var(--muted);}
+
+  .notes-block{margin-top:10px;padding-top:10px;border-top:1px dashed #E3E6EA;}
+  .notes-label{font-size:10.5px;font-weight:700;color:var(--muted-2);letter-spacing:.4px;margin-bottom:6px;}
+  .note-row{background:var(--gold-light);border-radius:8px;padding:8px 10px;margin-bottom:6px;}
+  .note-row:last-child{margin-bottom:0;}
+  .note-meta{font-size:10.5px;color:var(--gold-ink);font-weight:600;margin-bottom:2px;}
+  .note-text{font-size:12px;color:var(--text);line-height:1.4;}
+
+  .t-actions{display:flex;gap:8px;margin-top:10px;}
+  .t-btn{
+    font-size:11.5px;font-weight:600;border-radius:7px;padding:7px 10px;
+    border:1px solid var(--border);background:#fff;color:var(--text);
+    display:flex;align-items:center;gap:6px;
+  }
+  .t-btn:hover{background:#F2F4F7;}
+  .t-btn svg{width:12px;height:12px;}
+  .t-btn.primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .t-btn.primary:hover{background:var(--ink-2);}
+
+  /* ---- footer ---- */
+  .tile-foot{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px 16px 20px;
+    border-top:1px solid var(--border);
+    margin-top:10px;
+  }
+  .foot-link{
+    background:none;border:none;color:var(--teal);font-size:12px;font-weight:600;
+    display:flex;align-items:center;gap:5px;padding:0;
+  }
+  .foot-link svg{width:12px;height:12px;}
+  .foot-cta{
+    background:var(--ink);color:#fff;border:none;border-radius:8px;
+    padding:8px 13px;font-size:12px;font-weight:600;
+    display:flex;align-items:center;gap:6px;
+  }
+  .foot-cta:hover{background:var(--ink-2);}
+  .foot-cta svg{width:12px;height:12px;}
+
+  .sso-note{
+    display:flex;align-items:center;gap:7px;
+    font-size:10.5px;color:var(--muted-2);
+    padding:0 20px 16px 20px;
+  }
+  .sso-note svg{width:12px;height:12px;flex-shrink:0;}
+
+  /* ---- By Level tab ---- */
+  .track-pills{display:flex;gap:8px;padding:16px 20px 6px 20px;flex-wrap:wrap;}
+  .track-pill-btn{
+    display:flex;align-items:center;gap:7px;
+    padding:7px 13px;border-radius:100px;border:1px solid var(--border);
+    background:#fff;font-size:12px;font-weight:600;color:var(--muted);
+  }
+  .track-pill-btn svg{width:13px;height:13px;}
+  .track-pill-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+
+  .level-groups{padding:12px 20px 18px 20px;display:flex;flex-direction:column;gap:12px;}
+  .level-group{border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .level-group-head{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 14px;
+  }
+  .level-group-head .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .level-group-head .lg-title{font-size:13px;font-weight:700;flex:1;}
+  .level-group-head .lg-count{font-size:11px;color:var(--muted);font-weight:600;}
+  .level-group-body{border-top:1px solid var(--border);}
+  .lg-emp-row{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 14px;width:100%;background:#fff;border:none;text-align:left;
+  }
+  .lg-emp-row:hover{background:#FAFBFC;}
+  .lg-emp-row + .lg-emp-row{border-top:1px dashed #E7E9EC;}
+  .lg-avatar{
+    width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;
+    font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .lg-emp-name{font-size:12.5px;font-weight:600;color:var(--text);}
+  .lg-emp-sub{font-size:10.5px;color:var(--muted-2);}
+  .lg-arrow{margin-left:auto;width:13px;height:13px;color:var(--muted-2);flex-shrink:0;}
+  .level-empty{padding:28px 20px;text-align:center;color:var(--muted);font-size:12.5px;}
+
+  /* ---- Daily Activity tab ---- */
+  .date-nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px 12px 20px;
+  }
+  .date-nav .dn-mid{display:flex;flex-direction:column;align-items:center;}
+  .dn-quick-row{display:flex;align-items:center;gap:8px;margin-top:6px;}
+  .dn-date-pick{
+    display:flex;align-items:center;gap:5px;
+    border:1px solid var(--border);border-radius:7px;
+    padding:4px 8px;background:#F7F8FA;cursor:pointer;
+    color:var(--muted);
+  }
+  .dn-date-pick svg{width:12px;height:12px;flex-shrink:0;}
+  .dn-date-pick input[type="date"]{
+    border:none;background:transparent;font-family:inherit;
+    font-size:11px;color:var(--text);padding:0;width:100px;cursor:pointer;
+  }
+  .date-nav .dn-date{font-size:14px;font-weight:700;color:var(--ink);}
+  .date-nav .dn-sub{font-size:10.5px;color:var(--muted-2);margin-top:1px;}
+  .dn-btn{
+    width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#fff;
+    display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;
+  }
+  .dn-btn:hover{background:#F2F4F7;}
+  .dn-btn:disabled{opacity:.4;cursor:default;}
+  .dn-btn svg{width:14px;height:14px;}
+  .dn-today-btn{
+    font-size:11px;font-weight:600;color:var(--teal);background:none;border:none;margin-top:2px;
+  }
+
+  .daily-list{padding:0 20px 6px 20px;display:flex;flex-direction:column;}
+  .daily-row{
+    display:flex;align-items:center;gap:12px;padding:11px 0;
+    border-top:1px solid var(--border);
+  }
+  .daily-row:first-child{border-top:none;}
+  .daily-row .dr-emp{flex:1;min-width:0;}
+  .daily-row .dr-emp-name{font-size:12.5px;font-weight:600;color:var(--text);}
+  .daily-row .dr-emp-sub{font-size:10.5px;color:var(--muted-2);}
+  .daily-row .dr-change{flex:2;font-size:12px;color:var(--text);min-width:0;}
+  .daily-empty{padding:32px 20px;text-align:center;color:var(--muted);font-size:12.5px;}
+
+  .daily-foot{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px 16px 20px;border-top:1px solid var(--border);margin-top:8px;
+  }
+  .daily-foot .dcount{font-size:11.5px;color:var(--muted);}
+  .print-btn{
+    background:var(--ink);color:#fff;border:none;border-radius:8px;
+    padding:8px 13px;font-size:12px;font-weight:600;
+    display:flex;align-items:center;gap:6px;
+  }
+  .print-btn:hover{background:var(--ink-2);}
+  .print-btn svg{width:12px;height:12px;}
+  .print-btn:disabled{opacity:.45;cursor:default;}
+
+  /* ---- mode toggle & range picker ---- */
+  .mode-toggle{display:flex;gap:8px;padding:16px 20px 0 20px;}
+  .mode-btn{
+    padding:7px 14px;border-radius:100px;border:1px solid var(--border);
+    background:#fff;font-size:12px;font-weight:600;color:var(--muted);
+  }
+  .mode-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .mode-btn:hover:not(.active){background:#F7F8FA;}
+
+  .range-nav{
+    display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;
+    padding:14px 20px 4px 20px;
+  }
+  .range-field{display:flex;flex-direction:column;gap:4px;}
+  .range-field label{font-size:10.5px;font-weight:700;color:var(--muted-2);text-transform:uppercase;letter-spacing:.4px;}
+  .range-field input[type="date"]{
+    border:1px solid var(--border);border-radius:8px;padding:7px 10px;
+    font-family:inherit;font-size:12.5px;color:var(--text);background:#F7F8FA;
+  }
+  .range-apply-btn{
+    background:var(--ink);color:#fff;border:none;border-radius:8px;
+    padding:9px 15px;font-size:12px;font-weight:600;height:fit-content;
+  }
+  .range-apply-btn:hover{background:var(--ink-2);}
+  .range-summary{
+    padding:12px 20px 0 20px;font-size:12.5px;font-weight:600;color:var(--ink);
+  }
+  @media (max-width: 560px){
+    .mode-toggle{padding:14px 16px 0 16px;}
+    .range-nav{padding:12px 16px 4px 16px;}
+    .range-summary{padding:10px 16px 0 16px;}
+  }
+
+  .export-actions{display:flex;gap:8px;}
+  .export-btn{
+    background:var(--ink);color:#fff;border:none;border-radius:8px;
+    padding:8px 12px;font-size:11.5px;font-weight:600;
+    display:flex;align-items:center;gap:5px;
+  }
+  .export-btn:hover{background:var(--ink-2);}
+  .export-btn svg{width:12px;height:12px;}
+  .export-btn:disabled{opacity:.45;cursor:default;}
+  .export-btn#exportExcelBtn{background:#1D6F42;}
+  .export-btn#exportExcelBtn:hover{background:#175934;}
+  .export-btn#exportPdfBtn{background:#B3261E;}
+  .export-btn#exportPdfBtn:hover{background:#8f1e18;}
+  @media (max-width: 560px){
+    .daily-foot{flex-wrap:wrap;}
+    .export-actions{flex-basis:100%;justify-content:flex-start;}
+  }
+
+  #printArea{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #printArea, #printArea *{visibility:visible;}
+    #printArea{display:block;position:absolute;top:0;left:0;width:100%;padding:24px;}
+    #printArea h2{font-size:16px;color:#111;margin:0 0 3px 0;}
+    #printArea .print-sub{font-size:11px;color:#555;margin-bottom:16px;}
+    #printArea table{width:100%;border-collapse:collapse;font-size:11px;}
+    #printArea th{text-align:left;border-bottom:1.5px solid #333;padding:6px 8px;font-size:10px;text-transform:uppercase;}
+    #printArea td{border-bottom:1px solid #ddd;padding:6px 8px;}
+  }
+
+  /* ================= MODAL ================= */
+  .overlay{
+    position:fixed;inset:0;background:rgba(15,22,36,.44);
+    display:none;align-items:center;justify-content:center;z-index:100;
+    padding:20px;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:#fff;border-radius:14px;max-width:460px;width:100%;
+    box-shadow:0 20px 60px rgba(10,16,30,.3);
+    overflow:hidden;
+  }
+  .modal-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px;border-bottom:1px solid var(--border);
+  }
+  .modal-head h3{margin:0;font-size:14.5px;font-weight:700;color:var(--ink);}
+  .modal-close{background:none;border:none;color:var(--muted);width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;}
+  .modal-close:hover{background:#F2F4F7;}
+  .modal-close svg{width:15px;height:15px;}
+  .modal-body{padding:16px 18px;max-height:56vh;overflow-y:auto;}
+  .modal-foot{padding:12px 18px 16px 18px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--border);}
+
+  .mrow{display:flex;justify-content:space-between;padding:8px 0;font-size:12.5px;border-bottom:1px dashed #E7E9EC;}
+  .mrow:last-child{border-bottom:none;}
+  .mrow .k{color:var(--muted);}
+  .mrow .v{font-weight:600;color:var(--text);text-align:right;}
+
+  .audit-list .occ-row{padding:9px 0;}
+
+  .btn{border:none;border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:600;}
+  .btn.primary{background:var(--ink);color:#fff;}
+  .btn.primary:hover{background:var(--ink-2);}
+  .btn.ghost{background:#fff;border:1px solid var(--border);color:var(--text);}
+  .btn.ghost:hover{background:#F2F4F7;}
+
+  /* ================= TOAST ================= */
+  #toast-wrap{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:8px;z-index:200;}
+  .toast{
+    background:var(--ink);color:#fff;font-size:12.5px;font-weight:500;
+    padding:11px 16px;border-radius:9px;box-shadow:0 10px 26px rgba(10,16,30,.28);
+    display:flex;align-items:center;gap:9px;
+    opacity:0;transform:translateY(8px);
+    animation:toast-in .25s ease forwards;
+    max-width:320px;
+  }
+  .toast svg{width:15px;height:15px;flex-shrink:0;color:#8FE3C7;}
+  @keyframes toast-in{to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+  <div class="tile" id="tile">
+
+    <div class="tile-head">
+      <div class="title-block">
+        <div class="tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M4.5 21c1.3-4 4.2-6 7.5-6s6.2 2 7.5 6"/></svg>
+        </div>
+        <div>
+          <h1>Chicago Union Attendance</h1>
+          <p>Independent discipline tracking &nbsp;&middot;&nbsp; CloudApper</p>
+        </div>
+      </div>
+      <div class="head-actions" style="position:relative;">
+        <button class="sync-pill" id="syncBtn" title="Refresh all tile data">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 10-3 6.7M21 5v6h-6"/></svg>
+          <span id="syncLabel">Synced</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="employee">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M4.5 21c1.3-4 4.2-6 7.5-6s6.2 2 7.5 6"/></svg>
+        Employee
+      </button>
+      <button class="tab-btn" data-tab="bylevel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h4v4H3zM10 11h4v10h-4zM17 5h4v16h-4z"/></svg>
+        By Level
+      </button>
+      <button class="tab-btn" data-tab="daily">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+        Daily Activity
+      </button>
+    </div>
+
+    <div class="tab-panel active" id="panel-employee">
+
+    <div class="sub-row">
+      <div class="search-wrap">
+        <div class="emp-search" id="empSearchBox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="empSearchInput" placeholder="Search employee name or ID…" autocomplete="off" />
+          <button class="clear-btn" id="empSearchClear" title="Clear">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="emp-menu" id="empMenu"></div>
+      </div>
+      <div class="sub-tools">
+        <button class="tickets-badge" id="ticketsBadge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 000 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1a2 2 0 000-4v-1z"/></svg>
+          <span id="ticketsLabel">0 Open Tickets</span>
+        </button>
+        <button class="emp-tool-btn" id="empRefreshBtn" title="Refresh this employee's data">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 10-3 6.7M21 5v6h-6"/></svg>
+          Refresh
+        </button>
+        <button class="emp-tool-btn" id="empHistoryBtn" title="Open full history for this employee">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/></svg>
+          History
+        </button>
+      </div>
+    </div>
+
+    <button class="identity" id="identityBtn">
+      <div class="avatar" id="empAvatar">--</div>
+      <div class="id-text">
+        <div class="name" id="empName">-</div>
+        <div class="sub" id="empSub">-</div>
+      </div>
+      <svg class="id-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+
+    <div class="flag-banner" id="flagBanner" style="display:none;">
+      <svg class="warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9L2.7 17.5A1.8 1.8 0 004.3 20h15.4a1.8 1.8 0 001.6-2.5L13.7 3.9a1.8 1.8 0 00-3.4 0z"/></svg>
+      <div class="flag-text" id="flagText">Track flagged for HR review</div>
+      <button class="flag-btn ghost" id="flagViewBtn">View ticket</button>
+      <button class="flag-btn solid" id="flagAckBtn">Acknowledge</button>
+    </div>
+
+    <div class="tracks" id="tracks"></div>
+
+    <div class="tile-foot">
+      <button class="foot-link" id="fullAuditBtn">
+        View full audit trail
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <!-- <button class="foot-cta" id="openCloudApperBtn">
+        Open in CloudApper
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </button> -->
+    </div>
+
+    </div><!-- /panel-employee -->
+
+    <div class="tab-panel" id="panel-bylevel">
+      <div class="track-pills" id="levelTrackPills"></div>
+      <div class="level-groups" id="levelGroups"></div>
+    </div><!-- /panel-bylevel -->
+
+    <div class="tab-panel" id="panel-daily">
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="modeSingleBtn" data-mode="single">Single Day</button>
+        <button class="mode-btn" id="modeRangeBtn" data-mode="range">Date Range</button>
+      </div>
+
+      <div class="date-nav" id="singleNav">
+        <button class="dn-btn" id="dnPrev" title="Previous day">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <div class="dn-mid">
+          <div class="dn-date" id="dnDate">-</div>
+          <div class="dn-sub" id="dnSub">-</div>
+          <div class="dn-quick-row">
+            <label class="dn-date-pick">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+              <input type="date" id="singleDateInput" />
+            </label>
+            <button class="dn-today-btn" id="dnToday">Today</button>
+          </div>
+        </div>
+        <button class="dn-btn" id="dnNext" title="Next day">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="range-nav" id="rangeNav" style="display:none;">
+        <div class="range-field">
+          <label for="rangeFromInput">From</label>
+          <input type="date" id="rangeFromInput" />
+        </div>
+        <div class="range-field">
+          <label for="rangeToInput">To</label>
+          <input type="date" id="rangeToInput" />
+        </div>
+        <button class="range-apply-btn" id="rangeApplyBtn">Apply</button>
+      </div>
+      <div class="range-summary" id="rangeSummary" style="display:none;"></div>
+
+      <div class="daily-list" id="dailyList"></div>
+      <div class="daily-foot">
+        <span class="dcount" id="dailyCount">0 tickets</span>
+        <div class="export-actions">
+          <button class="export-btn" id="printDayBtn" title="Print">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-5a1 1 0 011-1h16a1 1 0 011 1v5a1 1 0 01-1 1h-2M6 14h12v7H6z"/></svg>
+            Print
+          </button>
+          <button class="export-btn" id="exportExcelBtn" title="Export to Excel">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/><path d="M9 13l2 2.5L14 12"/></svg>
+            Excel
+          </button>
+          <button class="export-btn" id="exportPdfBtn" title="Export to PDF">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/><path d="M8 17v-4h1.5a1.5 1.5 0 010 3H8M12.5 17v-4h1.8M12.5 15h1.5"/></svg>
+            PDF
+          </button>
+        </div>
+      </div>
+    </div><!-- /panel-daily -->
+
+
+    <div class="sso-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Signed in via UKG Pro WFM single sign-on &nbsp;&middot;&nbsp; Chicago location
+    </div>
+  </div>
+
+  <div id="printArea"></div>
+
+  <!-- Generic modal -->
+  <div class="overlay" id="overlay">
+    <div class="modal" id="modal">
+      <div class="modal-head">
+        <h3 id="modalTitle">Title</h3>
+        <button class="modal-close" id="modalClose">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-foot" id="modalFoot"></div>
+    </div>
+  </div>
+
+  <div id="toast-wrap"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+/* ============================= DATA ============================= */
+const LEVEL_NAMES = ['No Active Discipline','Verbal Warning','Written Warning','2-Day In-House Suspension','1-Day Unpaid Suspension','5-Day Unpaid Suspension','10-Day Unpaid Suspension','Discharge'];
+const TRACK_META = {
+  absence:{label:'Absence', icon:'cal'},
+  late:{label:'Late Arrival', icon:'clock'},
+  early:{label:'Early Departure', icon:'file'}
+};
+const ICONS = {
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4l2.6 2.6"/></svg>',
+  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/></svg>'
+};
+
+function tier(level){
+  if(level<=0) return 'none';
+  if(level<=2) return 'ok';
+  if(level<=5) return 'mid';
+  return 'crit';
+}
+function tierColor(t){ return t==='ok' ? 'var(--teal)' : t==='mid' ? 'var(--gold-ink)' : t==='crit' ? 'var(--rust)' : 'var(--muted)'; }
+
+let DATA = {
+  48213:{
+    name:'J. Alvarez', dept:'Sweets Department', shift:'2nd Shift', hire:'03/11/2021', union:'Chicago Bargaining Unit', initials:'JA',
+    tracks:{
+      absence:{level:2, occInWindow:2, occ:[
+        {date:'09/17/26', ticket:'TCK-40198', change:'Level 1 \u2192 2 \u00b7 Written Warning', status:'active'},
+        {date:'09/08/26', ticket:null, change:'Occurrence excused - ATT-Inclement Weather', status:'excused'}
+      ]},
+      late:{level:3, occInWindow:2, occ:[
+        {date:'09/19/26', ticket:'TCK-40277', change:'Level 2 \u2192 3 \u00b7 2-Day In-House Suspension', status:'active'},
+        {date:'09/15/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
+      ]},
+      early:{level:6, occInWindow:2, occ:[
+        {date:'09/19/26', ticket:'TCK-40291', change:'Level 5 \u2192 6 \u00b7 10-Day Unpaid Suspension', status:'pending'},
+        {date:'09/16/26', ticket:'TCK-40255', change:'Level 4 \u2192 5 \u00b7 5-Day Unpaid Suspension', status:'active'}
+      ]}
+    }
+  },
+  51067:{
+    name:'M. Chen', dept:'Packaging Department', shift:'1st Shift', hire:'06/02/2019', union:'Chicago Bargaining Unit', initials:'MC',
+    tracks:{
+      absence:{level:1, occInWindow:1, occ:[
+        {date:'09/18/26', ticket:'TCK-40310', change:'Level 0 \u2192 1 \u00b7 Verbal Warning', status:'active'}
+      ]},
+      late:{level:1, occInWindow:1, occ:[
+        {date:'09/16/26', ticket:'TCK-40265', change:'Level 0 \u2192 1 \u00b7 Verbal Warning', status:'active'}
+      ]},
+      early:{level:0, occInWindow:0, occ:[
+        {date:'08/02/26', ticket:null, change:'Occurrence excused - ATT-Excused', status:'excused'}
+      ]}
+    }
+  },
+  39950:{
+    name:'R. Thompson', dept:'Shipping Department', shift:'3rd Shift', hire:'11/20/2022', union:'Chicago Bargaining Unit', initials:'RT',
+    tracks:{
+      absence:{level:4, occInWindow:2, occ:[
+        {date:'09/16/26', ticket:'TCK-40190', change:'Level 3 \u2192 4 \u00b7 1-Day Unpaid Suspension', status:'active'},
+        {date:'09/05/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
+      ]},
+      late:{level:2, occInWindow:2, occ:[
+        {date:'09/17/26', ticket:'TCK-40225', change:'Level 1 \u2192 2 \u00b7 Written Warning', status:'active'},
+        {date:'08/19/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
+      ]},
+      early:{level:3, occInWindow:2, occ:[
+        {date:'09/19/26', ticket:'TCK-40240', change:'Level 2 \u2192 3 \u00b7 2-Day In-House Suspension', status:'active'},
+        {date:'08/28/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
+      ]}
+    }
+  },
+  44810:{
+    name:'D. Reyes', dept:'Sweets Department', shift:'2nd Shift', hire:'01/14/2023', union:'Chicago Bargaining Unit', initials:'DR',
+    tracks:{
+      absence:{level:1, occInWindow:1, occ:[
+        {date:'09/15/26', ticket:'TCK-40330', change:'Level 0 \u2192 1 \u00b7 Verbal Warning', status:'active'}
+      ]},
+      late:{level:3, occInWindow:2, occ:[
+        {date:'09/19/26', ticket:'TCK-40320', change:'Level 2 \u2192 3 \u00b7 2-Day In-House Suspension', status:'active'},
+        {date:'09/02/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
+      ]},
+      early:{level:0, occInWindow:0, occ:[]}
+    }
+  }
+};
+
+const TODAY = '09/19/26';
+
+let state = {
+  currentEmp: 48213,
+  openTracks: {},
+  ackFlags: {}, // per employee, per track: acknowledged?
+  notes: {}, // 'empId:trackKey' -> [{date, author, text}]
+  searchFocused: false,
+  activeTab: 'employee',
+  levelTrack: 'absence',
+  dailyDate: TODAY,
+  dailyMode: 'single', // 'single' | 'range'
+  rangeFrom: '09/15/26',
+  rangeTo: TODAY,
+};
+
+/* ============================= HELPERS ============================= */
+function toast(msg){
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className='toast';
+  el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .25s'; el.style.opacity='0'; setTimeout(()=>el.remove(),260); }, 2600);
+}
+
+function openModal(title, bodyHtml, footHtml){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = bodyHtml;
+  document.getElementById('modalFoot').innerHTML = footHtml || '';
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
+
+function countOpenTickets(emp){
+  let n = 0;
+  Object.values(emp.tracks).forEach(t=>{
+    t.occ.forEach(o=>{ if(o.status==='active' || o.status==='pending') n++; });
+  });
+  return n;
+}
+
+/* ============================= RENDER ============================= */
+function render(){
+  const emp = DATA[state.currentEmp];
+
+  document.getElementById('empAvatar').textContent = emp.initials;
+  document.getElementById('empName').textContent = emp.name;
+  document.getElementById('empSub').textContent = emp.shift + ' \u00b7 ' + emp.dept;
+  if(!state.searchFocused){
+    document.getElementById('empSearchInput').value = emp.name + ' (#'+state.currentEmp+')';
+  }
+  document.getElementById('empSearchClear').classList.toggle('show', !!document.getElementById('empSearchInput').value);
+  document.getElementById('ticketsLabel').textContent = countOpenTickets(emp) + ' Open Ticket' + (countOpenTickets(emp)===1?'':'s');
+
+  // flag banner: any track at level >= 6
+  const critTrackKey = Object.keys(emp.tracks).find(k=>emp.tracks[k].level>=6);
+  const flagBanner = document.getElementById('flagBanner');
+  const ackKey = state.currentEmp+':'+critTrackKey;
+  if(critTrackKey){
+    flagBanner.style.display='flex';
+    const acked = !!state.ackFlags[ackKey];
+    flagBanner.classList.toggle('ack', acked);
+    document.getElementById('flagText').textContent = acked
+      ? TRACK_META[critTrackKey].label + ' flag acknowledged by HR'
+      : TRACK_META[critTrackKey].label + ' flagged for HR review - ' + LEVEL_NAMES[emp.tracks[critTrackKey].level];
+    flagBanner.dataset.track = critTrackKey;
+  } else {
+    flagBanner.style.display='none';
+  }
+
+  // tracks
+  const wrap = document.getElementById('tracks');
+  wrap.innerHTML = '';
+  Object.keys(TRACK_META).forEach(key=>{
+    const t = emp.tracks[key];
+    const meta = TRACK_META[key];
+    const tr = tier(t.level);
+    const isOpen = !!state.openTracks[key];
+
+    const segs = [];
+    for(let i=1;i<=7;i++){
+      let cls='seg';
+      if(i < t.level) cls += ' passed';
+      else if(i === t.level && t.level>0) cls += tr==='ok' ? ' cur-ok' : tr==='mid' ? ' cur-mid' : ' cur-crit';
+      segs.push('<div class="'+cls+'"></div>');
+    }
+
+    const occHtml = t.occ.length ? t.occ.map((o,i)=>{
+      return '<div class="occ-row">'+
+        '<div class="occ-date mono">'+o.date+'</div>'+
+        '<div class="occ-change">'+o.change+'</div>'+
+        (o.ticket ? '<button class="occ-ticket" data-ticket="'+o.ticket+'" data-track="'+key+'" data-idx="'+i+'">'+o.ticket+'</button>' : '<span></span>')+
+        '<div class="occ-status '+o.status+'">'+ (o.status==='active'?'Active':o.status==='pending'?'Pending':'Excused') +'</div>'+
+      '</div>';
+    }).join('') : '<div style="font-size:12px;color:var(--muted);padding:6px 0;">No occurrences on file for this track.</div>';
+
+    const el = document.createElement('div');
+    const noteKey = state.currentEmp+':'+key;
+    const notesForTrack = state.notes[noteKey] || [];
+    const notesHtml = notesForTrack.length ? (
+      '<div class="notes-block">' +
+      '<div class="notes-label">Notes</div>' +
+      notesForTrack.map(n=>{
+        return '<div class="note-row"><div class="note-meta"><span class="mono">'+n.date+'</span> &middot; '+n.author+'</div><div class="note-text">'+n.text+'</div></div>';
+      }).join('') +
+      '</div>'
+    ) : '';
+
+    el.className = 'track' + (isOpen?' open':'');
+    el.innerHTML =
+      '<button class="track-row" data-toggle="'+key+'">'+
+        '<div class="t-icon" style="background:'+(tr==='ok'?'var(--teal-light)':tr==='mid'?'var(--gold-light)':tr==='crit'?'var(--rust-light)':'#EEF0F3')+';color:'+tierColor(tr)+';">'+ICONS[meta.icon]+'</div>'+
+        '<div class="t-mid">'+
+          '<div class="t-name">'+meta.label.toUpperCase()+'</div>'+
+          '<div class="t-level" style="color:'+tierColor(tr)+';">'+LEVEL_NAMES[t.level]+'</div>'+
+          '<div class="t-ladder">'+segs.join('')+'</div>'+
+        '</div>'+
+        '<div class="t-count"><b>'+t.occInWindow+'</b> in 30-day window</div>'+
+        '<svg class="t-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>'+
+      '</button>'+
+      '<div class="t-detail"><div class="t-detail-inner">'+
+        occHtml +
+        notesHtml +
+        '<div class="t-actions">'+
+          '<button class="t-btn" data-excuse="'+key+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Excuse latest occurrence</button>'+
+          '<button class="t-btn" data-note="'+key+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>Add note</button>'+
+        '</div>'+
+      '</div></div>';
+    wrap.appendChild(el);
+  });
+
+  renderByLevel();
+  renderDaily();
+}
+
+function switchTab(tab){
+  state.activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  document.getElementById('panel-employee').classList.toggle('active', tab==='employee');
+  document.getElementById('panel-bylevel').classList.toggle('active', tab==='bylevel');
+  document.getElementById('panel-daily').classList.toggle('active', tab==='daily');
+}
+
+/* ============================= BY LEVEL VIEW ============================= */
+function renderByLevel(){
+  const pillsWrap = document.getElementById('levelTrackPills');
+  pillsWrap.innerHTML = Object.keys(TRACK_META).map(key=>{
+    const active = key===state.levelTrack ? ' active' : '';
+    return '<button class="track-pill-btn'+active+'" data-level-track="'+key+'">'+ICONS[TRACK_META[key].icon]+TRACK_META[key].label+'</button>';
+  }).join('');
+
+  // group employees by level for the selected track
+  const groups = {}; // level -> [ {id, emp} ]
+  Object.keys(DATA).forEach(id=>{
+    const emp = DATA[id];
+    const lvl = emp.tracks[state.levelTrack].level;
+    if(!groups[lvl]) groups[lvl] = [];
+    groups[lvl].push({id:Number(id), emp});
+  });
+
+  const levels = Object.keys(groups).map(Number).sort((a,b)=>b-a);
+  const wrap = document.getElementById('levelGroups');
+
+  if(levels.length===0){
+    wrap.innerHTML = '<div class="level-empty">No employees found for this track.</div>';
+    return;
+  }
+
+  wrap.innerHTML = levels.map(lvl=>{
+    const tr = tier(lvl);
+    const dotColor = tr==='ok' ? 'var(--teal)' : tr==='mid' ? 'var(--gold)' : tr==='crit' ? 'var(--rust)' : 'var(--muted-2)';
+    const members = groups[lvl];
+    const rows = members.map(m=>{
+      return '<button class="lg-emp-row" data-goto-emp="'+m.id+'">'+
+        '<div class="lg-avatar">'+m.emp.initials+'</div>'+
+        '<div><div class="lg-emp-name">'+m.emp.name+'</div><div class="lg-emp-sub">#'+m.id+' \u00b7 '+m.emp.dept+'</div></div>'+
+        '<svg class="lg-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'+
+      '</button>';
+    }).join('');
+    return '<div class="level-group">'+
+      '<div class="level-group-head">'+
+        '<span class="dot" style="background:'+dotColor+';"></span>'+
+        '<span class="lg-title" style="color:'+dotColor+';">Level '+lvl+' \u00b7 '+LEVEL_NAMES[lvl]+'</span>'+
+        '<span class="lg-count">'+members.length+' employee'+(members.length===1?'':'s')+'</span>'+
+      '</div>'+
+      '<div class="level-group-body">'+rows+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* ============================= DAILY ACTIVITY VIEW ============================= */
+function dateToParts(d){ // 'MM/DD/YY' -> {m,d,y}
+  const [m,day,y] = d.split('/').map(Number);
+  return {m,d:day,y:2000+y};
+}
+function partsToDate(p){ return new Date(p.y, p.m-1, p.d); }
+function dateObjToStr(dt){
+  const mm = String(dt.getMonth()+1).padStart(2,'0');
+  const dd = String(dt.getDate()).padStart(2,'0');
+  const yy = String(dt.getFullYear()).slice(-2);
+  return mm+'/'+dd+'/'+yy;
+}
+function shiftDate(dateStr, deltaDays){
+  const dt = partsToDate(dateToParts(dateStr));
+  dt.setDate(dt.getDate()+deltaDays);
+  return dateObjToStr(dt);
+}
+function formatLong(dateStr){
+  const dt = partsToDate(dateToParts(dateStr));
+  return dt.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+}
+function formatShort(dateStr){
+  const dt = partsToDate(dateToParts(dateStr));
+  return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+// 'MM/DD/YY' <-> 'yyyy-mm-dd' (native date input format)
+function toISO(dateStr){
+  const p = dateToParts(dateStr);
+  return p.y+'-'+String(p.m).padStart(2,'0')+'-'+String(p.d).padStart(2,'0');
+}
+function fromISO(iso){
+  const [y,m,d] = iso.split('-').map(Number);
+  return dateObjToStr(new Date(y, m-1, d));
+}
+function dateInRange(dateStr, fromStr, toStr){
+  const t = partsToDate(dateToParts(dateStr)).getTime();
+  return t >= partsToDate(dateToParts(fromStr)).getTime() && t <= partsToDate(dateToParts(toStr)).getTime();
+}
+
+function collectOccurrencesForDate(dateStr){
+  const rows = [];
+  Object.keys(DATA).forEach(id=>{
+    const emp = DATA[id];
+    Object.keys(emp.tracks).forEach(trackKey=>{
+      emp.tracks[trackKey].occ.forEach(o=>{
+        if(o.date===dateStr){
+          rows.push({empId:Number(id), emp, track:trackKey, occ:o});
+        }
+      });
+    });
+  });
+  return rows;
+}
+function collectOccurrencesForRange(fromStr, toStr){
+  const rows = [];
+  Object.keys(DATA).forEach(id=>{
+    const emp = DATA[id];
+    Object.keys(emp.tracks).forEach(trackKey=>{
+      emp.tracks[trackKey].occ.forEach(o=>{
+        if(dateInRange(o.date, fromStr, toStr)){
+          rows.push({empId:Number(id), emp, track:trackKey, occ:o});
+        }
+      });
+    });
+  });
+  return rows;
+}
+
+function getActiveDailyRows(){
+  if(state.dailyMode==='range'){
+    return collectOccurrencesForRange(state.rangeFrom, state.rangeTo)
+      .sort((a,b)=> a.occ.date===b.occ.date ? a.emp.name.localeCompare(b.emp.name) : partsToDate(dateToParts(a.occ.date)) - partsToDate(dateToParts(b.occ.date)));
+  }
+  return collectOccurrencesForDate(state.dailyDate).sort((a,b)=> a.emp.name.localeCompare(b.emp.name));
+}
+
+function setDailyMode(mode){
+  state.dailyMode = mode;
+  document.getElementById('modeSingleBtn').classList.toggle('active', mode==='single');
+  document.getElementById('modeRangeBtn').classList.toggle('active', mode==='range');
+  document.getElementById('singleNav').style.display = mode==='single' ? 'flex' : 'none';
+  document.getElementById('rangeNav').style.display = mode==='range' ? 'flex' : 'none';
+  document.getElementById('rangeSummary').style.display = mode==='range' ? 'block' : 'none';
+  renderDaily();
+}
+
+function renderDaily(){
+  document.getElementById('dnDate').textContent = formatLong(state.dailyDate);
+  document.getElementById('dnSub').textContent = state.dailyDate===TODAY ? 'Today \u00b7 since last service run' : 'Historical activity';
+  document.getElementById('dnNext').disabled = (state.dailyDate===TODAY);
+  document.getElementById('dnToday').style.visibility = (state.dailyDate===TODAY) ? 'visible' : 'visible';
+  document.getElementById('singleDateInput').value = toISO(state.dailyDate);
+
+  if(state.dailyMode==='range'){
+    document.getElementById('rangeSummary').textContent =
+      formatShort(state.rangeFrom) + ' \u2013 ' + formatShort(state.rangeTo);
+  }
+
+  const rows = getActiveDailyRows();
+  const wrap = document.getElementById('dailyList');
+  if(rows.length===0){
+    wrap.innerHTML = '<div class="daily-empty">No attendance activity recorded in this '+(state.dailyMode==='range'?'range':'date')+'.</div>';
+  } else {
+    wrap.innerHTML = rows.map(r=>{
+      const dateTag = state.dailyMode==='range' ? '<div class="dr-emp-sub mono">'+r.occ.date+'</div>' : '';
+      return '<div class="daily-row">'+
+        '<div class="dr-emp"><div class="dr-emp-name">'+r.emp.name+'</div><div class="dr-emp-sub">#'+r.empId+' \u00b7 '+TRACK_META[r.track].label+'</div>'+dateTag+'</div>'+
+        '<div class="dr-change">'+r.occ.change+'</div>'+
+        (r.occ.ticket ? '<button class="occ-ticket" data-ticket="'+r.occ.ticket+'" data-daily-track="'+r.track+'" data-daily-emp="'+r.empId+'" data-daily-date="'+r.occ.date+'">'+r.occ.ticket+'</button>' : '<span style="width:70px;"></span>')+
+        '<div class="occ-status '+r.occ.status+'" style="flex-shrink:0;">'+ (r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending':'Excused') +'</div>'+
+      '</div>';
+    }).join('');
+  }
+  const label = state.dailyMode==='range' ? 'in this range' : 'on this date';
+  document.getElementById('dailyCount').textContent = rows.length + ' ticket' + (rows.length===1?'':'s') + ' ' + label;
+  document.getElementById('printDayBtn').disabled = rows.length===0;
+  document.getElementById('exportExcelBtn').disabled = rows.length===0;
+  document.getElementById('exportPdfBtn').disabled = rows.length===0;
+}
+
+function currentReportTitle(){
+  return state.dailyMode==='range'
+    ? formatLong(state.rangeFrom) + ' to ' + formatLong(state.rangeTo)
+    : formatLong(state.dailyDate);
+}
+
+function printDay(){
+  const rows = getActiveDailyRows();
+  const area = document.getElementById('printArea');
+  const tableRows = rows.map(r=>{
+    return '<tr><td>'+r.emp.name+' (#'+r.empId+')</td><td>'+TRACK_META[r.track].label+'</td><td>'+r.occ.change+'</td><td>'+(r.occ.ticket||'-')+'</td><td>'+(r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending HR Review':'Excused')+'</td>'+(state.dailyMode==='range'?'<td>'+r.occ.date+'</td>':'')+'</tr>';
+  }).join('');
+  area.innerHTML = '<h2>Chicago Union Attendance - Daily Ticket Report</h2>'+
+    '<div class="print-sub">'+currentReportTitle()+' \u00b7 Generated via CloudApper</div>'+
+    '<table><thead><tr><th>Employee</th><th>Track</th><th>Change</th><th>Ticket</th><th>Status</th>'+(state.dailyMode==='range'?'<th>Date</th>':'')+'</tr></thead><tbody>'+tableRows+'</tbody></table>';
+  window.print();
+}
+
+function exportExcel(){
+  if(typeof XLSX === 'undefined'){ toast('Excel export library failed to load. Check your internet connection.'); return; }
+  const rows = getActiveDailyRows();
+  const data = rows.map(r=>({
+    Employee: r.emp.name,
+    'Employee ID': r.empId,
+    Track: TRACK_META[r.track].label,
+    Date: r.occ.date,
+    Change: r.occ.change,
+    Ticket: r.occ.ticket || '-',
+    Status: r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending HR Review':'Excused'
+  }));
+  const ws = XLSX.utils.json_to_sheet(data);
+  ws['!cols'] = [{wch:14},{wch:12},{wch:14},{wch:10},{wch:38},{wch:12},{wch:16}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Attendance Tickets');
+  const fname = 'CloudApper_Attendance_'+(state.dailyMode==='range' ? state.rangeFrom.replace(/\//g,'-')+'_to_'+state.rangeTo.replace(/\//g,'-') : state.dailyDate.replace(/\//g,'-'))+'.xlsx';
+  XLSX.writeFile(wb, fname);
+  toast('Excel file downloaded ('+data.length+' rows).');
+}
+
+function pdfSafeText(str){
+  // jsPDF's standard fonts only support WinAnsi encoding; strip characters
+  // that render as garbled glyphs (arrows, middot) and use ASCII-safe equivalents.
+  return String(str)
+    .replace(/\u2192/g, '->')
+    .replace(/\u00b7/g, '-')
+    .replace(/\u2013/g, '-')
+    .replace(/\u2019/g, "'");
+}
+
+function exportPdf(){
+  if(typeof window.jspdf === 'undefined'){ toast('PDF export library failed to load. Check your internet connection.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'landscape', unit:'pt' });
+  const rows = getActiveDailyRows();
+
+  doc.setFontSize(14);
+  doc.setTextColor(31,56,100);
+  doc.text(pdfSafeText('Chicago Union Attendance - Daily Ticket Report'), 40, 40);
+  doc.setFontSize(10);
+  doc.setTextColor(100,100,100);
+  doc.text(pdfSafeText(currentReportTitle()+' - Generated via CloudApper'), 40, 58);
+
+  const body = rows.map(r=>[
+    pdfSafeText(r.emp.name+' (#'+r.empId+')'),
+    pdfSafeText(TRACK_META[r.track].label),
+    r.occ.date,
+    pdfSafeText(r.occ.change),
+    r.occ.ticket || '-',
+    r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending HR Review':'Excused'
+  ]);
+
+  doc.autoTable({
+    startY: 74,
+    head: [['Employee','Track','Date','Change','Ticket','Status']],
+    body: body,
+    styles:{ fontSize:9, cellPadding:6 },
+    headStyles:{ fillColor:[31,56,100], textColor:255 },
+    alternateRowStyles:{ fillColor:[247,248,250] },
+  });
+
+  const fname = 'CloudApper_Attendance_'+(state.dailyMode==='range' ? state.rangeFrom.replace(/\//g,'-')+'_to_'+state.rangeTo.replace(/\//g,'-') : state.dailyDate.replace(/\//g,'-'))+'.pdf';
+  doc.save(fname);
+  toast('PDF file downloaded ('+rows.length+' rows).');
+}
+
+function highlight(text, q){
+  if(!q) return text;
+  const i = text.toLowerCase().indexOf(q.toLowerCase());
+  if(i===-1) return text;
+  return text.slice(0,i) + '<mark>' + text.slice(i,i+q.length) + '</mark>' + text.slice(i+q.length);
+}
+
+function renderEmpMenu(query){
+  const q = (query||'').trim();
+  const menu = document.getElementById('empMenu');
+  const matches = Object.keys(DATA).filter(id=>{
+    const e = DATA[id];
+    if(!q) return true;
+    return e.name.toLowerCase().includes(q.toLowerCase()) || String(id).includes(q) || e.dept.toLowerCase().includes(q.toLowerCase());
+  });
+  if(matches.length===0){
+    menu.innerHTML = '<div class="empty">No employees match \u201c'+q+'\u201d.</div>';
+    return;
+  }
+  menu.innerHTML = matches.map(id=>{
+    const e = DATA[id];
+    const active = (Number(id)===state.currentEmp) ? ' active' : '';
+    return '<button class="opt'+active+'" data-switch="'+id+'"><span class="n">'+highlight(e.name,q)+'</span><span class="s">#'+highlight(String(id),q)+' \u00b7 '+e.dept+'</span></button>';
+  }).join('');
+}
+
+/* ============================= ACTIONS ============================= */
+function excuseLatest(trackKey){
+  const emp = DATA[state.currentEmp];
+  const t = emp.tracks[trackKey];
+  const latest = t.occ.find(o=>o.status==='active' || o.status==='pending');
+  if(!latest){ toast('No open occurrence to excuse on this track.'); return; }
+  if(!confirm('Excuse the most recent '+TRACK_META[trackKey].label.toLowerCase()+' occurrence ('+latest.date+')? This will recalculate the discipline level.')) return;
+
+  latest.status = 'excused';
+  latest.change += ' - excused';
+  t.occInWindow = Math.max(0, t.occInWindow - 1);
+
+  let leveledDown = false;
+  if(t.occInWindow < 2 && t.level > 0){
+    t.level -= 1;
+    leveledDown = true;
+    t.occ.unshift({date:'09/19/26', ticket:null, change:'Level adjusted to '+t.level+' \u00b7 '+LEVEL_NAMES[t.level]+' - occurrence excused', status:'excused'});
+  }
+
+  state.openTracks[trackKey] = true;
+  render();
+  reopenTrack(trackKey);
+  toast(leveledDown ? 'Occurrence excused - level adjusted to '+LEVEL_NAMES[t.level]+'.' : 'Occurrence excused.');
+}
+
+function reopenTrack(key){
+  const trackEl = [...document.querySelectorAll('.track')].find(el=>el.querySelector('[data-toggle="'+key+'"]'));
+  if(trackEl) trackEl.classList.add('open');
+}
+
+/* ============================= EVENTS ============================= */
+document.addEventListener('click', (e)=>{
+
+  // tab switching
+  const tabBtn = e.target.closest('.tab-btn');
+  if(tabBtn){ switchTab(tabBtn.dataset.tab); return; }
+
+  // by-level: track pill
+  const levelPill = e.target.closest('[data-level-track]');
+  if(levelPill){
+    state.levelTrack = levelPill.dataset.levelTrack;
+    renderByLevel();
+    return;
+  }
+
+  // by-level: jump to employee
+  const gotoEmp = e.target.closest('[data-goto-emp]');
+  if(gotoEmp){
+    state.currentEmp = Number(gotoEmp.dataset.gotoEmp);
+    state.openTracks = {};
+    state.searchFocused = false;
+    render();
+    switchTab('employee');
+    toast('Viewing '+DATA[state.currentEmp].name+'.');
+    return;
+  }
+
+  // daily activity: mode toggle
+  const modeBtn = e.target.closest('.mode-btn');
+  if(modeBtn){ setDailyMode(modeBtn.dataset.mode); return; }
+
+  // daily activity: date nav
+  if(e.target.closest('#dnPrev')){
+    state.dailyDate = shiftDate(state.dailyDate, -1);
+    renderDaily();
+    return;
+  }
+  if(e.target.closest('#dnNext')){
+    if(state.dailyDate!==TODAY){ state.dailyDate = shiftDate(state.dailyDate, 1); renderDaily(); }
+    return;
+  }
+  if(e.target.closest('#dnToday')){
+    state.dailyDate = TODAY;
+    renderDaily();
+    return;
+  }
+
+  // daily activity: range apply
+  if(e.target.closest('#rangeApplyBtn')){
+    const fromVal = document.getElementById('rangeFromInput').value;
+    const toVal = document.getElementById('rangeToInput').value;
+    if(!fromVal || !toVal){ toast('Please choose both a from and to date.'); return; }
+    if(fromVal > toVal){ toast('The from date must be before the to date.'); return; }
+    state.rangeFrom = fromISO(fromVal);
+    state.rangeTo = fromISO(toVal);
+    renderDaily();
+    toast('Range applied.');
+    return;
+  }
+
+  // daily activity: ticket click
+  const dailyTicket = e.target.closest('[data-daily-track]');
+  if(dailyTicket){
+    const track = dailyTicket.dataset.dailyTrack;
+    const empId = Number(dailyTicket.dataset.dailyEmp);
+    const occDate = dailyTicket.dataset.dailyDate;
+    const occ = DATA[empId].tracks[track].occ.find(o=>o.date===occDate && o.ticket===dailyTicket.dataset.ticket);
+    if(occ) showTicketModal(track, occ, empId);
+    return;
+  }
+
+  // daily activity: export
+  if(e.target.closest('#printDayBtn')){
+    if(!document.getElementById('printDayBtn').disabled) printDay();
+    return;
+  }
+  if(e.target.closest('#exportExcelBtn')){
+    if(!document.getElementById('exportExcelBtn').disabled) exportExcel();
+    return;
+  }
+  if(e.target.closest('#exportPdfBtn')){
+    if(!document.getElementById('exportPdfBtn').disabled) exportPdf();
+    return;
+  }
+
+  // sync
+  if(e.target.closest('#syncBtn')){
+    const pill = document.getElementById('syncBtn');
+    pill.classList.add('spin');
+    document.getElementById('syncLabel').textContent = 'Syncing\u2026';
+    setTimeout(()=>{
+      pill.classList.remove('spin');
+      document.getElementById('syncLabel').textContent = 'Synced';
+      toast('Tile data refreshed from UKG Pro WFM.');
+    }, 650);
+    return;
+  }
+
+  // per-employee refresh (Employee tab)
+  if(e.target.closest('#empRefreshBtn')){
+    const btn = document.getElementById('empRefreshBtn');
+    const emp = DATA[state.currentEmp];
+    btn.classList.add('spin');
+    setTimeout(()=>{
+      btn.classList.remove('spin');
+      toast('Refreshed data for '+emp.name+'.');
+    }, 550);
+    return;
+  }
+
+  // per-employee full history (Employee tab)
+  if(e.target.closest('#empHistoryBtn')){
+    showAudit(false);
+    return;
+  }
+
+  // clear search
+  if(e.target.closest('#empSearchClear')){
+    const input = document.getElementById('empSearchInput');
+    input.value = '';
+    input.focus();
+    renderEmpMenu('');
+    document.getElementById('empMenu').classList.add('open');
+    document.getElementById('empSearchClear').classList.remove('show');
+    return;
+  }
+
+  const switchBtn = e.target.closest('[data-switch]');
+  if(switchBtn){
+    state.currentEmp = Number(switchBtn.dataset.switch);
+    state.openTracks = {};
+    state.searchFocused = false;
+    document.getElementById('empMenu').classList.remove('open');
+    document.getElementById('empSearchBox').classList.remove('focused');
+    render();
+    toast('Switched to '+DATA[state.currentEmp].name+'.');
+    return;
+  }
+
+  // tickets badge -> open audit filtered
+  if(e.target.closest('#ticketsBadge')){
+    showAudit(true);
+    return;
+  }
+
+  // identity -> profile modal
+  if(e.target.closest('#identityBtn')){
+    const emp = DATA[state.currentEmp];
+    openModal('Employee profile',
+      '<div class="mrow"><div class="k">Name</div><div class="v">'+emp.name+'</div></div>'+
+      '<div class="mrow"><div class="k">Employee ID</div><div class="v mono">'+state.currentEmp+'</div></div>'+
+      '<div class="mrow"><div class="k">Department</div><div class="v">'+emp.dept+'</div></div>'+
+      '<div class="mrow"><div class="k">Shift</div><div class="v">'+emp.shift+'</div></div>'+
+      '<div class="mrow"><div class="k">Hire date</div><div class="v mono">'+emp.hire+'</div></div>'+
+      '<div class="mrow"><div class="k">Union</div><div class="v">'+emp.union+'</div></div>',
+      '<button class="btn ghost" id="closeBtn1">Close</button>'
+    );
+    return;
+  }
+
+  // flag banner actions
+  if(e.target.closest('#flagViewBtn')){
+    const key = document.getElementById('flagBanner').dataset.track;
+    const emp = DATA[state.currentEmp];
+    const latest = emp.tracks[key].occ[0];
+    showTicketModal(key, latest);
+    return;
+  }
+  if(e.target.closest('#flagAckBtn')){
+    const key = document.getElementById('flagBanner').dataset.track;
+    if(!confirm('Acknowledge this flagged track for HR review?')) return;
+    state.ackFlags[state.currentEmp+':'+key] = true;
+    render();
+    toast('Flag acknowledged.');
+    return;
+  }
+
+  // track row toggle
+  const toggleBtn = e.target.closest('[data-toggle]');
+  if(toggleBtn && !e.target.closest('.t-actions')){
+    const key = toggleBtn.dataset.toggle;
+    state.openTracks[key] = !state.openTracks[key];
+    render();
+    return;
+  }
+
+  // excuse / note
+  const excuseBtn = e.target.closest('[data-excuse]');
+  if(excuseBtn){ excuseLatest(excuseBtn.dataset.excuse); return; }
+
+  const noteBtn = e.target.closest('[data-note]');
+  if(noteBtn){
+    const key = noteBtn.dataset.note;
+    const txt = prompt('Add a note for this track:');
+    if(txt && txt.trim()){
+      const noteKey = state.currentEmp+':'+key;
+      if(!state.notes[noteKey]) state.notes[noteKey] = [];
+      state.notes[noteKey].unshift({ date: TODAY, author: 'You', text: txt.trim() });
+      state.openTracks[key] = true;
+      render();
+      reopenTrack(key);
+      toast('Note added.');
+    }
+    return;
+  }
+
+  // ticket click
+  const ticketBtn = e.target.closest('.occ-ticket');
+  if(ticketBtn){
+    const key = ticketBtn.dataset.track;
+    const idx = Number(ticketBtn.dataset.idx);
+    const emp = DATA[state.currentEmp];
+    showTicketModal(key, emp.tracks[key].occ[idx]);
+    return;
+  }
+
+  // full audit
+  if(e.target.closest('#fullAuditBtn')){ showAudit(false); return; }
+
+  // open in cloudapper
+  // if(e.target.closest('#openCloudApperBtn')){
+  //   toast('Opening full CloudApper record for '+DATA[state.currentEmp].name+' in a new tab\u2026');
+  //   return;
+  // }
+
+  // modal close
+  if(e.target.closest('#modalClose') || e.target.id==='closeBtn1' || e.target.id==='closeBtn2'){ closeModal(); return; }
+  if(e.target.id==='overlay'){ closeModal(); return; }
+
+  // close open menus if clicking elsewhere
+  if(!e.target.closest('.search-wrap')){
+    document.getElementById('empMenu').classList.remove('open');
+    document.getElementById('empSearchBox').classList.remove('focused');
+    state.searchFocused = false;
+    document.getElementById('empSearchInput').value = DATA[state.currentEmp].name + ' (#'+state.currentEmp+')';
+  }
+});
+
+/* ---- search input wiring ---- */
+const searchInput = document.getElementById('empSearchInput');
+searchInput.addEventListener('focus', ()=>{
+  state.searchFocused = true;
+  document.getElementById('empSearchBox').classList.add('focused');
+  searchInput.select();
+  renderEmpMenu('');
+  document.getElementById('empMenu').classList.add('open');
+});
+searchInput.addEventListener('input', ()=>{
+  renderEmpMenu(searchInput.value);
+  document.getElementById('empMenu').classList.add('open');
+  document.getElementById('empSearchClear').classList.toggle('show', !!searchInput.value);
+});
+searchInput.addEventListener('keydown', (e)=>{
+  if(e.key==='Escape'){ searchInput.blur(); return; }
+  if(e.key==='Enter'){
+    const firstOpt = document.querySelector('#empMenu .opt');
+    if(firstOpt) firstOpt.click();
+  }
+});
+
+/* ---- single-day date picker wiring ---- */
+document.getElementById('singleDateInput').addEventListener('change', (e)=>{
+  if(!e.target.value) return;
+  state.dailyDate = fromISO(e.target.value);
+  renderDaily();
+});
+
+function showTicketModal(trackKey, occ, empId){
+  const id = empId || state.currentEmp;
+  const emp = DATA[id];
+  openModal('Ticket detail',
+    '<div class="mrow"><div class="k">Employee</div><div class="v">'+emp.name+' (#'+id+')</div></div>'+
+    '<div class="mrow"><div class="k">Track</div><div class="v">'+TRACK_META[trackKey].label+'</div></div>'+
+    '<div class="mrow"><div class="k">Change</div><div class="v" style="text-align:left;max-width:260px;">'+occ.change+'</div></div>'+
+    '<div class="mrow"><div class="k">Ticket</div><div class="v mono">'+(occ.ticket||'-')+'</div></div>'+
+    '<div class="mrow"><div class="k">Date</div><div class="v mono">'+occ.date+'</div></div>'+
+    '<div class="mrow"><div class="k">Status</div><div class="v">'+(occ.status==='active'?'Active':occ.status==='pending'?'Pending HR Review':'Excused')+'</div></div>',
+    (occ.status==='pending' ? '<button class="btn primary" id="ackTicketBtn">Mark reviewed</button>' : '<button class="btn ghost" id="closeBtn2">Close</button>')
+  );
+  const ackBtn = document.getElementById('ackTicketBtn');
+  if(ackBtn){
+    ackBtn.addEventListener('click', ()=>{
+      occ.status='active';
+      closeModal();
+      render();
+      toast('Ticket '+(occ.ticket||'')+' marked reviewed.');
+    });
+  }
+}
+
+function showAudit(openOnly){
+  const emp = DATA[state.currentEmp];
+  let rows = [];
+  Object.keys(emp.tracks).forEach(key=>{
+    emp.tracks[key].occ.forEach(o=>{
+      if(!openOnly || o.status==='active' || o.status==='pending'){
+        rows.push(Object.assign({track:key}, o));
+      }
+    });
+  });
+  rows.sort((a,b)=> b.date.localeCompare(a.date));
+  const html = rows.length ? rows.map(o=>{
+    return '<div class="occ-row">'+
+      '<div class="occ-date mono">'+o.date+'</div>'+
+      '<div class="occ-change">'+TRACK_META[o.track].label+' - '+o.change+'</div>'+
+      '<div class="occ-status '+o.status+'">'+ (o.status==='active'?'Active':o.status==='pending'?'Pending':'Excused') +'</div>'+
+    '</div>';
+  }).join('') : '<div style="font-size:12.5px;color:var(--muted);padding:10px 0;">No matching records.</div>';
+
+  openModal(openOnly ? 'Open tickets - '+emp.name : 'Full audit trail - '+emp.name,
+    '<div class="audit-list">'+html+'</div>',
+    '<button class="btn ghost" id="closeBtn2">Close</button>'
+  );
+}
+
+/* init */
+document.getElementById('singleDateInput').max = toISO(TODAY);
+document.getElementById('rangeFromInput').value = toISO(state.rangeFrom);
+document.getElementById('rangeToInput').value = toISO(state.rangeTo);
+render();
+</script>
+</body>
+</html>
