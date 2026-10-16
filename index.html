@@ -105,30 +105,7 @@
   .sync-pill.spin svg{animation:spin .6s linear;}
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
-  .icon-btn{
-    width:28px;height:28px;border-radius:8px;
-    border:1px solid var(--border);background:#fff;
-    display:flex;align-items:center;justify-content:center;
-    color:var(--muted);position:relative;
-  }
-  .icon-btn:hover{background:#F7F8FA;}
-  .icon-btn svg{width:15px;height:15px;}
 
-  .menu{
-    position:absolute; top:34px; right:0;
-    background:#fff; border:1px solid var(--border); border-radius:10px;
-    box-shadow:0 8px 24px rgba(20,30,50,.14);
-    min-width:168px; padding:6px; z-index:40;
-    display:none;
-  }
-  .menu.open{display:block;}
-  .menu button{
-    display:flex;align-items:center;gap:9px;width:100%;
-    background:none;border:none;text-align:left;
-    padding:8px 9px;border-radius:7px;font-size:12.5px;color:var(--text);
-  }
-  .menu button:hover{background:#F2F4F7;}
-  .menu button svg{width:14px;height:14px;color:var(--muted);}
 
   /* ---- sub row: employee search + open tickets ---- */
   .sub-row{
@@ -203,8 +180,6 @@
     .tile-head{padding:16px 16px 12px 16px;flex-wrap:wrap;gap:10px;}
     .sub-row{padding:0 16px 12px 16px;}
     .identity{margin:0 16px 12px 16px;}
-    .flag-banner{margin:0 16px 12px 16px;flex-wrap:wrap;}
-    .flag-btn{margin-top:4px;}
     .tracks{margin:0 16px 4px 16px;}
     .tile-foot{padding:14px 16px 16px 16px;flex-wrap:wrap;gap:10px;}
     .sso-note{padding:0 16px 14px 16px;}
@@ -217,7 +192,6 @@
   @media (max-width: 380px){
     .tile-head h1{font-size:14px;}
     .tile-head p{display:none;}
-    .flag-text{font-size:11.5px;}
     .modal{max-width:100%;}
   }
 
@@ -242,24 +216,6 @@
   .id-chevron{color:var(--muted-2);width:14px;height:14px;flex-shrink:0;}
 
   /* ---- HR flag banner ---- */
-  .flag-banner{
-    margin:0 20px 14px 20px;
-    background:var(--rust-light);
-    border-radius:10px;
-    padding:11px 14px;
-    display:flex;align-items:center;gap:10px;
-  }
-  .flag-banner.ack{background:#F1F3F5;}
-  .flag-banner svg.warn{width:16px;height:16px;color:var(--rust);flex-shrink:0;}
-  .flag-banner.ack svg.warn{color:var(--muted-2);}
-  .flag-text{flex:1;font-size:12px;font-weight:600;color:var(--rust);}
-  .flag-banner.ack .flag-text{color:var(--muted);font-weight:500;}
-  .flag-btn{
-    font-size:11.5px;font-weight:600;border-radius:7px;padding:6px 10px;border:none;
-  }
-  .flag-btn.ghost{background:#fff;color:var(--rust);border:1px solid #E6C3BA;margin-right:6px;}
-  .flag-btn.solid{background:var(--rust);color:#fff;}
-  .flag-banner.ack .flag-btn{display:none;}
 
   /* ---- tracks ---- */
   .tracks{margin:0 20px 4px 20px;display:flex;flex-direction:column;gap:8px;}
@@ -307,8 +263,6 @@
     text-decoration:underline;text-underline-offset:2px;flex-shrink:0;
   }
   .occ-status{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:100px;flex-shrink:0;}
-  .occ-status.active{background:var(--rust-light);color:var(--rust);}
-  .occ-status.pending{background:var(--gold-light);color:var(--gold-ink);}
   .occ-status.excused{background:#EDEFF2;color:var(--muted);}
 
   .notes-block{margin-top:10px;padding-top:10px;border-top:1px dashed #E3E6EA;}
@@ -336,11 +290,6 @@
     border-top:1px solid var(--border);
     margin-top:10px;
   }
-  .foot-link{
-    background:none;border:none;color:var(--teal);font-size:12px;font-weight:600;
-    display:flex;align-items:center;gap:5px;padding:0;
-  }
-  .foot-link svg{width:12px;height:12px;}
   .foot-cta{
     background:var(--ink);color:#fff;border:none;border-radius:8px;
     padding:8px 13px;font-size:12px;font-weight:600;
@@ -439,14 +388,6 @@
     padding:14px 20px 16px 20px;border-top:1px solid var(--border);margin-top:8px;
   }
   .daily-foot .dcount{font-size:11.5px;color:var(--muted);}
-  .print-btn{
-    background:var(--ink);color:#fff;border:none;border-radius:8px;
-    padding:8px 13px;font-size:12px;font-weight:600;
-    display:flex;align-items:center;gap:6px;
-  }
-  .print-btn:hover{background:var(--ink-2);}
-  .print-btn svg{width:12px;height:12px;}
-  .print-btn:disabled{opacity:.45;cursor:default;}
 
   /* ---- mode toggle & range picker ---- */
   .mode-toggle{display:flex;gap:8px;padding:16px 20px 0 20px;}
@@ -499,17 +440,7 @@
     .export-actions{flex-basis:100%;justify-content:flex-start;}
   }
 
-  #printArea{display:none;}
-  @media print{
-    body *{visibility:hidden;}
-    #printArea, #printArea *{visibility:visible;}
-    #printArea{display:block;position:absolute;top:0;left:0;width:100%;padding:24px;}
-    #printArea h2{font-size:16px;color:#111;margin:0 0 3px 0;}
-    #printArea .print-sub{font-size:11px;color:#555;margin-bottom:16px;}
-    #printArea table{width:100%;border-collapse:collapse;font-size:11px;}
-    #printArea th{text-align:left;border-bottom:1.5px solid #333;padding:6px 8px;font-size:10px;text-transform:uppercase;}
-    #printArea td{border-bottom:1px solid #ddd;padding:6px 8px;}
-  }
+  
 
   /* ================= MODAL ================= */
   .overlay{
@@ -559,10 +490,114 @@
   }
   .toast svg{width:15px;height:15px;flex-shrink:0;color:#8FE3C7;}
   @keyframes toast-in{to{opacity:1;transform:translateY(0);}}
+
+  /* ---- ticket status pills (TRI lifecycle) ---- */
+  .occ-status.new{background:var(--teal-light);color:var(--gold-ink);}
+  .occ-status.sent{background:var(--gold-light);color:var(--gold-ink);}
+  .occ-status.hr{background:#EFE4DC;color:var(--ink);}
+  .occ-status.complete{background:#E3F1E8;color:#2E6B47;}
+
+  /* ---- Communication tab ---- */
+  .comm-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:16px 20px 0 20px;}
+  .seg{display:flex;gap:3px;background:#F3EDE8;border-radius:9px;padding:3px;}
+  .seg button{border:none;background:none;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:600;color:var(--muted);}
+  .seg button.active{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(60,30,10,.12);}
+  .comm-hint{font-size:11px;color:var(--muted-2);}
+  .comm-chips{display:flex;gap:6px;flex-wrap:wrap;padding:12px 20px 0 20px;}
+  .chip{border:1px solid var(--border);background:#fff;border-radius:100px;padding:5px 11px;font-size:11.5px;font-weight:600;color:var(--muted);}
+  .chip b{color:var(--ink);margin-left:3px;}
+  .chip:hover{background:#F7F2EE;}
+  .chip.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .chip.active b{color:#fff;}
+  .bulk-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 20px 10px 20px;}
+  .bulk-bar label{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center;cursor:pointer;}
+  .bulk-count{font-size:11.5px;color:var(--muted-2);}
+  .bulk-actions{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;}
+  .bbtn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:7px 10px;font-size:11.5px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:5px;}
+  .bbtn svg{width:12px;height:12px;}
+  .bbtn:hover:not(:disabled){background:#F7F2EE;}
+  .bbtn.primary{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .bbtn.primary:hover:not(:disabled){background:var(--ink-2);}
+  .bbtn:disabled{opacity:.4;cursor:default;}
+  .comm-list{padding:0 20px 16px 20px;display:flex;flex-direction:column;gap:8px;}
+  .comm-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;}
+  .comm-head{display:flex;align-items:center;gap:10px;padding:11px 14px;}
+  .comm-head input[type="checkbox"], .bulk-bar input[type="checkbox"]{width:15px;height:15px;accent-color:var(--ink);flex-shrink:0;cursor:pointer;}
+  .comm-main{flex:1;min-width:0;cursor:pointer;background:none;border:none;text-align:left;padding:0;}
+  .comm-title{font-size:12.5px;font-weight:700;color:var(--text);}
+  .comm-title .tn{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--teal);margin-right:6px;}
+  .comm-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .comm-sub .late{color:var(--rust);font-weight:600;}
+  .comm-card .t-chevron{width:15px;height:15px;color:var(--muted-2);flex-shrink:0;transition:transform .15s;cursor:pointer;}
+  .comm-card.open .t-chevron{transform:rotate(180deg);}
+  .comm-body{display:none;border-top:1px solid var(--border);padding:14px 14px 14px 14px;background:#FAF7F4;}
+  .comm-card.open .comm-body{display:block;}
+  .timeline{margin:0 0 12px 8px;padding-left:20px;border-left:2px solid #E8DDD3;}
+  .tl-item{position:relative;padding-bottom:11px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{position:absolute;left:-31px;top:0;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;color:var(--teal);}
+  .tl-dot svg{width:9px;height:9px;}
+  .tl-dot.t-complete{border-color:#2E6B47;color:#2E6B47;}
+  .tl-dot.t-reminder{border-color:var(--gold);color:var(--gold);}
+  .tl-dot.t-excused{border-color:var(--muted-2);color:var(--muted-2);}
+  .tl-text{font-size:12px;color:var(--text);line-height:1.35;}
+  .tl-meta{font-size:10.5px;color:var(--muted-2);margin-top:1px;}
+  .comm-actions{display:flex;gap:7px;flex-wrap:wrap;}
+  .comm-empty{padding:30px 20px;text-align:center;color:var(--muted);font-size:12.5px;}
+
+  .email-list{padding:14px 20px 16px 20px;display:flex;flex-direction:column;gap:8px;}
+  .email-row{display:flex;align-items:center;gap:12px;border:1px solid var(--border);border-radius:10px;padding:11px 14px;background:#fff;}
+  .email-ico{width:30px;height:30px;border-radius:8px;background:var(--teal-light);color:var(--gold-ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .email-ico svg{width:15px;height:15px;}
+  .email-main{flex:1;min-width:0;}
+  .email-title{font-size:12.5px;font-weight:700;color:var(--text);}
+  .email-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .email-preview{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.5;color:var(--text);}
+  .email-head{font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.6;}
+  .email-head b{color:var(--text);}
+  .email-line{margin:0 0 6px 0;}
+
+  .cal-opt{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);cursor:pointer;}
+  .cal-opt input{accent-color:var(--ink);}
+  .form-row{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+  .form-row label{font-size:11px;font-weight:700;color:var(--muted-2);}
+  .form-row select{border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-family:inherit;font-size:13px;background:#F7F8FA;color:var(--text);}
+  @media (max-width: 560px){
+    .comm-top{padding:14px 16px 0 16px;}
+    .comm-chips{padding:10px 16px 0 16px;}
+    .bulk-bar{padding:10px 16px 8px 16px;}
+    .comm-list{padding:0 16px 14px 16px;}
+    .email-list{padding:12px 16px 14px 16px;}
+    .bulk-actions{margin-left:0;width:100%;}
+  }
+  .foot-note{font-size:11px;color:var(--muted-2);}
+  @media (max-width: 560px){ .tile-foot .foot-note{flex-basis:100%;} }
+
+  /* ---- print packets (HTML pages mirroring the PDF; printed through the browser dialog) ---- */
+  #printArea{display:none;}
+  .pk-page{position:relative;width:612pt;height:792pt;overflow:hidden;background:#fff;color:#000;font-family:Helvetica,Arial,'Liberation Sans',sans-serif;break-after:page;page-break-after:always;}
+  .pk-page:last-child{break-after:auto;page-break-after:auto;}
+  .pk-t{position:absolute;white-space:nowrap;}
+  .pk-l{position:absolute;border-top:0.9pt solid #000;height:0;}
+  .pk-tbl{position:absolute;border-collapse:collapse;table-layout:fixed;}
+  .pk-tbl th,.pk-tbl td{border:0.7pt solid #000;padding:3.5pt;text-align:left;vertical-align:top;overflow-wrap:anywhere;}
+  .pk-tbl th{font-weight:700;}
+  .pk-tbl .r{text-align:right;}
+  .pk-tbl.plain th,.pk-tbl.plain td{border:none;padding:2pt;}
+  .pk-tbl.plain th{background:#000;color:#fff;font-weight:400;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .pk-cell{position:absolute;box-sizing:border-box;border:0.7pt solid #000;overflow:hidden;}
+  .pk-cell.wk{background:#c8c8c8;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .pk-cell .dn{position:absolute;left:3pt;top:2.6pt;font-size:7.5pt;line-height:8pt;}
+  .pk-cell .ev{position:absolute;left:3pt;right:3pt;top:12.2pt;font-size:6.4pt;line-height:7.2pt;}
+  @media print{
+    @page{size:letter;margin:0;}
+    html,body{background:#fff !important;margin:0 !important;padding:0 !important;display:block !important;min-height:0 !important;}
+    body.printing > :not(#printArea){display:none !important;}
+    body.printing #printArea{display:block;}
+  }
 </style>
 </head>
 <body>
-
   <div class="tile" id="tile">
 
     <div class="tile-head">
@@ -575,7 +610,7 @@
           <p>Independent discipline tracking &nbsp;&middot;&nbsp; CloudApper</p>
         </div>
       </div>
-      <div class="head-actions" style="position:relative;">
+      <div class="head-actions">
         <button class="sync-pill" id="syncBtn" title="Refresh all tile data">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 10-3 6.7M21 5v6h-6"/></svg>
           <span id="syncLabel">Synced</span>
@@ -596,73 +631,64 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
         Daily Activity
       </button>
+      <button class="tab-btn" data-tab="comm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Communication
+      </button>
     </div>
 
+    <!-- ================= EMPLOYEE ================= -->
     <div class="tab-panel active" id="panel-employee">
-
-    <div class="sub-row">
-      <div class="search-wrap">
-        <div class="emp-search" id="empSearchBox">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="text" id="empSearchInput" placeholder="Search employee name or ID…" autocomplete="off" />
-          <button class="clear-btn" id="empSearchClear" title="Clear">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      <div class="sub-row">
+        <div class="search-wrap">
+          <div class="emp-search" id="empSearchBox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="text" id="empSearchInput" placeholder="Search employee name or ID..." autocomplete="off" />
+            <button class="clear-btn" id="empSearchClear" title="Clear">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+          </div>
+          <div class="emp-menu" id="empMenu"></div>
+        </div>
+        <div class="sub-tools">
+          <button class="tickets-badge" id="ticketsBadge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 000 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1a2 2 0 000-4v-1z"/></svg>
+            <span id="ticketsLabel">0 Open Tickets</span>
+          </button>
+          <button class="emp-tool-btn" id="empRefreshBtn" title="Refresh this employee's data">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 10-3 6.7M21 5v6h-6"/></svg>
+            Refresh
+          </button>
+          <button class="emp-tool-btn" id="empHistoryBtn" title="Open full history for this employee">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/></svg>
+            History
           </button>
         </div>
-        <div class="emp-menu" id="empMenu"></div>
       </div>
-      <div class="sub-tools">
-        <button class="tickets-badge" id="ticketsBadge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 000 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1a2 2 0 000-4v-1z"/></svg>
-          <span id="ticketsLabel">0 Open Tickets</span>
-        </button>
-        <button class="emp-tool-btn" id="empRefreshBtn" title="Refresh this employee's data">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 10-3 6.7M21 5v6h-6"/></svg>
-          Refresh
-        </button>
-        <button class="emp-tool-btn" id="empHistoryBtn" title="Open full history for this employee">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/></svg>
-          History
-        </button>
-      </div>
-    </div>
 
-    <button class="identity" id="identityBtn">
-      <div class="avatar" id="empAvatar">--</div>
-      <div class="id-text">
-        <div class="name" id="empName">-</div>
-        <div class="sub" id="empSub">-</div>
-      </div>
-      <svg class="id-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-    </button>
-
-    <div class="flag-banner" id="flagBanner" style="display:none;">
-      <svg class="warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9L2.7 17.5A1.8 1.8 0 004.3 20h15.4a1.8 1.8 0 001.6-2.5L13.7 3.9a1.8 1.8 0 00-3.4 0z"/></svg>
-      <div class="flag-text" id="flagText">Track flagged for HR review</div>
-      <button class="flag-btn ghost" id="flagViewBtn">View ticket</button>
-      <button class="flag-btn solid" id="flagAckBtn">Acknowledge</button>
-    </div>
-
-    <div class="tracks" id="tracks"></div>
-
-    <div class="tile-foot">
-      <button class="foot-link" id="fullAuditBtn">
-        View full audit trail
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      <button class="identity" id="identityBtn">
+        <div class="avatar" id="empAvatar">--</div>
+        <div class="id-text">
+          <div class="name" id="empName">-</div>
+          <div class="sub" id="empSub">-</div>
+        </div>
+        <svg class="id-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
       </button>
-      <!-- <button class="foot-cta" id="openCloudApperBtn">
-        Open in CloudApper
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      </button> -->
+
+      <div class="tracks" id="tracks"></div>
+
+      <div class="tile-foot">
+        
+      </div>
     </div>
 
-    </div><!-- /panel-employee -->
-
+    <!-- ================= BY LEVEL ================= -->
     <div class="tab-panel" id="panel-bylevel">
       <div class="track-pills" id="levelTrackPills"></div>
       <div class="level-groups" id="levelGroups"></div>
-    </div><!-- /panel-bylevel -->
+    </div>
 
+    <!-- ================= DAILY ACTIVITY ================= -->
     <div class="tab-panel" id="panel-daily">
       <div class="mode-toggle">
         <button class="mode-btn active" id="modeSingleBtn" data-mode="single">Single Day</button>
@@ -704,32 +730,70 @@
 
       <div class="daily-list" id="dailyList"></div>
       <div class="daily-foot">
-        <span class="dcount" id="dailyCount">0 tickets</span>
+        <div>
+          <span class="dcount" id="dailyCount">0 tickets</span>
+          <label class="cal-opt"><input type="checkbox" id="calToggle" checked /> Include attendance calendar when printing packets</label>
+        </div>
         <div class="export-actions">
-          <button class="export-btn" id="printDayBtn" title="Print">
+          <button class="export-btn" id="printDayBtn" title="Open ticket packets for printing">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-5a1 1 0 011-1h16a1 1 0 011 1v5a1 1 0 01-1 1h-2M6 14h12v7H6z"/></svg>
             Print
           </button>
-          <button class="export-btn" id="exportExcelBtn" title="Export to Excel">
+          <button class="export-btn" id="exportExcelBtn" title="Export the daily list to Excel">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/><path d="M9 13l2 2.5L14 12"/></svg>
             Excel
           </button>
-          <button class="export-btn" id="exportPdfBtn" title="Export to PDF">
+          <button class="export-btn" id="exportPdfBtn" title="Export the current view to PDF">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/><path d="M8 17v-4h1.5a1.5 1.5 0 010 3H8M12.5 17v-4h1.8M12.5 15h1.5"/></svg>
             PDF
           </button>
         </div>
       </div>
-    </div><!-- /panel-daily -->
+    </div>
 
+    <!-- ================= COMMUNICATION ================= -->
+    <div class="tab-panel" id="panel-comm">
+      <div class="comm-top">
+        <div class="seg">
+          <button class="active" data-comm-view="tickets">By ticket</button>
+          <button data-comm-view="emails">Daily emails</button>
+        </div>
+        <span class="comm-hint" id="commHint"></span>
+      </div>
+
+      <div id="commTicketsView">
+        <div class="comm-chips" id="commChips"></div>
+        <div class="bulk-bar">
+          <label><input type="checkbox" id="commSelectAll" /> Select all</label>
+          <span class="bulk-count" id="bulkCount">0 selected</span>
+          <div class="bulk-actions">
+            <button class="bbtn" id="bulkPrint" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-5a1 1 0 011-1h16a1 1 0 011 1v5a1 1 0 01-1 1h-2M6 14h12v7H6z"/></svg>
+              Print packets
+            </button>
+            <button class="bbtn" id="bulkRemind" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
+              Remind supervisors
+            </button>
+            <button class="bbtn primary" id="bulkComplete" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>
+              Mark complete
+            </button>
+          </div>
+        </div>
+        <div class="comm-list" id="commList"></div>
+      </div>
+
+      <div id="commEmailsView" style="display:none;">
+        <div class="email-list" id="emailList"></div>
+      </div>
+    </div>
 
     <div class="sso-note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
       Signed in via UKG Pro WFM single sign-on &nbsp;&middot;&nbsp; Chicago location
     </div>
   </div>
-
-  <div id="printArea"></div>
 
   <!-- Generic modal -->
   <div class="overlay" id="overlay">
@@ -746,868 +810,1262 @@
   </div>
 
   <div id="toast-wrap"></div>
+  <div id="printArea" aria-hidden="true"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
-/* ============================= DATA ============================= */
-const LEVEL_NAMES = ['No Active Discipline','Verbal Warning','Written Warning','2-Day In-House Suspension','1-Day Unpaid Suspension','5-Day Unpaid Suspension','10-Day Unpaid Suspension','Discharge'];
-const TRACK_META = {
-  absence:{label:'Absence', icon:'cal'},
-  late:{label:'Late Arrival', icon:'clock'},
-  early:{label:'Early Departure', icon:'file'}
+'use strict';
+/* ================================================================
+   CONSTANTS AND HELPERS
+   ================================================================ */
+const TODAY = '10/16/26';
+const TRACK_KEYS = ['absence', 'late', 'early'];
+const TRACKS = {
+  absence: { label: 'Absence', icon: 'cal', word: 'Absent', event: 'CHI Plant Absence', cal: 'Absence' },
+  late:    { label: 'Late Arrival', icon: 'clock', word: 'Late Arrival', event: 'CHI Plant Late Arrival', cal: 'Tardy' },
+  early:   { label: 'Early Departure', icon: 'file', word: 'Early Departure', event: 'CHI Plant Early Departure', cal: 'Early Departure' }
 };
+const LEVEL_NAMES = ['No Active Discipline', 'Verbal Warning', 'Written Warning', '2-Day In-House Suspension', '1-Day Unpaid Suspension', '5-Day Unpaid Suspension', '10-Day Unpaid Suspension', 'Discharge'];
+// wording used on TRI's daily email and Attendance Level History
+const FORM_NAMES = ['', 'Verbal Warning', 'Written Warning', '2 day in house suspension', '1 day unpaid suspension', '5 day unpaid suspension', '10 day unpaid suspension', 'Discharge'];
+// wording used on the Attendance Warning Notice checklist
+const NOTICE_NAMES = ['Verbal Warning', 'Written Warning', 'Two Day In-house Suspension *', 'One Day Unpaid Suspension *', 'Five Day Unpaid Suspension *', 'Ten Day Unpaid Suspension *', 'Discharge *'];
+const STATUS_LABEL = { new: 'New', sent: 'With supervisor', hr: 'HR managed', complete: 'Completed', excused: 'Excused' };
+const OPEN_STATUS = ['new', 'sent', 'hr'];
+const MON = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+const SUPERVISORS = ['Kenneth Morgan', 'Tara Ellis', 'Lena Okafor', 'Marcus Bell'];
+
 const ICONS = {
-  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>',
-  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4l2.6 2.6"/></svg>',
-  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/></svg>'
+  cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4l2.6 2.6"/></svg>',
+  file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 012-2h9l5 5v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v5h5"/></svg>',
+  mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  print: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-5a1 1 0 011-1h16a1 1 0 011 1v5a1 1 0 01-1 1h-2M6 14h12v7H6z"/></svg>',
+  send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>',
+  inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-6l-2 3h-4l-2-3H2M5.5 5h13l3.5 7v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6z"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8M23 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8"/></svg>',
+  ban: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>'
 };
 
-function tier(level){
-  if(level<=0) return 'none';
-  if(level<=2) return 'ok';
-  if(level<=5) return 'mid';
-  return 'crit';
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function pad2(n) { return String(n).padStart(2, '0'); }
+function pd(s) { const [m, d, y] = s.split('/').map(Number); return new Date(2000 + y, m - 1, d); }
+function fd(dt) { return pad2(dt.getMonth() + 1) + '/' + pad2(dt.getDate()) + '/' + String(dt.getFullYear()).slice(-2); }
+function addDays(s, n) { const dt = pd(s); dt.setDate(dt.getDate() + n); return fd(dt); }
+function cmpDate(a, b) { return pd(a) - pd(b); }
+function dmy(s) { const dt = pd(s); return pad2(dt.getDate()) + '-' + MON[dt.getMonth()] + '-' + String(dt.getFullYear()).slice(-2); }
+function mdyyyy(dt) { return pad2(dt.getMonth() + 1) + '-' + pad2(dt.getDate()) + '-' + dt.getFullYear(); }
+function dkey(dt) { return dt.getFullYear() + '-' + pad2(dt.getMonth() + 1) + '-' + pad2(dt.getDate()); }
+function fromKey(k) { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); }
+function toISO(s) { return dkey(pd(s)); }
+function fromISO(iso) { return fd(fromKey(iso)); }
+function formatLong(s) { return pd(s).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }); }
+function formatShort(s) { return pd(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+function shiftDate(s, n) { return addDays(s, n); }
+function dateInRange(d, a, b) { const t = pd(d).getTime(); return t >= pd(a).getTime() && t <= pd(b).getTime(); }
+function daysBetween(a, b) { return Math.round((pd(b) - pd(a)) / 86400000); }
+function clock12(hhmm) { let [h, m] = hhmm.split(':').map(Number); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return h + ':' + pad2(m) + ' ' + ap; }
+function fmtTs(ts) { const [d, t] = ts.split(' '); return d + ' ' + clock12(t); }
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function tier(level) { return level <= 0 ? 'none' : level <= 2 ? 'ok' : level <= 5 ? 'mid' : 'crit'; }
+function tierColor(t) { return t === 'ok' ? 'var(--teal)' : t === 'mid' ? 'var(--gold-ink)' : t === 'crit' ? 'var(--rust)' : 'var(--muted)'; }
+function changeText(t) { return 'Level ' + (t.lvl - 1) + ' \u2192 ' + t.lvl + ' \u00b7 ' + LEVEL_NAMES[t.lvl]; }
+
+/* ================================================================
+   DATA (fictional employees, supervisors and tickets)
+   ================================================================ */
+const EMP = {
+  48213: { name: 'Jorge Alvarez', first: 'Jorge', last: 'Alvarez', initials: 'JA', dept: 'Sweets Department', shift: '2nd Shift', hire: '03/11/2021', union: 'Chicago Bargaining Unit', supervisor: 'Kenneth Morgan', levels: { absence: 2, late: 3, early: 6 }, win: { absence: 2, late: 2, early: 2 } },
+  51067: { name: 'Mei Chen', first: 'Mei', last: 'Chen', initials: 'MC', dept: 'Packaging Department', shift: '1st Shift', hire: '06/02/2019', union: 'Chicago Bargaining Unit', supervisor: 'Tara Ellis', levels: { absence: 1, late: 1, early: 0 }, win: { absence: 1, late: 1, early: 0 } },
+  39950: { name: 'Robert Thompson', first: 'Robert', last: 'Thompson', initials: 'RT', dept: 'Shipping Department', shift: '3rd Shift', hire: '11/20/2022', union: 'Chicago Bargaining Unit', supervisor: 'Lena Okafor', levels: { absence: 4, late: 2, early: 3 }, win: { absence: 2, late: 2, early: 2 }, inactive: [['02/02/26', '02/27/26']] },
+  44810: { name: 'Daniel Reyes', first: 'Daniel', last: 'Reyes', initials: 'DR', dept: 'Sweets Department', shift: '2nd Shift', hire: '01/14/2023', union: 'Chicago Bargaining Unit', supervisor: 'Kenneth Morgan', levels: { absence: 1, late: 3, early: 0 }, win: { absence: 1, late: 2, early: 0 } }
+};
+
+const TICKETS = [];
+let transSeq = 70410000;
+function eventHours(track, r) {
+  if (track === 'absence') return 8;
+  const v = track === 'late' ? 0.5 + r() * 3.5 : 1 + r() * 6;
+  return parseFloat(v.toFixed(2));
 }
-function tierColor(t){ return t==='ok' ? 'var(--teal)' : t==='mid' ? 'var(--gold-ink)' : t==='crit' ? 'var(--rust)' : 'var(--muted)'; }
+function fmtHours(v) { return v + ' Hours'; }
+function tk(id, emp, track, lvl, gen, status, extra) {
+  const post = addDays(gen, -6);                    // post date is the second qualifying event; generated after the 5-day lag
+  const r = mulberry32(Number(id));
+  const gap = 3 + Math.floor(r() * 17);
+  const mk = (d) => ({ trans: String(transSeq += 7 + Math.floor(r() * 40)), date: d, hrs: eventHours(track, r) });
+  const t = { id: String(id), emp: emp, track: track, lvl: lvl, gen: gen, post: post, status: status, sup: EMP[emp].supervisor, ev: [mk(addDays(post, -gap)), mk(post)], log: [] };
+  t.log.push({ ts: gen + ' 02:01', type: 'email', actor: 'Workflow Mailer', to: 'HR notification list', channel: 'Email', note: 'Daily list email' });
+  if (lvl >= 4) t.log.push({ ts: gen + ' 02:01', type: 'hr', actor: 'System', to: 'HR', channel: 'System', note: 'Level 4 and above is administered by HR' });
+  (extra || []).forEach(function (e) { t.log.push({ ts: e[0], type: e[1], actor: e[2], to: e[3] || '', channel: e[4] || '', note: e[5] || '' }); });
+  TICKETS.push(t);
+}
+tk(131062, 48213, 'early', 5, '10/02/26', 'complete', [
+  ['10/02/26 08:40', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed'],
+  ['10/05/26 09:00', 'meeting', 'You (HR admin)', 'Employee, supervisor, union steward', 'In person', 'HR meeting held'],
+  ['10/08/26 14:10', 'complete', 'You (HR admin)', '', 'Tile', 'Marked complete']]);
+tk(131086, 44810, 'absence', 1, '10/12/26', 'complete', [
+  ['10/12/26 08:15', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed'],
+  ['10/12/26 08:30', 'sent', 'You (HR admin)', 'Kenneth Morgan', 'Internal mail', 'Packet sent to supervisor'],
+  ['10/14/26 13:20', 'returned', 'Kenneth Morgan', '', 'Internal mail', 'Signed copy returned'],
+  ['10/15/26 09:05', 'complete', 'You (HR admin)', '', 'Tile', 'Marked complete']]);
+tk(131090, 51067, 'late', 1, '10/12/26', 'sent', [
+  ['10/12/26 08:15', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed'],
+  ['10/13/26 09:00', 'sent', 'You (HR admin)', 'Tara Ellis', 'Internal mail', 'Packet sent to supervisor'],
+  ['10/15/26 08:50', 'reminder', 'You (HR admin)', 'Tara Ellis', 'Email', 'Reminder to return signed copy']]);
+tk(131095, 39950, 'absence', 4, '10/13/26', 'hr', [
+  ['10/13/26 08:20', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed'],
+  ['10/14/26 11:00', 'meeting', 'You (HR admin)', 'Employee, supervisor, union steward', 'Calendar', 'HR meeting scheduled for 10/19/26 10:00 AM']]);
+tk(131098, 51067, 'early', 1, '10/13/26', 'excused', [
+  ['10/14/26 16:30', 'excused', 'System', '', 'System', 'Time card correction approved; ticket excused']]);
+tk(131102, 48213, 'absence', 2, '10/13/26', 'sent', [
+  ['10/14/26 08:10', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed'],
+  ['10/14/26 08:25', 'sent', 'You (HR admin)', 'Kenneth Morgan', 'Internal mail', 'Packet sent to supervisor']]);
+tk(131105, 39950, 'late', 2, '10/14/26', 'sent', [
+  ['10/15/26 08:05', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed'],
+  ['10/15/26 08:20', 'sent', 'You (HR admin)', 'Lena Okafor', 'Internal mail', 'Packet sent to supervisor']]);
+tk(131120, 51067, 'absence', 1, '10/15/26', 'new', [
+  ['10/15/26 08:05', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed']]);
+tk(131140, 48213, 'late', 3, '10/16/26', 'new');
+tk(131141, 48213, 'early', 6, '10/16/26', 'hr');
+tk(131142, 39950, 'early', 3, '10/16/26', 'new');
+tk(131143, 44810, 'late', 3, '10/16/26', 'new');
 
-let DATA = {
-  48213:{
-    name:'J. Alvarez', dept:'Sweets Department', shift:'2nd Shift', hire:'03/11/2021', union:'Chicago Bargaining Unit', initials:'JA',
-    tracks:{
-      absence:{level:2, occInWindow:2, occ:[
-        {date:'09/17/26', ticket:'TCK-40198', change:'Level 1 \u2192 2 \u00b7 Written Warning', status:'active'},
-        {date:'09/08/26', ticket:null, change:'Occurrence excused - ATT-Inclement Weather', status:'excused'}
-      ]},
-      late:{level:3, occInWindow:2, occ:[
-        {date:'09/19/26', ticket:'TCK-40277', change:'Level 2 \u2192 3 \u00b7 2-Day In-House Suspension', status:'active'},
-        {date:'09/15/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
-      ]},
-      early:{level:6, occInWindow:2, occ:[
-        {date:'09/19/26', ticket:'TCK-40291', change:'Level 5 \u2192 6 \u00b7 10-Day Unpaid Suspension', status:'pending'},
-        {date:'09/16/26', ticket:'TCK-40255', change:'Level 4 \u2192 5 \u00b7 5-Day Unpaid Suspension', status:'active'}
-      ]}
-    }
-  },
-  51067:{
-    name:'M. Chen', dept:'Packaging Department', shift:'1st Shift', hire:'06/02/2019', union:'Chicago Bargaining Unit', initials:'MC',
-    tracks:{
-      absence:{level:1, occInWindow:1, occ:[
-        {date:'09/18/26', ticket:'TCK-40310', change:'Level 0 \u2192 1 \u00b7 Verbal Warning', status:'active'}
-      ]},
-      late:{level:1, occInWindow:1, occ:[
-        {date:'09/16/26', ticket:'TCK-40265', change:'Level 0 \u2192 1 \u00b7 Verbal Warning', status:'active'}
-      ]},
-      early:{level:0, occInWindow:0, occ:[
-        {date:'08/02/26', ticket:null, change:'Occurrence excused - ATT-Excused', status:'excused'}
-      ]}
-    }
-  },
-  39950:{
-    name:'R. Thompson', dept:'Shipping Department', shift:'3rd Shift', hire:'11/20/2022', union:'Chicago Bargaining Unit', initials:'RT',
-    tracks:{
-      absence:{level:4, occInWindow:2, occ:[
-        {date:'09/16/26', ticket:'TCK-40190', change:'Level 3 \u2192 4 \u00b7 1-Day Unpaid Suspension', status:'active'},
-        {date:'09/05/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
-      ]},
-      late:{level:2, occInWindow:2, occ:[
-        {date:'09/17/26', ticket:'TCK-40225', change:'Level 1 \u2192 2 \u00b7 Written Warning', status:'active'},
-        {date:'08/19/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
-      ]},
-      early:{level:3, occInWindow:2, occ:[
-        {date:'09/19/26', ticket:'TCK-40240', change:'Level 2 \u2192 3 \u00b7 2-Day In-House Suspension', status:'active'},
-        {date:'08/28/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
-      ]}
-    }
-  },
-  44810:{
-    name:'D. Reyes', dept:'Sweets Department', shift:'2nd Shift', hire:'01/14/2023', union:'Chicago Bargaining Unit', initials:'DR',
-    tracks:{
-      absence:{level:1, occInWindow:1, occ:[
-        {date:'09/15/26', ticket:'TCK-40330', change:'Level 0 \u2192 1 \u00b7 Verbal Warning', status:'active'}
-      ]},
-      late:{level:3, occInWindow:2, occ:[
-        {date:'09/19/26', ticket:'TCK-40320', change:'Level 2 \u2192 3 \u00b7 2-Day In-House Suspension', status:'active'},
-        {date:'09/02/26', ticket:null, change:'Occurrence logged, first in window', status:'active'}
-      ]},
-      early:{level:0, occInWindow:0, occ:[]}
-    }
+function ticketById(id) { return TICKETS.find(function (t) { return t.id === String(id); }); }
+function ticketsFor(empId, track) {
+  return TICKETS.filter(function (t) { return t.emp == empId && (!track || t.track === track); })
+    .sort(function (a, b) { return cmpDate(b.gen, a.gen) || Number(b.id) - Number(a.id); });
+}
+function openCount(empId) { return TICKETS.filter(function (t) { return t.emp == empId && OPEN_STATUS.indexOf(t.status) > -1; }).length; }
+function latestTicket(empId, track) { return ticketsFor(empId, track).filter(function (t) { return t.status !== 'excused'; })[0]; }
+function statusPill(s) { return '<span class="occ-status ' + s + '">' + STATUS_LABEL[s] + '</span>'; }
+function exportable(list) { return list.filter(function (t) { return t.status !== 'excused'; }); }
+
+/* ================================================================
+   LEVEL HISTORY (page 2 of the packet) AND DISCIPLINE DETAIL
+   ================================================================ */
+const REDUX = { '48213early': [1], '39950absence': [1] };   // employee+track -> after which synthetic row a reduction occurred
+const HIST_CACHE = {};
+function histFor(empId, track) {
+  const key = empId + track;
+  if (HIST_CACHE[key]) return HIST_CACHE[key];
+  const recent = ticketsFor(empId, track).filter(function (t) { return t.status !== 'excused'; })
+    .sort(function (a, b) { return cmpDate(a.post, b.post) || Number(a.id) - Number(b.id); });
+  const rows = [];
+  if (recent.length) {
+    const first = recent[0];
+    const r = mulberry32(Number(empId) * 7 + TRACK_KEYS.indexOf(track));
+    const n = first.lvl - 1;
+    const syn = [];
+    let date = first.post;
+    for (let k = n; k >= 1; k--) { date = addDays(date, -(40 + Math.floor(r() * 30))); syn.unshift({ level: k, post: date }); }
+    syn.forEach(function (s, i) {
+      const trigGap = 3 + Math.floor(r() * 12);
+      rows.push({ ticket: String(129400 + (empId % 1000) + TRACK_KEYS.indexOf(track) * 19 + i * 4), post: s.post, amount: 1, level: s.level, trig: [addDays(s.post, -trigGap), s.post] });
+      if ((REDUX[key] || []).indexOf(i) > -1 && syn[i + 1]) {
+        const mid = daysBetween(s.post, syn[i + 1].post);
+        rows.push({ ticket: '', post: addDays(s.post, Math.floor(mid / 2)), amount: -1, level: 0, trig: [] });
+      }
+    });
+    recent.forEach(function (t) { rows.push({ ticket: t.id, post: t.post, amount: 1, level: t.lvl, trig: t.ev.map(function (e) { return e.date; }) }); });
   }
+  HIST_CACHE[key] = rows;
+  return rows;
+}
+function discFor(empId) {
+  const all = [];
+  TRACK_KEYS.forEach(function (tk_) { histFor(empId, tk_).forEach(function (h) { all.push(Object.assign({ track: tk_ }, h)); }); });
+  all.sort(function (a, b) { return cmpDate(a.post, b.post); });
+  let n = 139800 + (empId % 50) * 10;
+  all.forEach(function (h) { h.disc = String(n += 1 + (n % 3)); });
+  return all;
+}
+
+/* ================================================================
+   STATE
+   ================================================================ */
+const state = {
+  currentEmp: 48213, openTracks: {}, notes: {}, searchFocused: false,
+  activeTab: 'employee', levelTrack: 'absence',
+  dailyDate: TODAY, dailyMode: 'single', rangeFrom: '10/12/26', rangeTo: TODAY,
+  commView: 'tickets', commFilter: 'all', commOpen: {}, commSel: new Set()
 };
 
-const TODAY = '09/19/26';
-
-let state = {
-  currentEmp: 48213,
-  openTracks: {},
-  ackFlags: {}, // per employee, per track: acknowledged?
-  notes: {}, // 'empId:trackKey' -> [{date, author, text}]
-  searchFocused: false,
-  activeTab: 'employee',
-  levelTrack: 'absence',
-  dailyDate: TODAY,
-  dailyMode: 'single', // 'single' | 'range'
-  rangeFrom: '09/15/26',
-  rangeTo: TODAY,
-};
-
-/* ============================= HELPERS ============================= */
-function toast(msg){
+/* ================================================================
+   UI HELPERS
+   ================================================================ */
+function toast(msg) {
   const wrap = document.getElementById('toast-wrap');
   const el = document.createElement('div');
-  el.className='toast';
-  el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span>'+msg+'</span>';
+  el.className = 'toast';
+  el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span>' + esc(msg) + '</span>';
   wrap.appendChild(el);
-  setTimeout(()=>{ el.style.transition='opacity .25s'; el.style.opacity='0'; setTimeout(()=>el.remove(),260); }, 2600);
+  setTimeout(function () { el.style.transition = 'opacity .25s'; el.style.opacity = '0'; setTimeout(function () { el.remove(); }, 260); }, 2800);
 }
-
-function openModal(title, bodyHtml, footHtml){
+function openModal(title, bodyHtml, footHtml) {
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalBody').innerHTML = bodyHtml;
   document.getElementById('modalFoot').innerHTML = footHtml || '';
   document.getElementById('overlay').classList.add('open');
 }
-function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
-
-function countOpenTickets(emp){
-  let n = 0;
-  Object.values(emp.tracks).forEach(t=>{
-    t.occ.forEach(o=>{ if(o.status==='active' || o.status==='pending') n++; });
-  });
-  return n;
+function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+function switchTab(tab) {
+  state.activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.tab === tab); });
+  ['employee', 'bylevel', 'daily', 'comm'].forEach(function (p) { document.getElementById('panel-' + p).classList.toggle('active', p === tab); });
+}
+function highlight(text, q) {
+  if (!q) return esc(text);
+  const i = text.toLowerCase().indexOf(q.toLowerCase());
+  if (i === -1) return esc(text);
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
 }
 
-/* ============================= RENDER ============================= */
-function render(){
-  const emp = DATA[state.currentEmp];
-
+/* ================================================================
+   EMPLOYEE TAB
+   ================================================================ */
+function renderEmployee() {
+  const emp = EMP[state.currentEmp];
   document.getElementById('empAvatar').textContent = emp.initials;
   document.getElementById('empName').textContent = emp.name;
   document.getElementById('empSub').textContent = emp.shift + ' \u00b7 ' + emp.dept;
-  if(!state.searchFocused){
-    document.getElementById('empSearchInput').value = emp.name + ' (#'+state.currentEmp+')';
-  }
+  if (!state.searchFocused) document.getElementById('empSearchInput').value = emp.name + ' (#' + state.currentEmp + ')';
   document.getElementById('empSearchClear').classList.toggle('show', !!document.getElementById('empSearchInput').value);
-  document.getElementById('ticketsLabel').textContent = countOpenTickets(emp) + ' Open Ticket' + (countOpenTickets(emp)===1?'':'s');
+  const oc = openCount(state.currentEmp);
+  document.getElementById('ticketsLabel').textContent = oc + ' Open Ticket' + (oc === 1 ? '' : 's');
 
-  // flag banner: any track at level >= 6
-  const critTrackKey = Object.keys(emp.tracks).find(k=>emp.tracks[k].level>=6);
-  const flagBanner = document.getElementById('flagBanner');
-  const ackKey = state.currentEmp+':'+critTrackKey;
-  if(critTrackKey){
-    flagBanner.style.display='flex';
-    const acked = !!state.ackFlags[ackKey];
-    flagBanner.classList.toggle('ack', acked);
-    document.getElementById('flagText').textContent = acked
-      ? TRACK_META[critTrackKey].label + ' flag acknowledged by HR'
-      : TRACK_META[critTrackKey].label + ' flagged for HR review - ' + LEVEL_NAMES[emp.tracks[critTrackKey].level];
-    flagBanner.dataset.track = critTrackKey;
-  } else {
-    flagBanner.style.display='none';
-  }
-
-  // tracks
   const wrap = document.getElementById('tracks');
   wrap.innerHTML = '';
-  Object.keys(TRACK_META).forEach(key=>{
-    const t = emp.tracks[key];
-    const meta = TRACK_META[key];
-    const tr = tier(t.level);
+  TRACK_KEYS.forEach(function (key) {
+    const meta = TRACKS[key];
+    const level = emp.levels[key];
+    const tr = tier(level);
     const isOpen = !!state.openTracks[key];
-
     const segs = [];
-    for(let i=1;i<=7;i++){
-      let cls='seg';
-      if(i < t.level) cls += ' passed';
-      else if(i === t.level && t.level>0) cls += tr==='ok' ? ' cur-ok' : tr==='mid' ? ' cur-mid' : ' cur-crit';
-      segs.push('<div class="'+cls+'"></div>');
+    for (let i = 1; i <= 7; i++) {
+      let cls = 'seg';
+      if (i < level) cls += ' passed';
+      else if (i === level && level > 0) cls += tr === 'ok' ? ' cur-ok' : tr === 'mid' ? ' cur-mid' : ' cur-crit';
+      segs.push('<div class="' + cls + '"></div>');
     }
-
-    const occHtml = t.occ.length ? t.occ.map((o,i)=>{
-      return '<div class="occ-row">'+
-        '<div class="occ-date mono">'+o.date+'</div>'+
-        '<div class="occ-change">'+o.change+'</div>'+
-        (o.ticket ? '<button class="occ-ticket" data-ticket="'+o.ticket+'" data-track="'+key+'" data-idx="'+i+'">'+o.ticket+'</button>' : '<span></span>')+
-        '<div class="occ-status '+o.status+'">'+ (o.status==='active'?'Active':o.status==='pending'?'Pending':'Excused') +'</div>'+
-      '</div>';
-    }).join('') : '<div style="font-size:12px;color:var(--muted);padding:6px 0;">No occurrences on file for this track.</div>';
-
+    const tickets = ticketsFor(state.currentEmp, key);
+    const rows = tickets.length ? tickets.map(function (t) {
+      return '<div class="occ-row"><div class="occ-date mono">' + t.gen + '</div><div class="occ-change">' + esc(changeText(t)) + '</div>' +
+        '<button class="occ-ticket" data-ticket-open="' + t.id + '">' + t.id + '</button>' + statusPill(t.status) + '</div>';
+    }).join('') : '<div style="font-size:12px;color:var(--muted);padding:6px 0;">No tickets on file for this track.</div>';
+    const notes = state.notes[state.currentEmp + ':' + key] || [];
+    const notesHtml = notes.length ? '<div class="notes-block"><div class="notes-label">Notes</div>' + notes.map(function (n) {
+      return '<div class="note-row"><div class="note-meta"><span class="mono">' + n.date + '</span> &middot; ' + esc(n.author) + '</div><div class="note-text">' + esc(n.text) + '</div></div>';
+    }).join('') + '</div>' : '';
     const el = document.createElement('div');
-    const noteKey = state.currentEmp+':'+key;
-    const notesForTrack = state.notes[noteKey] || [];
-    const notesHtml = notesForTrack.length ? (
-      '<div class="notes-block">' +
-      '<div class="notes-label">Notes</div>' +
-      notesForTrack.map(n=>{
-        return '<div class="note-row"><div class="note-meta"><span class="mono">'+n.date+'</span> &middot; '+n.author+'</div><div class="note-text">'+n.text+'</div></div>';
-      }).join('') +
-      '</div>'
-    ) : '';
-
-    el.className = 'track' + (isOpen?' open':'');
+    el.className = 'track' + (isOpen ? ' open' : '');
     el.innerHTML =
-      '<button class="track-row" data-toggle="'+key+'">'+
-        '<div class="t-icon" style="background:'+(tr==='ok'?'var(--teal-light)':tr==='mid'?'var(--gold-light)':tr==='crit'?'var(--rust-light)':'#EEF0F3')+';color:'+tierColor(tr)+';">'+ICONS[meta.icon]+'</div>'+
-        '<div class="t-mid">'+
-          '<div class="t-name">'+meta.label.toUpperCase()+'</div>'+
-          '<div class="t-level" style="color:'+tierColor(tr)+';">'+LEVEL_NAMES[t.level]+'</div>'+
-          '<div class="t-ladder">'+segs.join('')+'</div>'+
-        '</div>'+
-        '<div class="t-count"><b>'+t.occInWindow+'</b> in 30-day window</div>'+
-        '<svg class="t-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>'+
-      '</button>'+
-      '<div class="t-detail"><div class="t-detail-inner">'+
-        occHtml +
-        notesHtml +
-        '<div class="t-actions">'+
-          '<button class="t-btn" data-excuse="'+key+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Excuse latest occurrence</button>'+
-          '<button class="t-btn" data-note="'+key+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>Add note</button>'+
-        '</div>'+
+      '<button class="track-row" data-toggle="' + key + '">' +
+        '<div class="t-icon" style="background:' + (tr === 'ok' ? 'var(--teal-light)' : tr === 'mid' ? 'var(--gold-light)' : tr === 'crit' ? 'var(--rust-light)' : '#EEF0F3') + ';color:' + tierColor(tr) + ';">' + ICONS[meta.icon] + '</div>' +
+        '<div class="t-mid"><div class="t-name">' + meta.label.toUpperCase() + '</div>' +
+        '<div class="t-level" style="color:' + tierColor(tr) + ';">' + LEVEL_NAMES[level] + '</div>' +
+        '<div class="t-ladder">' + segs.join('') + '</div></div>' +
+        '<div class="t-count"><b>' + emp.win[key] + '</b> in 30-day window</div>' +
+        '<svg class="t-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>' +
+      '</button>' +
+      '<div class="t-detail"><div class="t-detail-inner">' + rows + notesHtml +
+        '<div class="t-actions"><button class="t-btn" data-note="' + key + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>Add note</button></div>' +
       '</div></div>';
     wrap.appendChild(el);
   });
-
-  renderByLevel();
-  renderDaily();
 }
 
-function switchTab(tab){
-  state.activeTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
-  document.getElementById('panel-employee').classList.toggle('active', tab==='employee');
-  document.getElementById('panel-bylevel').classList.toggle('active', tab==='bylevel');
-  document.getElementById('panel-daily').classList.toggle('active', tab==='daily');
-}
-
-/* ============================= BY LEVEL VIEW ============================= */
-function renderByLevel(){
-  const pillsWrap = document.getElementById('levelTrackPills');
-  pillsWrap.innerHTML = Object.keys(TRACK_META).map(key=>{
-    const active = key===state.levelTrack ? ' active' : '';
-    return '<button class="track-pill-btn'+active+'" data-level-track="'+key+'">'+ICONS[TRACK_META[key].icon]+TRACK_META[key].label+'</button>';
-  }).join('');
-
-  // group employees by level for the selected track
-  const groups = {}; // level -> [ {id, emp} ]
-  Object.keys(DATA).forEach(id=>{
-    const emp = DATA[id];
-    const lvl = emp.tracks[state.levelTrack].level;
-    if(!groups[lvl]) groups[lvl] = [];
-    groups[lvl].push({id:Number(id), emp});
-  });
-
-  const levels = Object.keys(groups).map(Number).sort((a,b)=>b-a);
-  const wrap = document.getElementById('levelGroups');
-
-  if(levels.length===0){
-    wrap.innerHTML = '<div class="level-empty">No employees found for this track.</div>';
-    return;
-  }
-
-  wrap.innerHTML = levels.map(lvl=>{
-    const tr = tier(lvl);
-    const dotColor = tr==='ok' ? 'var(--teal)' : tr==='mid' ? 'var(--gold)' : tr==='crit' ? 'var(--rust)' : 'var(--muted-2)';
-    const members = groups[lvl];
-    const rows = members.map(m=>{
-      return '<button class="lg-emp-row" data-goto-emp="'+m.id+'">'+
-        '<div class="lg-avatar">'+m.emp.initials+'</div>'+
-        '<div><div class="lg-emp-name">'+m.emp.name+'</div><div class="lg-emp-sub">#'+m.id+' \u00b7 '+m.emp.dept+'</div></div>'+
-        '<svg class="lg-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'+
-      '</button>';
-    }).join('');
-    return '<div class="level-group">'+
-      '<div class="level-group-head">'+
-        '<span class="dot" style="background:'+dotColor+';"></span>'+
-        '<span class="lg-title" style="color:'+dotColor+';">Level '+lvl+' \u00b7 '+LEVEL_NAMES[lvl]+'</span>'+
-        '<span class="lg-count">'+members.length+' employee'+(members.length===1?'':'s')+'</span>'+
-      '</div>'+
-      '<div class="level-group-body">'+rows+'</div>'+
-    '</div>';
-  }).join('');
-}
-
-/* ============================= DAILY ACTIVITY VIEW ============================= */
-function dateToParts(d){ // 'MM/DD/YY' -> {m,d,y}
-  const [m,day,y] = d.split('/').map(Number);
-  return {m,d:day,y:2000+y};
-}
-function partsToDate(p){ return new Date(p.y, p.m-1, p.d); }
-function dateObjToStr(dt){
-  const mm = String(dt.getMonth()+1).padStart(2,'0');
-  const dd = String(dt.getDate()).padStart(2,'0');
-  const yy = String(dt.getFullYear()).slice(-2);
-  return mm+'/'+dd+'/'+yy;
-}
-function shiftDate(dateStr, deltaDays){
-  const dt = partsToDate(dateToParts(dateStr));
-  dt.setDate(dt.getDate()+deltaDays);
-  return dateObjToStr(dt);
-}
-function formatLong(dateStr){
-  const dt = partsToDate(dateToParts(dateStr));
-  return dt.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
-}
-function formatShort(dateStr){
-  const dt = partsToDate(dateToParts(dateStr));
-  return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-}
-// 'MM/DD/YY' <-> 'yyyy-mm-dd' (native date input format)
-function toISO(dateStr){
-  const p = dateToParts(dateStr);
-  return p.y+'-'+String(p.m).padStart(2,'0')+'-'+String(p.d).padStart(2,'0');
-}
-function fromISO(iso){
-  const [y,m,d] = iso.split('-').map(Number);
-  return dateObjToStr(new Date(y, m-1, d));
-}
-function dateInRange(dateStr, fromStr, toStr){
-  const t = partsToDate(dateToParts(dateStr)).getTime();
-  return t >= partsToDate(dateToParts(fromStr)).getTime() && t <= partsToDate(dateToParts(toStr)).getTime();
-}
-
-function collectOccurrencesForDate(dateStr){
-  const rows = [];
-  Object.keys(DATA).forEach(id=>{
-    const emp = DATA[id];
-    Object.keys(emp.tracks).forEach(trackKey=>{
-      emp.tracks[trackKey].occ.forEach(o=>{
-        if(o.date===dateStr){
-          rows.push({empId:Number(id), emp, track:trackKey, occ:o});
-        }
-      });
-    });
-  });
-  return rows;
-}
-function collectOccurrencesForRange(fromStr, toStr){
-  const rows = [];
-  Object.keys(DATA).forEach(id=>{
-    const emp = DATA[id];
-    Object.keys(emp.tracks).forEach(trackKey=>{
-      emp.tracks[trackKey].occ.forEach(o=>{
-        if(dateInRange(o.date, fromStr, toStr)){
-          rows.push({empId:Number(id), emp, track:trackKey, occ:o});
-        }
-      });
-    });
-  });
-  return rows;
-}
-
-function getActiveDailyRows(){
-  if(state.dailyMode==='range'){
-    return collectOccurrencesForRange(state.rangeFrom, state.rangeTo)
-      .sort((a,b)=> a.occ.date===b.occ.date ? a.emp.name.localeCompare(b.emp.name) : partsToDate(dateToParts(a.occ.date)) - partsToDate(dateToParts(b.occ.date)));
-  }
-  return collectOccurrencesForDate(state.dailyDate).sort((a,b)=> a.emp.name.localeCompare(b.emp.name));
-}
-
-function setDailyMode(mode){
-  state.dailyMode = mode;
-  document.getElementById('modeSingleBtn').classList.toggle('active', mode==='single');
-  document.getElementById('modeRangeBtn').classList.toggle('active', mode==='range');
-  document.getElementById('singleNav').style.display = mode==='single' ? 'flex' : 'none';
-  document.getElementById('rangeNav').style.display = mode==='range' ? 'flex' : 'none';
-  document.getElementById('rangeSummary').style.display = mode==='range' ? 'block' : 'none';
-  renderDaily();
-}
-
-function renderDaily(){
-  document.getElementById('dnDate').textContent = formatLong(state.dailyDate);
-  document.getElementById('dnSub').textContent = state.dailyDate===TODAY ? 'Today \u00b7 since last service run' : 'Historical activity';
-  document.getElementById('dnNext').disabled = (state.dailyDate===TODAY);
-  document.getElementById('dnToday').style.visibility = (state.dailyDate===TODAY) ? 'visible' : 'visible';
-  document.getElementById('singleDateInput').value = toISO(state.dailyDate);
-
-  if(state.dailyMode==='range'){
-    document.getElementById('rangeSummary').textContent =
-      formatShort(state.rangeFrom) + ' \u2013 ' + formatShort(state.rangeTo);
-  }
-
-  const rows = getActiveDailyRows();
-  const wrap = document.getElementById('dailyList');
-  if(rows.length===0){
-    wrap.innerHTML = '<div class="daily-empty">No attendance activity recorded in this '+(state.dailyMode==='range'?'range':'date')+'.</div>';
-  } else {
-    wrap.innerHTML = rows.map(r=>{
-      const dateTag = state.dailyMode==='range' ? '<div class="dr-emp-sub mono">'+r.occ.date+'</div>' : '';
-      return '<div class="daily-row">'+
-        '<div class="dr-emp"><div class="dr-emp-name">'+r.emp.name+'</div><div class="dr-emp-sub">#'+r.empId+' \u00b7 '+TRACK_META[r.track].label+'</div>'+dateTag+'</div>'+
-        '<div class="dr-change">'+r.occ.change+'</div>'+
-        (r.occ.ticket ? '<button class="occ-ticket" data-ticket="'+r.occ.ticket+'" data-daily-track="'+r.track+'" data-daily-emp="'+r.empId+'" data-daily-date="'+r.occ.date+'">'+r.occ.ticket+'</button>' : '<span style="width:70px;"></span>')+
-        '<div class="occ-status '+r.occ.status+'" style="flex-shrink:0;">'+ (r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending':'Excused') +'</div>'+
-      '</div>';
-    }).join('');
-  }
-  const label = state.dailyMode==='range' ? 'in this range' : 'on this date';
-  document.getElementById('dailyCount').textContent = rows.length + ' ticket' + (rows.length===1?'':'s') + ' ' + label;
-  document.getElementById('printDayBtn').disabled = rows.length===0;
-  document.getElementById('exportExcelBtn').disabled = rows.length===0;
-  document.getElementById('exportPdfBtn').disabled = rows.length===0;
-}
-
-function currentReportTitle(){
-  return state.dailyMode==='range'
-    ? formatLong(state.rangeFrom) + ' to ' + formatLong(state.rangeTo)
-    : formatLong(state.dailyDate);
-}
-
-function printDay(){
-  const rows = getActiveDailyRows();
-  const area = document.getElementById('printArea');
-  const tableRows = rows.map(r=>{
-    return '<tr><td>'+r.emp.name+' (#'+r.empId+')</td><td>'+TRACK_META[r.track].label+'</td><td>'+r.occ.change+'</td><td>'+(r.occ.ticket||'-')+'</td><td>'+(r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending HR Review':'Excused')+'</td>'+(state.dailyMode==='range'?'<td>'+r.occ.date+'</td>':'')+'</tr>';
-  }).join('');
-  area.innerHTML = '<h2>Chicago Union Attendance - Daily Ticket Report</h2>'+
-    '<div class="print-sub">'+currentReportTitle()+' \u00b7 Generated via CloudApper</div>'+
-    '<table><thead><tr><th>Employee</th><th>Track</th><th>Change</th><th>Ticket</th><th>Status</th>'+(state.dailyMode==='range'?'<th>Date</th>':'')+'</tr></thead><tbody>'+tableRows+'</tbody></table>';
-  window.print();
-}
-
-function exportExcel(){
-  if(typeof XLSX === 'undefined'){ toast('Excel export library failed to load. Check your internet connection.'); return; }
-  const rows = getActiveDailyRows();
-  const data = rows.map(r=>({
-    Employee: r.emp.name,
-    'Employee ID': r.empId,
-    Track: TRACK_META[r.track].label,
-    Date: r.occ.date,
-    Change: r.occ.change,
-    Ticket: r.occ.ticket || '-',
-    Status: r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending HR Review':'Excused'
-  }));
-  const ws = XLSX.utils.json_to_sheet(data);
-  ws['!cols'] = [{wch:14},{wch:12},{wch:14},{wch:10},{wch:38},{wch:12},{wch:16}];
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Attendance Tickets');
-  const fname = 'CloudApper_Attendance_'+(state.dailyMode==='range' ? state.rangeFrom.replace(/\//g,'-')+'_to_'+state.rangeTo.replace(/\//g,'-') : state.dailyDate.replace(/\//g,'-'))+'.xlsx';
-  XLSX.writeFile(wb, fname);
-  toast('Excel file downloaded ('+data.length+' rows).');
-}
-
-function pdfSafeText(str){
-  // jsPDF's standard fonts only support WinAnsi encoding; strip characters
-  // that render as garbled glyphs (arrows, middot) and use ASCII-safe equivalents.
-  return String(str)
-    .replace(/\u2192/g, '->')
-    .replace(/\u00b7/g, '-')
-    .replace(/\u2013/g, '-')
-    .replace(/\u2019/g, "'");
-}
-
-function exportPdf(){
-  if(typeof window.jspdf === 'undefined'){ toast('PDF export library failed to load. Check your internet connection.'); return; }
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation:'landscape', unit:'pt' });
-  const rows = getActiveDailyRows();
-
-  doc.setFontSize(14);
-  doc.setTextColor(31,56,100);
-  doc.text(pdfSafeText('Chicago Union Attendance - Daily Ticket Report'), 40, 40);
-  doc.setFontSize(10);
-  doc.setTextColor(100,100,100);
-  doc.text(pdfSafeText(currentReportTitle()+' - Generated via CloudApper'), 40, 58);
-
-  const body = rows.map(r=>[
-    pdfSafeText(r.emp.name+' (#'+r.empId+')'),
-    pdfSafeText(TRACK_META[r.track].label),
-    r.occ.date,
-    pdfSafeText(r.occ.change),
-    r.occ.ticket || '-',
-    r.occ.status==='active'?'Active':r.occ.status==='pending'?'Pending HR Review':'Excused'
-  ]);
-
-  doc.autoTable({
-    startY: 74,
-    head: [['Employee','Track','Date','Change','Ticket','Status']],
-    body: body,
-    styles:{ fontSize:9, cellPadding:6 },
-    headStyles:{ fillColor:[31,56,100], textColor:255 },
-    alternateRowStyles:{ fillColor:[247,248,250] },
-  });
-
-  const fname = 'CloudApper_Attendance_'+(state.dailyMode==='range' ? state.rangeFrom.replace(/\//g,'-')+'_to_'+state.rangeTo.replace(/\//g,'-') : state.dailyDate.replace(/\//g,'-'))+'.pdf';
-  doc.save(fname);
-  toast('PDF file downloaded ('+rows.length+' rows).');
-}
-
-function highlight(text, q){
-  if(!q) return text;
-  const i = text.toLowerCase().indexOf(q.toLowerCase());
-  if(i===-1) return text;
-  return text.slice(0,i) + '<mark>' + text.slice(i,i+q.length) + '</mark>' + text.slice(i+q.length);
-}
-
-function renderEmpMenu(query){
-  const q = (query||'').trim();
+function renderEmpMenu(query) {
+  const q = (query || '').trim();
   const menu = document.getElementById('empMenu');
-  const matches = Object.keys(DATA).filter(id=>{
-    const e = DATA[id];
-    if(!q) return true;
-    return e.name.toLowerCase().includes(q.toLowerCase()) || String(id).includes(q) || e.dept.toLowerCase().includes(q.toLowerCase());
+  const matches = Object.keys(EMP).filter(function (id) {
+    const e = EMP[id];
+    if (!q) return true;
+    return e.name.toLowerCase().indexOf(q.toLowerCase()) > -1 || String(id).indexOf(q) > -1 || e.dept.toLowerCase().indexOf(q.toLowerCase()) > -1;
   });
-  if(matches.length===0){
-    menu.innerHTML = '<div class="empty">No employees match \u201c'+q+'\u201d.</div>';
-    return;
-  }
-  menu.innerHTML = matches.map(id=>{
-    const e = DATA[id];
-    const active = (Number(id)===state.currentEmp) ? ' active' : '';
-    return '<button class="opt'+active+'" data-switch="'+id+'"><span class="n">'+highlight(e.name,q)+'</span><span class="s">#'+highlight(String(id),q)+' \u00b7 '+e.dept+'</span></button>';
+  if (!matches.length) { menu.innerHTML = '<div class="empty">No employees match "' + esc(q) + '".</div>'; return; }
+  menu.innerHTML = matches.map(function (id) {
+    const e = EMP[id];
+    return '<button class="opt' + (Number(id) === state.currentEmp ? ' active' : '') + '" data-switch="' + id + '"><span class="n">' + highlight(e.name, q) + '</span><span class="s">#' + highlight(String(id), q) + ' &middot; ' + esc(e.dept) + '</span></button>';
   }).join('');
 }
 
-/* ============================= ACTIONS ============================= */
-function excuseLatest(trackKey){
-  const emp = DATA[state.currentEmp];
-  const t = emp.tracks[trackKey];
-  const latest = t.occ.find(o=>o.status==='active' || o.status==='pending');
-  if(!latest){ toast('No open occurrence to excuse on this track.'); return; }
-  if(!confirm('Excuse the most recent '+TRACK_META[trackKey].label.toLowerCase()+' occurrence ('+latest.date+')? This will recalculate the discipline level.')) return;
+/* ================================================================
+   BY LEVEL TAB
+   ================================================================ */
+function renderByLevel() {
+  document.getElementById('levelTrackPills').innerHTML = TRACK_KEYS.map(function (key) {
+    return '<button class="track-pill-btn' + (key === state.levelTrack ? ' active' : '') + '" data-level-track="' + key + '">' + ICONS[TRACKS[key].icon] + TRACKS[key].label + '</button>';
+  }).join('');
+  const groups = {};
+  Object.keys(EMP).forEach(function (id) {
+    const lvl = EMP[id].levels[state.levelTrack];
+    (groups[lvl] = groups[lvl] || []).push(Number(id));
+  });
+  const levels = Object.keys(groups).map(Number).sort(function (a, b) { return b - a; });
+  document.getElementById('levelGroups').innerHTML = levels.map(function (lvl) {
+    const tr = tier(lvl);
+    const color = tr === 'ok' ? 'var(--teal)' : tr === 'mid' ? 'var(--gold)' : tr === 'crit' ? 'var(--rust)' : 'var(--muted-2)';
+    const rows = groups[lvl].map(function (id) {
+      const lt = latestTicket(id, state.levelTrack);
+      return '<button class="lg-emp-row" data-goto-emp="' + id + '"><div class="lg-avatar">' + EMP[id].initials + '</div>' +
+        '<div><div class="lg-emp-name">' + esc(EMP[id].name) + '</div><div class="lg-emp-sub">#' + id + ' &middot; ' + esc(EMP[id].dept) + '</div></div>' +
+        '<span style="margin-left:auto;">' + (lt ? statusPill(lt.status) : '') + '</span>' +
+        '<svg class="lg-arrow" style="margin-left:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>';
+    }).join('');
+    return '<div class="level-group"><div class="level-group-head"><span class="dot" style="background:' + color + ';"></span>' +
+      '<span class="lg-title" style="color:' + color + ';">Level ' + lvl + ' &middot; ' + LEVEL_NAMES[lvl] + '</span>' +
+      '<span class="lg-count">' + groups[lvl].length + ' employee' + (groups[lvl].length === 1 ? '' : 's') + '</span></div>' +
+      '<div class="level-group-body">' + rows + '</div></div>';
+  }).join('');
+}
 
-  latest.status = 'excused';
-  latest.change += ' - excused';
-  t.occInWindow = Math.max(0, t.occInWindow - 1);
+/* ================================================================
+   DAILY ACTIVITY TAB
+   ================================================================ */
+function dailyTickets() {
+  const list = state.dailyMode === 'range'
+    ? TICKETS.filter(function (t) { return dateInRange(t.gen, state.rangeFrom, state.rangeTo); })
+    : TICKETS.filter(function (t) { return t.gen === state.dailyDate; });
+  return list.sort(function (a, b) { return cmpDate(a.gen, b.gen) || EMP[a.emp].name.localeCompare(EMP[b.emp].name) || Number(a.id) - Number(b.id); });
+}
+function setDailyMode(mode) {
+  state.dailyMode = mode;
+  document.getElementById('modeSingleBtn').classList.toggle('active', mode === 'single');
+  document.getElementById('modeRangeBtn').classList.toggle('active', mode === 'range');
+  document.getElementById('singleNav').style.display = mode === 'single' ? 'flex' : 'none';
+  document.getElementById('rangeNav').style.display = mode === 'range' ? 'flex' : 'none';
+  document.getElementById('rangeSummary').style.display = mode === 'range' ? 'block' : 'none';
+  renderDaily();
+}
+function renderDaily() {
+  document.getElementById('dnDate').textContent = formatLong(state.dailyDate);
+  document.getElementById('dnSub').textContent = state.dailyDate === TODAY ? 'Today \u00b7 since last service run' : 'Historical activity';
+  document.getElementById('dnNext').disabled = state.dailyDate === TODAY;
+  document.getElementById('dnToday').style.display = state.dailyDate === TODAY ? 'none' : '';
+  document.getElementById('singleDateInput').value = toISO(state.dailyDate);
+  if (state.dailyMode === 'range') document.getElementById('rangeSummary').textContent = formatShort(state.rangeFrom) + ' to ' + formatShort(state.rangeTo);
+  const rows = dailyTickets();
+  const wrap = document.getElementById('dailyList');
+  wrap.innerHTML = rows.length ? rows.map(function (t) {
+    const dateTag = state.dailyMode === 'range' ? '<div class="dr-emp-sub mono">' + t.gen + '</div>' : '';
+    return '<div class="daily-row"><div class="dr-emp"><div class="dr-emp-name">' + esc(EMP[t.emp].name) + '</div><div class="dr-emp-sub">#' + t.emp + ' &middot; ' + TRACKS[t.track].label + '</div>' + dateTag + '</div>' +
+      '<div class="dr-change">' + esc(changeText(t)) + '</div>' +
+      '<button class="occ-ticket" data-ticket-open="' + t.id + '">' + t.id + '</button>' + statusPill(t.status) + '</div>';
+  }).join('') : '<div class="daily-empty">No attendance activity recorded in this ' + (state.dailyMode === 'range' ? 'range' : 'date') + '.</div>';
+  const printable = exportable(rows).length;
+  document.getElementById('dailyCount').textContent = rows.length + ' ticket' + (rows.length === 1 ? '' : 's') + (state.dailyMode === 'range' ? ' in this range' : ' on this date');
+  ['printDayBtn', 'exportExcelBtn', 'exportPdfBtn'].forEach(function (id) { document.getElementById(id).disabled = printable === 0; });
+}
 
-  let leveledDown = false;
-  if(t.occInWindow < 2 && t.level > 0){
-    t.level -= 1;
-    leveledDown = true;
-    t.occ.unshift({date:'09/19/26', ticket:null, change:'Level adjusted to '+t.level+' \u00b7 '+LEVEL_NAMES[t.level]+' - occurrence excused', status:'excused'});
+/* ================================================================
+   COMMUNICATION TAB
+   ================================================================ */
+const LOG_ICON = { email: 'mail', hr: 'shield', printed: 'print', sent: 'send', reminder: 'bell', returned: 'inbox', complete: 'check', meeting: 'users', excused: 'ban' };
+function logText(e) {
+  switch (e.type) {
+    case 'email': return 'Daily list email sent to ' + e.to;
+    case 'hr': return 'Assigned to HR (Level 4 and above)';
+    case 'printed': return 'Ticket packet printed';
+    case 'sent': return 'Packet sent to ' + e.to + ' via ' + e.channel;
+    case 'reminder': return 'Reminder sent to ' + e.to + ' via ' + e.channel;
+    case 'returned': return 'Signed copy returned by ' + e.actor;
+    case 'meeting': return e.note;
+    case 'complete': return 'Marked complete';
+    case 'excused': return e.note;
+    default: return e.note || e.type;
   }
+}
+function sortedLog(t) { return t.log.slice().sort(function (a, b) { return pd(a.ts.split(' ')[0]) - pd(b.ts.split(' ')[0]) || a.ts.split(' ')[1].localeCompare(b.ts.split(' ')[1]); }); }
+function lastSent(t) { const s = t.log.filter(function (e) { return e.type === 'sent'; }); return s.length ? s[s.length - 1] : null; }
+function commSummary(t) {
+  if (t.status === 'new') return 'Awaiting distribution';
+  if (t.status === 'hr') return 'Managed by HR';
+  if (t.status === 'excused') return 'Ticket excused';
+  if (t.status === 'complete') { const c = t.log.filter(function (e) { return e.type === 'complete'; }).pop(); return 'Completed ' + (c ? c.ts.split(' ')[0] : ''); }
+  const s = lastSent(t);
+  const days = s ? daysBetween(s.ts.split(' ')[0], TODAY) : 0;
+  const rem = t.log.filter(function (e) { return e.type === 'reminder'; }).length;
+  return 'With ' + esc(t.sup) + ' since ' + (s ? s.ts.split(' ')[0] : '') + ' (<span class="' + (days >= 3 ? 'late' : '') + '">' + days + ' day' + (days === 1 ? '' : 's') + '</span>)' + (rem ? ' &middot; ' + rem + ' reminder' + (rem === 1 ? '' : 's') : '');
+}
+function commFiltered() {
+  return TICKETS.filter(function (t) { return state.commFilter === 'all' || t.status === state.commFilter; })
+    .sort(function (a, b) { return cmpDate(b.gen, a.gen) || Number(b.id) - Number(a.id); });
+}
+function renderComm() {
+  document.querySelectorAll('[data-comm-view]').forEach(function (b) { b.classList.toggle('active', b.dataset.commView === state.commView); });
+  document.getElementById('commTicketsView').style.display = state.commView === 'tickets' ? 'block' : 'none';
+  document.getElementById('commEmailsView').style.display = state.commView === 'emails' ? 'block' : 'none';
+  const openN = TICKETS.filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }).length;
+  document.getElementById('commHint').textContent = openN + ' open ticket' + (openN === 1 ? '' : 's') + ' across all employees';
 
-  state.openTracks[trackKey] = true;
+  // chips
+  const counts = { all: TICKETS.length };
+  Object.keys(STATUS_LABEL).forEach(function (s) { counts[s] = TICKETS.filter(function (t) { return t.status === s; }).length; });
+  document.getElementById('commChips').innerHTML = [['all', 'All']].concat(Object.keys(STATUS_LABEL).map(function (s) { return [s, STATUS_LABEL[s]]; })).map(function (c) {
+    return '<button class="chip' + (state.commFilter === c[0] ? ' active' : '') + '" data-comm-filter="' + c[0] + '">' + c[1] + '<b>' + counts[c[0]] + '</b></button>';
+  }).join('');
+
+  // list
+  const list = commFiltered();
+  state.commSel.forEach(function (id) { if (!ticketById(id)) state.commSel.delete(id); });
+  document.getElementById('commList').innerHTML = list.length ? list.map(function (t) {
+    const e = EMP[t.emp];
+    const open = !!state.commOpen[t.id];
+    const isOpenStatus = OPEN_STATUS.indexOf(t.status) > -1;
+    const tl = sortedLog(t).map(function (ev) {
+      return '<div class="tl-item"><span class="tl-dot t-' + ev.type + '">' + ICONS[LOG_ICON[ev.type] || 'mail'] + '</span><div class="tl-text">' + esc(logText(ev)) + '</div>' +
+        '<div class="tl-meta">' + esc(fmtTs(ev.ts)) + ' &middot; ' + esc(ev.actor) + (ev.channel ? ' &middot; ' + esc(ev.channel) : '') + '</div></div>';
+    }).join('');
+    const actions = [
+      '<button class="bbtn" data-act="print" data-id="' + t.id + '">' + ICONS.print + 'Print packet</button>',
+      (t.status === 'new' && t.lvl <= 3) ? '<button class="bbtn" data-act="send" data-id="' + t.id + '">' + ICONS.send + 'Send to supervisor</button>' : '',
+      (t.status === 'sent') ? '<button class="bbtn" data-act="remind" data-id="' + t.id + '">' + ICONS.bell + 'Send reminder</button>' : '',
+      (t.status === 'hr' || (t.status === 'new' && t.lvl >= 4)) ? '<button class="bbtn" data-act="meeting" data-id="' + t.id + '">' + ICONS.users + 'Log HR meeting</button>' : '',
+      isOpenStatus ? '<button class="bbtn primary" data-act="complete" data-id="' + t.id + '">' + ICONS.check + 'Mark complete</button>' : '',
+      '<button class="bbtn" data-ticket-open="' + t.id + '">Details</button>'
+    ].join('');
+    return '<div class="comm-card' + (open ? ' open' : '') + '"><div class="comm-head">' +
+      '<input type="checkbox" data-sel="' + t.id + '"' + (state.commSel.has(t.id) ? ' checked' : '') + ' aria-label="Select ticket ' + t.id + '" />' +
+      '<button class="comm-main" data-comm-toggle="' + t.id + '"><div class="comm-title"><span class="tn">' + t.id + '</span>' + esc(e.name) + '</div>' +
+      '<div class="comm-sub">' + TRACKS[t.track].word + ' &middot; Level ' + t.lvl + ' &middot; ' + FORM_NAMES[t.lvl] + ' &middot; generated ' + t.gen + '</div>' +
+      '<div class="comm-sub">' + commSummary(t) + '</div></button>' +
+      statusPill(t.status) +
+      '<svg class="t-chevron" data-comm-toggle="' + t.id + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>' +
+      '<div class="comm-body"><div class="timeline">' + tl + '</div><div class="comm-actions">' + actions + '</div></div></div>';
+  }).join('') : '<div class="comm-empty">No tickets with this status.</div>';
+
+  // bulk bar
+  const n = state.commSel.size;
+  document.getElementById('bulkCount').textContent = n + ' selected';
+  document.getElementById('commSelectAll').checked = list.length > 0 && list.every(function (t) { return state.commSel.has(t.id); });
+  ['bulkPrint', 'bulkRemind', 'bulkComplete'].forEach(function (id) { document.getElementById(id).disabled = n === 0; });
+
+  // daily emails view
+  const byDate = {};
+  TICKETS.forEach(function (t) { (byDate[t.gen] = byDate[t.gen] || []).push(t); });
+  const dates = Object.keys(byDate).sort(function (a, b) { return cmpDate(b, a); });
+  document.getElementById('emailList').innerHTML = dates.map(function (d) {
+    const ts = byDate[d];
+    const live = ts.filter(function (t) { return t.status !== 'excused'; });
+    const openT = live.filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }).length;
+    return '<div class="email-row"><div class="email-ico">' + ICONS.mail + '</div><div class="email-main"><div class="email-title">' + formatLong(d) + ' &middot; 2:01 AM</div>' +
+      '<div class="email-sub">Attendance Disciplines &middot; ' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ' &middot; sent to HR notification list &middot; ' + (openT ? openT + ' still open' : 'all closed') + '</div></div>' +
+      '<button class="bbtn" data-email="' + d + '">View email</button></div>';
+  }).join('');
+}
+
+/* ================================================================
+   RENDER ALL
+   ================================================================ */
+function render() { renderEmployee(); renderByLevel(); renderDaily(); renderComm(); }
+
+/* ================================================================
+   TICKET ACTIONS
+   ================================================================ */
+function nowTs() { const n = new Date(); return TODAY + ' ' + pad2(n.getHours()) + ':' + pad2(n.getMinutes()); }
+function addLog(t, type, to, channel, note, actor) { t.log.push({ ts: nowTs(), type: type, actor: actor || 'You (HR admin)', to: to || '', channel: channel || '', note: note || '' }); }
+function markSent(t, sup, method) { t.sup = sup; t.status = 'sent'; addLog(t, 'sent', sup, method, 'Packet sent to supervisor'); }
+function remind(t) { addLog(t, 'reminder', t.sup, 'Email', 'Reminder to return signed copy'); }
+function completeTicket(t) {
+  if (t.status === 'sent') addLog(t, 'returned', '', 'Internal mail', 'Signed copy returned', t.sup);
+  addLog(t, 'complete', '', 'Tile', 'Marked complete');
+  t.status = 'complete';
+}
+
+function emailLine(t) { return t.emp + ' ' + EMP[t.emp].name + ' has reached ' + TRACKS[t.track].word + ' Level ' + t.lvl + ' (' + FORM_NAMES[t.lvl] + ') by a level change of 1.  Ticket ID: ' + t.id; }
+function showEmail(date) {
+  const list = exportable(TICKETS.filter(function (t) { return t.gen === date; })).sort(function (a, b) { return a.emp - b.emp || Number(a.id) - Number(b.id); });
+  const lines = list.map(function (t) { return '<p class="email-line">' + esc(emailLine(t)) + '</p>'; }).join('');
+  openModal('Daily email',
+    '<div class="email-head"><b>From:</b> Workflow Mailer<br><b>To:</b> HR notification list<br><b>Sent:</b> ' + formatLong(date) + ' 2:01 AM<br><b>Subject:</b> Attendance Disciplines</div>' +
+    '<div class="email-preview"><p class="email-line">The following employees have had a discipline level change.</p>' + lines + '</div>',
+    '<button class="btn ghost" id="copyEmailBtn">Copy text</button><button class="btn primary" id="closeBtn2">Close</button>');
+  const text = 'The following employees have had a discipline level change.\n' + list.map(emailLine).join('\n');
+  document.getElementById('copyEmailBtn').addEventListener('click', function () {
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { toast('Email text copied.'); }, function () { toast('Copy is not available in this browser.'); });
+    else toast('Copy is not available in this browser.');
+  });
+}
+
+function showTicketModal(id) {
+  const t = ticketById(id);
+  if (!t) return;
+  const e = EMP[t.emp];
+  const last = sortedLog(t).slice(-1)[0];
+  const isOpenStatus = OPEN_STATUS.indexOf(t.status) > -1;
+  openModal('Ticket ' + t.id,
+    '<div class="mrow"><div class="k">Employee</div><div class="v">' + esc(e.name) + ' (#' + t.emp + ')</div></div>' +
+    '<div class="mrow"><div class="k">Track</div><div class="v">' + TRACKS[t.track].label + '</div></div>' +
+    '<div class="mrow"><div class="k">Level change</div><div class="v" style="text-align:right;">' + esc(changeText(t)) + '</div></div>' +
+    '<div class="mrow"><div class="k">Generated</div><div class="v mono">' + t.gen + '</div></div>' +
+    '<div class="mrow"><div class="k">Supervisor</div><div class="v">' + esc(t.sup) + '</div></div>' +
+    '<div class="mrow"><div class="k">Status</div><div class="v">' + STATUS_LABEL[t.status] + '</div></div>' +
+    '<div class="mrow"><div class="k">Last activity</div><div class="v" style="text-align:right;max-width:260px;">' + esc(logText(last)) + '<br><span style="font-weight:400;color:var(--muted-2);font-size:11px;">' + esc(fmtTs(last.ts)) + '</span></div></div>',
+    '<button class="btn ghost" id="ticketCommBtn">View communication</button>' +
+    (t.status !== 'excused' ? '<button class="btn ghost" id="ticketPdfBtn">Download packet</button>' : '') +
+    (isOpenStatus ? '<button class="btn primary" id="ticketCompleteBtn">Mark complete</button>' : '<button class="btn primary" id="closeBtn2">Close</button>'));
+  document.getElementById('ticketCommBtn').addEventListener('click', function () { closeModal(); state.commOpen[t.id] = true; state.commFilter = 'all'; switchTab('comm'); state.commView = 'tickets'; renderComm(); });
+  const pdfBtn = document.getElementById('ticketPdfBtn');
+  if (pdfBtn) pdfBtn.addEventListener('click', function () { downloadPackets([t]); });
+  const cBtn = document.getElementById('ticketCompleteBtn');
+  if (cBtn) cBtn.addEventListener('click', function () { completeTicket(t); closeModal(); render(); toast('Ticket ' + t.id + ' marked complete.'); });
+}
+
+function showHistory(empId, openOnly) {
+  const e = EMP[empId];
+  const list = ticketsFor(empId).filter(function (t) { return !openOnly || OPEN_STATUS.indexOf(t.status) > -1; });
+  const html = list.length ? list.map(function (t) {
+    return '<div class="occ-row"><div class="occ-date mono">' + t.gen + '</div><div class="occ-change">' + TRACKS[t.track].label + ' - ' + esc(changeText(t)) + '</div>' +
+      '<button class="occ-ticket" data-ticket-open="' + t.id + '">' + t.id + '</button>' + statusPill(t.status) + '</div>';
+  }).join('') : '<div style="font-size:12.5px;color:var(--muted);padding:10px 0;">No matching tickets.</div>';
+  openModal((openOnly ? 'Open tickets - ' : 'Ticket history - ') + e.name, '<div class="audit-list">' + html + '</div>', '<button class="btn ghost" id="closeBtn2">Close</button>');
+}
+
+function showSendModal(id) {
+  const t = ticketById(id);
+  const opts = SUPERVISORS.map(function (s) { return '<option' + (s === t.sup ? ' selected' : '') + '>' + esc(s) + '</option>'; }).join('');
+  openModal('Send packet to supervisor',
+    '<div class="mrow"><div class="k">Ticket</div><div class="v">' + t.id + ' &middot; ' + esc(EMP[t.emp].name) + '</div></div>' +
+    '<div style="height:12px;"></div>' +
+    '<div class="form-row"><label for="sendSup">Supervisor</label><select id="sendSup">' + opts + '</select></div>' +
+    '<div class="form-row"><label for="sendMethod">Method</label><select id="sendMethod"><option>Internal mail</option><option>Email</option></select></div>',
+    '<button class="btn ghost" id="closeBtn2">Cancel</button><button class="btn primary" id="sendConfirmBtn">Record as sent</button>');
+  document.getElementById('sendConfirmBtn').addEventListener('click', function () {
+    const sup = document.getElementById('sendSup').value, method = document.getElementById('sendMethod').value;
+    markSent(t, sup, method);
+    closeModal(); render(); toast('Packet recorded as sent to ' + sup + '.');
+  });
+}
+
+/* ================================================================
+   PRINT LAYOUT (HTML pages, same coordinates as the PDF packet)
+   Printing uses the browser print dialog, so it works from a local file,
+   an embedded frame or a pop-up-restricted browser. No blob or pop-up needed.
+   ================================================================ */
+function px(n) { return (Math.round(n * 100) / 100) + 'pt'; }
+function ptxt(x, y, html, o) {
+  o = o || {};
+  const s = o.s || 11, lh = o.lh || s * 1.15;
+  const off = (lh - 1.117 * s) / 2 + 0.905 * s;       // baseline offset inside a line box
+  const pos = o.align === 'c' ? 'left:' + px(x) + ';transform:translateX(-50%);' : o.align === 'r' ? 'right:' + px(612 - x) + ';' : 'left:' + px(x) + ';';
+  return '<div class="pk-t" style="' + pos + 'top:' + px(y - off) + ';font-size:' + px(s) + ';line-height:' + px(lh) + ';' + (o.bold ? 'font-weight:700;' : '') + (o.w ? 'width:' + px(o.w) + ';white-space:normal;' : '') + '">' + html + '</div>';
+}
+function pline(x1, x2, y, w) { return '<div class="pk-l" style="left:' + px(x1) + ';top:' + px(y) + ';width:' + px(x2 - x1) + ';border-top-width:' + px(w) + ';"></div>'; }
+function ptable(x, y, widths, head, rows, o) {
+  o = o || {};
+  const right = o.right || [];
+  const w = widths.reduce(function (a, b) { return a + b; }, 0);
+  const th = head.map(function (h, i) { return '<th class="' + (right.indexOf(i) > -1 ? 'r' : '') + '" style="width:' + px(widths[i]) + ';">' + esc(h) + '</th>'; }).join('');
+  const tr = rows.map(function (r) { return '<tr>' + r.map(function (c, i) { return '<td class="' + (right.indexOf(i) > -1 ? 'r' : '') + '">' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('');
+  return '<table class="pk-tbl ' + (o.cls || '') + '" style="left:' + px(x) + ';top:' + px(y) + ';width:' + px(w) + ';font-size:' + px(o.s) + ';"><thead><tr>' + th + '</tr></thead><tbody>' + tr + '</tbody></table>';
+}
+function pageOf(inner) { return '<section class="pk-page">' + inner + '</section>'; }
+
+function noticeHTML(t) {
+  const e = EMP[t.emp], tr = TRACKS[t.track];
+  let h = '';
+  h += ptxt(306, 66, 'ATTENDANCE WARNING NOTICE', { s: 25, align: 'c' });
+  h += ptxt(306, 84, esc(tr.word), { s: 11, align: 'c' });
+  h += ptxt(66, 112, 'NAME: ' + esc(e.name), { s: 12.5 });
+  h += ptxt(552, 112, 'EMPLOYEE #: ' + t.emp, { s: 12.5, align: 'r' });
+  h += ptxt(66, 136, 'TICKET #:&nbsp;&nbsp;&nbsp;' + t.id, { s: 12.5 });
+  h += ptxt(66, 160, 'Attached is your attendance calendar which summarizes the ' + esc(tr.word) + ' which has caused you to reach this step in the Discipline Process.', { s: 11, lh: 17.05, bold: true, w: 486 });
+  for (let i = 1; i <= 7; i++) {
+    const y = 208 + (i - 1) * 24.5;
+    h += ptxt(103, y, i + ') ' + esc(NOTICE_NAMES[i - 1]), { s: 11.5 });
+    h += pline(309, 342, y + 3, 0.9);
+    if (i === t.lvl) h += ptxt(321, y, 'X', { s: 11.5, bold: true });
+    if (i >= 3) { h += ptxt(412, y, 'Dates:', { s: 11.5 }); h += pline(483, 537, y + 3, 0.9); }
+  }
+  h += ptxt(66, 382, "For each six month period that the employee has not received a disciplinary ticket starting with their last , the discipline steps will move back one step. The Company will clear an employees' file of all prior warnings and suspension issued under the attendance program if the employee has not received any corrective action for 15 consecutive months from the last corrective action step (excluding time on layoff).", { s: 10.5, lh: 14.7, w: 486 });
+  h += pline(68, 270, 470, 0.7) + pline(345, 518, 470, 0.7);
+  h += ptxt(169, 483, 'EMPLOYEE', { s: 10.5, align: 'c' }) + ptxt(431, 483, 'SUPERVISOR', { s: 10.5, align: 'c' });
+  h += ptxt(169, 494, '(Acknowledged and presented this information)', { s: 8.5, align: 'c' });
+  h += pline(68, 270, 516, 0.7) + pline(345, 518, 516, 0.7);
+  h += ptxt(169, 529, 'UNION STEWARD', { s: 10.5, align: 'c' }) + ptxt(431, 529, 'HUMAN RESOURCES', { s: 10.5, align: 'c' });
+  h += ptxt(169, 540, '(Acknowledged and presented this information)', { s: 8.5, align: 'c' });
+  h += pline(68, 228, 568, 0.7);
+  h += ptxt(148, 581, 'DATE', { s: 10.5, align: 'c' });
+  h += ptxt(66, 604, '* A Union Steward must be present for a suspension or discharge.', { s: 10.5, bold: true });
+  h += ptable(62, 616, [62, 62, 170, 98, 98], ['Trans Id', 'Post Date', 'Event', 'Duration', 'Update Date'],
+    t.ev.map(function (x) { return [x.trans, dmy(x.date), tr.event, fmtHours(x.hrs), dmy(t.gen)]; }), { s: 9 });
+  return pageOf(h);
+}
+function historyHTML(t) {
+  const e = EMP[t.emp], tr = TRACKS[t.track];
+  let h = '';
+  h += ptxt(306, 66, 'ATTENDANCE LEVEL HISTORY', { s: 24, align: 'c' });
+  h += ptxt(66, 104, 'NAME: ' + esc(e.name), { s: 12.5 });
+  h += ptxt(552, 104, 'EMPLOYEE #: ' + t.emp, { s: 12.5, align: 'r' });
+  h += ptxt(66, 128, 'TICKET #:&nbsp;&nbsp;&nbsp;' + t.id, { s: 12.5 });
+  h += ptable(62, 148, [56, 62, 70, 58, 50, 194], ['Ticket #', 'Post Date', 'Balance', 'Amount', 'Level', 'Level Name'],
+    histFor(t.emp, t.track).map(function (r) { return [r.ticket, dmy(r.post), tr.word, String(r.amount), '', r.amount === 1 ? FORM_NAMES[r.level] : '']; }), { s: 9.5 });
+  return pageOf(h);
+}
+function calHeaderHTML(e, pageNo, total, stamp) {
+  return '<div class="pk-t" style="left:50pt;top:' + px(76 - 25.5) + ';font-size:28pt;line-height:28pt;font-weight:700;">UKG</div>' +
+    '<div class="pk-t" style="right:50pt;top:' + px(76 - 25.5) + ';font-size:28pt;line-height:28pt;font-weight:700;">UKG</div>' +
+    ptxt(306, 66, 'Attendance Calendar Report', { s: 17, align: 'c' }) +
+    ptxt(130, 112, 'Person Name', { s: 9.5 }) + ptxt(230, 112, esc(e.last + ', ' + e.first), { s: 9.5 }) +
+    ptxt(562, 100, 'Page ' + pageNo + ' of ' + total, { s: 8, align: 'r' }) +
+    ptxt(562, 110, 'Date:&nbsp;&nbsp;' + stamp.date, { s: 8, align: 'r' }) +
+    ptxt(562, 120, 'Time&nbsp;&nbsp;' + stamp.time, { s: 8, align: 'r' });
+}
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+function monthPageHTML(cal, md, e, pageNo, total, stamp) {
+  let h = calHeaderHTML(e, pageNo, total, stamp);
+  h += ptxt(306, 150, esc(monthTitle(md)), { s: 15, align: 'c' });
+  const x0 = 50, w = 512 / 7, y0 = 190;
+  WEEKDAYS.forEach(function (n, i) { h += ptxt(x0 + i * w + 3, 180, n, { s: 9.5 }); });
+  const first = md.getDay(), dim = new Date(md.getFullYear(), md.getMonth() + 1, 0).getDate();
+  const rows = Math.ceil((first + dim) / 7), rh = Math.min(112, (748 - y0) / rows);
+  for (let d = 1; d <= dim; d++) {
+    const idx = first + d - 1, col = idx % 7, row = Math.floor(idx / 7);
+    const dt = new Date(md.getFullYear(), md.getMonth(), d);
+    const c = cal.days[dkey(dt)] || { items: [] };
+    const lines = [];
+    if (c.hol) lines.push(c.hol);
+    if (c.inactive) lines.push('*Inactive');
+    c.items.forEach(function (it) { if (it.disc) lines.push('Disc. ID ' + it.disc); lines.push(labelText(it.label)); });
+    h += '<div class="pk-cell' + (col === 0 || col === 6 ? ' wk' : '') + '" style="left:' + px(x0 + col * w) + ';top:' + px(y0 + row * rh) + ';width:' + px(w) + ';height:' + px(rh) + ';">' +
+      '<span class="dn">' + pad2(d) + '</span><div class="ev">' + lines.map(esc).join('<br>') + '</div></div>';
+  }
+  return pageOf(h);
+}
+function eventSummaryHTML(cal, e, gdate, pageNo, total, stamp) {
+  let h = calHeaderHTML(e, pageNo, total, stamp);
+  h += ptxt(306, 150, esc(monthTitle(gdate)), { s: 15, align: 'c' });
+  WEEKDAYS.forEach(function (n, i) { h += ptxt(50 + i * (512 / 7) + 3, 180, n, { s: 9.5 }); });
+  const body = Object.keys(cal.counts).filter(function (k) { return CAL_EVENT[k]; })
+    .sort(function (a, b) { return CAL_EVENT[a][0].localeCompare(CAL_EVENT[b][0]); })
+    .map(function (k) { return [CAL_EVENT[k][0], CAL_EVENT[k][1], cal.counts[k].toFixed(1)]; });
+  h += ptable(50, 192, [210, 200, 102], ['Event', 'Description', 'Occurrences'], body, { s: 9, cls: 'plain', right: [2] });
+  return pageOf(h);
+}
+function discDetailHTML(cal, e, pageNo, total, stamp) {
+  let h = calHeaderHTML(e, pageNo, total, stamp);
+  const body = cal.disc.map(function (r) {
+    const upd = pd(addDays(r.post, 5));
+    return [r.disc, mdyyyy(pd(r.post)), TRACKS[r.track].word, r.amount === 1 ? '1.00' : '-1.00', r.amount === 1 ? r.level + ' - ' + FORM_NAMES[r.level] : '',
+      mdyyyy(upd) + ' 22:00:' + pad2(10 + (Number(r.disc) % 49)), r.amount === 1 ? 'CHI_DISCIPLINE_BALANCE' : 'CHI_DISCIPLINE_BALANCE_REDUCE'];
+  });
+  h += ptable(40, 140, [36, 56, 66, 36, 106, 88, 142], ['Disc ID', 'Posting Date', 'Balance Code', 'Amount', 'Level Data', 'Update Date', 'Updated By'], body, { s: 7.5, cls: 'plain' });
+  return pageOf(h);
+}
+function buildPrintHTML(list, withCal) {
+  const n = new Date();
+  const stamp = { date: mdyyyy(pd(TODAY)), time: ((n.getHours() % 12) || 12) + ':' + pad2(n.getMinutes()) + ':' + pad2(n.getSeconds()) };
+  let out = '';
+  list.forEach(function (t) {
+    out += noticeHTML(t) + historyHTML(t);
+    if (withCal) {
+      const cal = calendarFor(t.emp, t.gen), e = EMP[t.emp], total = cal.months.length + 2;
+      cal.months.forEach(function (md, i) { out += monthPageHTML(cal, md, e, i + 1, total, stamp); });
+      out += eventSummaryHTML(cal, e, cal.months[cal.months.length - 1], total - 1, total, stamp);
+      out += discDetailHTML(cal, e, total, total, stamp);
+    }
+  });
+  return out;
+}
+
+/* ================================================================
+   ATTENDANCE CALENDAR DATA (page 3 onward of the packet)
+   ================================================================ */
+function nthWeekday(year, month, weekday, n) {
+  let c = 0;
+  for (let d = 1; d <= 31; d++) { const dt = new Date(year, month, d); if (dt.getMonth() !== month) break; if (dt.getDay() === weekday && ++c === n) return d; }
+}
+function lastWeekday(year, month, weekday) {
+  for (let d = 31; d >= 1; d--) { const dt = new Date(year, month, d); if (dt.getMonth() === month && dt.getDay() === weekday) return d; }
+}
+function easterSunday(y) {
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(y, month - 1, day);
+}
+function holidaysFor(y) {
+  const h = {};
+  const set = function (dt, name) { h[dkey(dt)] = name; };
+  set(new Date(y, 0, 1), "New Year's Day");
+  set(new Date(y, 0, nthWeekday(y, 0, 1, 3)), 'Martin Luther King Day');
+  const gf = easterSunday(y); gf.setDate(gf.getDate() - 2); set(gf, 'Good Friday');
+  set(new Date(y, 4, lastWeekday(y, 4, 1)), 'Memorial Day');
+  const j4 = new Date(y, 6, 4), dw = j4.getDay();
+  set(dw === 6 ? new Date(y, 6, 3) : dw === 0 ? new Date(y, 6, 5) : j4, 'Independence Day');
+  set(new Date(y, 8, nthWeekday(y, 8, 1, 1)), 'Labor Day');
+  set(new Date(y, 9, nthWeekday(y, 9, 1, 2)), 'Columbus Day');
+  const tg = nthWeekday(y, 10, 4, 4);
+  set(new Date(y, 10, tg), 'Thanksgiving Day');
+  set(new Date(y, 10, tg + 1), 'Day After Thanksgiving');
+  set(new Date(y, 11, 24), 'Christmas Eve');
+  set(new Date(y, 11, 25), 'Christmas Day');
+  return h;
+}
+function labelText(l) { return (l === 'Excused Absence' || l === 'Excused Tardy') ? l + ' (HR Approved - HR Approved)' : l; }
+const CAL_EVENT = {
+  'Absence': ['CHI Plant Absence', 'Absence'], 'Early Departure': ['CHI Plant Early Departure', 'Early Departure'],
+  'Excused Absence': ['CHI Plant Excused Absence', 'Excused Absence'], 'Excused Medical': ['CHI Plant Excused Medical', 'Excused Medical'],
+  'Excused Tardy': ['CHI Plant Excused Tardy', 'Excused Tardy'], 'Tardy': ['CHI Plant Late Arrival', 'Tardy'], 'Suspension': ['CHI Plant Suspension', 'Suspension']
+};
+const CAL_CACHE = {};
+function calendarFor(empId, gen) {
+  const ck = empId + '|' + gen.slice(0, 2) + gen.slice(6);
+  if (CAL_CACHE[ck]) return CAL_CACHE[ck];
+  const e = EMP[empId], g = pd(gen);
+  const months = [];
+  for (let i = 17; i >= 0; i--) months.push(new Date(g.getFullYear(), g.getMonth() - i, 1));
+  const start = months[0], end = new Date(g.getFullYear(), g.getMonth() + 1, 0);
+  const days = {}, counts = {};
+  const cellOf = function (dt) { const k = dkey(dt); return days[k] || (days[k] = { items: [] }); };
+  const inWin = function (dt) { return dt >= start && dt <= end; };
+  const tally = function (l) { counts[l] = (counts[l] || 0) + 1; };
+  for (let y = start.getFullYear(); y <= end.getFullYear(); y++) {
+    const h = holidaysFor(y);
+    Object.keys(h).forEach(function (k) { const dt = fromKey(k); if (inWin(dt)) cellOf(dt).hol = h[k]; });
+  }
+  (e.inactive || []).forEach(function (r) {
+    for (let dt = pd(r[0]); dt <= pd(r[1]); dt.setDate(dt.getDate() + 1)) { if (inWin(dt)) cellOf(dt).inactive = true; }
+  });
+  const isWork = function (dt) { const c = days[dkey(dt)] || {}; return dt.getDay() !== 0 && dt.getDay() !== 6 && !c.hol && !c.inactive; };
+  const disc = discFor(empId);
+  disc.forEach(function (h) {
+    const post = pd(h.post);
+    if (h.amount === 1) {
+      h.trig.forEach(function (d, i) {
+        const dt = pd(d);
+        if (!inWin(dt)) return;
+        cellOf(dt).items.push({ disc: i === h.trig.length - 1 ? h.disc : null, label: TRACKS[h.track].cal });
+        tally(TRACKS[h.track].cal);
+      });
+      const sd = { 3: 2, 4: 1, 5: 5, 6: 10 }[h.level];
+      if (sd && daysBetween(h.post, TODAY) >= 14) {
+        const dt = pd(addDays(h.post, 9));
+        for (let n = 0; n < sd;) {
+          if (isWork(dt) && inWin(dt)) { cellOf(dt).items.push({ label: 'Suspension' }); tally('Suspension'); n++; }
+          else if (!inWin(dt)) break;
+          dt.setDate(dt.getDate() + 1);
+        }
+      }
+    } else if (inWin(post)) {
+      cellOf(post).items.push({ disc: h.disc, label: 'Reduced by 1.0' });
+    }
+  });
+  const r = mulberry32(Number(empId) * 131 + 17);
+  const types = [['Absence', 0.18], ['Tardy', 0.22], ['Early Departure', 0.15], ['Excused Absence', 0.20], ['Excused Medical', 0.15], ['Excused Tardy', 0.10]];
+  const last = new Date(Math.min(end.getTime(), pd(TODAY).getTime()));
+  for (let dt = new Date(start); dt <= last; dt.setDate(dt.getDate() + 1)) {
+    if (dt.getDay() === 0 || dt.getDay() === 6) continue;
+    const c = days[dkey(dt)];
+    if (c && (c.hol || c.inactive || c.items.length)) continue;
+    if (r() < 0.035) {
+      const x = r(); let acc = 0, label = types[0][0];
+      for (let i = 0; i < types.length; i++) { acc += types[i][1]; if (x <= acc) { label = types[i][0]; break; } }
+      cellOf(dt).items.push({ label: label }); tally(label);
+    }
+  }
+  const inRows = disc.filter(function (h) { return inWin(pd(h.post)); });
+  return (CAL_CACHE[ck] = { months: months, days: days, counts: counts, disc: inRows });
+}
+
+/* ================================================================
+   PDF PACKETS IN TRI FORMAT
+   page 1: Attendance Warning Notice, page 2: Attendance Level History,
+   then the UKG Attendance Calendar Report (monthly pages, event summary, discipline detail)
+   ================================================================ */
+function jsPDFClass() {
+  if (!window.jspdf || !window.jspdf.jsPDF) { toast('PDF library failed to load. Check your internet connection.'); return null; }
+  return window.jspdf.jsPDF;
+}
+function drawNotice(doc, t) {
+  const e = EMP[t.emp], tr = TRACKS[t.track];
+  doc.setTextColor(0, 0, 0);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(25);
+  doc.text('ATTENDANCE WARNING NOTICE', 306, 66, { align: 'center' });
+  doc.setFontSize(11); doc.text(tr.word, 306, 84, { align: 'center' });
+  doc.setFontSize(12.5);
+  doc.text('NAME: ' + e.name, 66, 112); doc.text('EMPLOYEE #: ' + t.emp, 552, 112, { align: 'right' });
+  doc.text('TICKET #:   ' + t.id, 66, 136);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+  doc.text(doc.splitTextToSize('Attached is your attendance calendar which summarizes the ' + tr.word + ' which has caused you to reach this step in the Discipline Process.', 486), 66, 160, { lineHeightFactor: 1.55 });
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(11.5); doc.setLineWidth(0.9);
+  for (let i = 1; i <= 7; i++) {
+    const y = 208 + (i - 1) * 24.5;
+    doc.text(i + ') ' + NOTICE_NAMES[i - 1], 103, y);
+    doc.line(309, y + 3, 342, y + 3);
+    if (i === t.lvl) { doc.setFont('helvetica', 'bold'); doc.text('X', 321, y); doc.setFont('helvetica', 'normal'); }
+    if (i >= 3) { doc.text('Dates:', 412, y); doc.line(483, y + 3, 537, y + 3); }
+  }
+  doc.setFontSize(10.5);
+  doc.text(doc.splitTextToSize("For each six month period that the employee has not received a disciplinary ticket starting with their last , the discipline steps will move back one step. The Company will clear an employees' file of all prior warnings and suspension issued under the attendance program if the employee has not received any corrective action for 15 consecutive months from the last corrective action step (excluding time on layoff).", 486), 66, 382, { lineHeightFactor: 1.4 });
+  doc.setLineWidth(0.7);
+  doc.line(68, 470, 270, 470); doc.line(345, 470, 518, 470);
+  doc.setFontSize(10.5); doc.text('EMPLOYEE', 169, 483, { align: 'center' }); doc.text('SUPERVISOR', 431, 483, { align: 'center' });
+  doc.setFontSize(8.5); doc.text('(Acknowledged and presented this information)', 169, 494, { align: 'center' });
+  doc.line(68, 516, 270, 516); doc.line(345, 516, 518, 516);
+  doc.setFontSize(10.5); doc.text('UNION STEWARD', 169, 529, { align: 'center' }); doc.text('HUMAN RESOURCES', 431, 529, { align: 'center' });
+  doc.setFontSize(8.5); doc.text('(Acknowledged and presented this information)', 169, 540, { align: 'center' });
+  doc.line(68, 568, 228, 568);
+  doc.setFontSize(10.5); doc.text('DATE', 148, 581, { align: 'center' });
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(10.5);
+  doc.text('* A Union Steward must be present for a suspension or discharge.', 66, 604);
+  doc.autoTable({
+    startY: 616, margin: { left: 62, right: 62 },
+    head: [['Trans Id', 'Post Date', 'Event', 'Duration', 'Update Date']],
+    body: t.ev.map(function (x) { return [x.trans, dmy(x.date), tr.event, fmtHours(x.hrs), dmy(t.gen)]; }),
+    theme: 'grid', styles: { font: 'helvetica', fontSize: 9, cellPadding: 3.5, lineColor: [0, 0, 0], lineWidth: 0.7, textColor: [0, 0, 0] },
+    headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold' },
+    columnStyles: { 0: { cellWidth: 62 }, 1: { cellWidth: 62 }, 2: { cellWidth: 170 }, 3: { cellWidth: 98 }, 4: { cellWidth: 98 } }
+  });
+}
+function drawHistory(doc, t) {
+  const e = EMP[t.emp], tr = TRACKS[t.track];
+  doc.setTextColor(0, 0, 0);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(24);
+  doc.text('ATTENDANCE LEVEL HISTORY', 306, 66, { align: 'center' });
+  doc.setFontSize(12.5);
+  doc.text('NAME: ' + e.name, 66, 104); doc.text('EMPLOYEE #: ' + t.emp, 552, 104, { align: 'right' });
+  doc.text('TICKET #:   ' + t.id, 66, 128);
+  doc.autoTable({
+    startY: 148, margin: { left: 62, right: 62 },
+    head: [['Ticket #', 'Post Date', 'Balance', 'Amount', 'Level', 'Level Name']],
+    body: histFor(t.emp, t.track).map(function (h) { return [h.ticket, dmy(h.post), tr.word, String(h.amount), '', h.amount === 1 ? FORM_NAMES[h.level] : '']; }),
+    theme: 'grid', styles: { font: 'helvetica', fontSize: 9.5, cellPadding: 3.5, lineColor: [0, 0, 0], lineWidth: 0.7, textColor: [0, 0, 0], valign: 'top' },
+    headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold' },
+    columnStyles: { 0: { cellWidth: 56 }, 1: { cellWidth: 62 }, 2: { cellWidth: 70 }, 3: { cellWidth: 58 }, 4: { cellWidth: 50 }, 5: { cellWidth: 194 } }
+  });
+}
+function calHeader(doc, e, pageNo, total, stamp) {
+  doc.setTextColor(0, 0, 0);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(28);
+  doc.text('UKG', 50, 76); doc.text('UKG', 562, 76, { align: 'right' });
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(17);
+  doc.text('Attendance Calendar Report', 306, 66, { align: 'center' });
+  doc.setFontSize(9.5); doc.text('Person Name', 130, 112); doc.text(e.last + ', ' + e.first, 230, 112);
+  doc.setFontSize(8);
+  doc.text('Page ' + pageNo + ' of ' + total, 562, 100, { align: 'right' });
+  doc.text('Date:  ' + stamp.date, 562, 110, { align: 'right' });
+  doc.text('Time  ' + stamp.time, 562, 120, { align: 'right' });
+}
+function monthTitle(dt) { return dt.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); }
+function drawMonthPage(doc, cal, md, e, pageNo, total, stamp) {
+  doc.addPage();
+  calHeader(doc, e, pageNo, total, stamp);
+  doc.setFontSize(15); doc.text(monthTitle(md), 306, 150, { align: 'center' });
+  const names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const x0 = 50, w = 512 / 7, y0 = 190;
+  doc.setFontSize(9.5);
+  names.forEach(function (n, i) { doc.text(n, x0 + i * w + 3, 180); });
+  const first = md.getDay(), dim = new Date(md.getFullYear(), md.getMonth() + 1, 0).getDate();
+  const rows = Math.ceil((first + dim) / 7), rh = Math.min(112, (748 - y0) / rows);
+  doc.setLineWidth(0.7); doc.setDrawColor(0, 0, 0);
+  for (let d = 1; d <= dim; d++) {
+    const idx = first + d - 1, col = idx % 7, row = Math.floor(idx / 7);
+    const x = x0 + col * w, y = y0 + row * rh;
+    const dt = new Date(md.getFullYear(), md.getMonth(), d);
+    const c = cal.days[dkey(dt)] || { items: [] };
+    if (col === 0 || col === 6) { doc.setFillColor(200, 200, 200); doc.rect(x, y, w, rh, 'FD'); } else doc.rect(x, y, w, rh, 'S');
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(0, 0, 0);
+    doc.text(pad2(d), x + 3, y + 9);
+    const lines = [];
+    if (c.hol) lines.push(c.hol);
+    if (c.inactive) lines.push('*Inactive');
+    c.items.forEach(function (it) { if (it.disc) lines.push('Disc. ID ' + it.disc); lines.push(labelText(it.label)); });
+    doc.setFontSize(6.4);
+    let ty = y + 18;
+    lines.forEach(function (ln) {
+      doc.splitTextToSize(ln, w - 6).forEach(function (part) { if (ty < y + rh - 2) { doc.text(part, x + 3, ty); ty += 7.2; } });
+    });
+  }
+}
+function drawEventSummary(doc, cal, e, gdate, pageNo, total, stamp) {
+  doc.addPage();
+  calHeader(doc, e, pageNo, total, stamp);
+  doc.setFontSize(15); doc.text(monthTitle(gdate), 306, 150, { align: 'center' });
+  const names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  doc.setFontSize(9.5);
+  names.forEach(function (n, i) { doc.text(n, 50 + i * (512 / 7) + 3, 180); });
+  const body = Object.keys(cal.counts).filter(function (k) { return CAL_EVENT[k]; })
+    .sort(function (a, b) { return CAL_EVENT[a][0].localeCompare(CAL_EVENT[b][0]); })
+    .map(function (k) { return [CAL_EVENT[k][0], CAL_EVENT[k][1], cal.counts[k].toFixed(1)]; });
+  doc.autoTable({
+    startY: 192, margin: { left: 50, right: 50 },
+    head: [['Event', 'Description', 'Occurrences']], body: body, theme: 'plain',
+    styles: { font: 'helvetica', fontSize: 9, cellPadding: 2, textColor: [0, 0, 0] },
+    headStyles: { fillColor: [0, 0, 0], textColor: [255, 255, 255], fontStyle: 'normal' },
+    columnStyles: { 0: { cellWidth: 210 }, 1: { cellWidth: 200 }, 2: { cellWidth: 102, halign: 'right' } }
+  });
+}
+function drawDiscDetail(doc, cal, e, pageNo, total, stamp) {
+  doc.addPage();
+  calHeader(doc, e, pageNo, total, stamp);
+  doc.autoTable({
+    startY: 140, margin: { left: 40, right: 40 },
+    head: [['Disc ID', 'Posting Date', 'Balance Code', 'Amount', 'Level Data', 'Update Date', 'Updated By']],
+    body: cal.disc.map(function (h) {
+      const upd = pd(addDays(h.post, 5));
+      return [h.disc, mdyyyy(pd(h.post)), TRACKS[h.track].word, h.amount === 1 ? '1.00' : '-1.00', h.amount === 1 ? h.level + ' - ' + FORM_NAMES[h.level] : '',
+        mdyyyy(upd) + ' 22:00:' + pad2(10 + (Number(h.disc) % 49)), h.amount === 1 ? 'CHI_DISCIPLINE_BALANCE' : 'CHI_DISCIPLINE_BALANCE_REDUCE'];
+    }),
+    theme: 'plain', styles: { font: 'helvetica', fontSize: 7.5, cellPadding: 2.2, textColor: [0, 0, 0] },
+    headStyles: { fillColor: [0, 0, 0], textColor: [255, 255, 255], fontStyle: 'normal' },
+    columnStyles: { 0: { cellWidth: 36 }, 1: { cellWidth: 56 }, 2: { cellWidth: 66 }, 3: { cellWidth: 36 }, 4: { cellWidth: 106 }, 5: { cellWidth: 88 }, 6: { cellWidth: 142 } }
+  });
+}
+function drawCalendarReport(doc, t, stamp) {
+  const e = EMP[t.emp], cal = calendarFor(t.emp, t.gen), total = cal.months.length + 2;
+  cal.months.forEach(function (md, i) { drawMonthPage(doc, cal, md, e, i + 1, total, stamp); });
+  drawEventSummary(doc, cal, e, cal.months[cal.months.length - 1], total - 1, total, stamp);
+  drawDiscDetail(doc, cal, e, total, total, stamp);
+}
+function buildPackets(list, withCal) {
+  const JsPDF = jsPDFClass();
+  if (!JsPDF) return null;
+  const doc = new JsPDF({ unit: 'pt', format: 'letter' });
+  if (typeof doc.autoTable !== 'function') { toast('PDF table plugin failed to load. Check your internet connection.'); return null; }
+  const n = new Date();
+  const stamp = { date: mdyyyy(pd(TODAY)), time: ((n.getHours() % 12) || 12) + ':' + pad2(n.getMinutes()) + ':' + pad2(n.getSeconds()) };
+  list.forEach(function (t, i) {
+    if (i > 0) doc.addPage();
+    drawNotice(doc, t);
+    doc.addPage(); drawHistory(doc, t);
+    if (withCal) drawCalendarReport(doc, t, stamp);
+  });
+  return doc;
+}
+function withCalendar() { return document.getElementById('calToggle').checked; }
+function packetList(list) {
+  const live = exportable(list);
+  if (live.length < list.length) toast((list.length - live.length) + ' excused ticket' + (list.length - live.length === 1 ? ' was' : 's were') + ' left out.');
+  return live.slice().sort(function (a, b) { return a.emp - b.emp || Number(a.id) - Number(b.id); });
+}
+function slug(s) { return String(s).replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, ''); }
+function stampText() { const n = new Date(); return dkey(pd(TODAY)) + '_' + pad2(n.getHours()) + '-' + pad2(n.getMinutes()) + '-' + pad2(n.getSeconds()); }
+function personTag(empId) { const e = EMP[empId]; return slug(e.first + '_' + e.last) + '_' + empId; }
+function packetFileName(list) {
+  const emps = Array.from(new Set(list.map(function (t) { return t.emp; })));
+  let base;
+  if (list.length === 1) base = personTag(list[0].emp) + '_Ticket_' + list[0].id;
+  else if (emps.length === 1) base = personTag(emps[0]) + '_' + list.length + '_Tickets';
+  else base = 'Attendance_Tickets_' + fileLabel() + '_' + list.length + '_Tickets';
+  return base + '_' + stampText() + '.pdf';
+}
+function downloadPackets(list) {
+  const live = packetList(list);
+  if (!live.length) { toast('No tickets to export.'); return; }
+  const doc = buildPackets(live, withCalendar());
+  if (!doc) return;
+  doc.save(packetFileName(live));
+  toast('PDF downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
+}
+function printPackets(list) {
+  const live = packetList(list);
+  if (!live.length) { toast('No tickets to print.'); return; }
+  const area = document.getElementById('printArea');
+  area.innerHTML = buildPrintHTML(live, withCalendar());
+  live.forEach(function (t) { addLog(t, 'printed', '', 'Print', 'Ticket packet printed'); });
+  document.body.classList.add('printing');
+  const done = function () { document.body.classList.remove('printing'); area.innerHTML = ''; window.removeEventListener('afterprint', done); };
+  window.addEventListener('afterprint', done);
   render();
-  reopenTrack(trackKey);
-  toast(leveledDown ? 'Occurrence excused - level adjusted to '+LEVEL_NAMES[t.level]+'.' : 'Occurrence excused.');
+  toast('Preparing ' + live.length + ' ticket packet' + (live.length === 1 ? '' : 's') + ' for printing...');
+  setTimeout(function () { window.print(); }, 80);
+}
+function fileLabel() { return state.dailyMode === 'range' ? state.rangeFrom.replace(/\//g, '-') + '_to_' + state.rangeTo.replace(/\//g, '-') : state.dailyDate.replace(/\//g, '-'); }
+
+/* ================================================================
+   LIST EXPORT TO PDF (current filtered view; same content as the Excel workbook)
+   ================================================================ */
+function listFileName(live, ext) {
+  const emps = Array.from(new Set(live.map(function (t) { return t.emp; })));
+  const base = emps.length === 1 ? personTag(emps[0]) + '_' + live.length + '_Tickets' : 'Attendance_Disciplines_' + fileLabel() + '_' + live.length + '_Tickets';
+  return base + '_' + stampText() + '.' + ext;
+}
+function trackerRows(live) {
+  return live.map(function (t) {
+    const s = lastSent(t), c = t.log.filter(function (e) { return e.type === 'complete'; }).pop();
+    return [Number(t.id), t.emp, EMP[t.emp].name, TRACKS[t.track].word, t.lvl, t.lvl <= 3 ? t.sup : 'HR managed', STATUS_LABEL[t.status], s ? s.ts.split(' ')[0] : '', c ? c.ts.split(' ')[0] : '', t.log.filter(function (e) { return e.type === 'reminder'; }).length];
+  });
+}
+function buildListPDF(live) {
+  const JsPDF = jsPDFClass();
+  if (!JsPDF) return null;
+  const doc = new JsPDF({ unit: 'pt', format: 'letter', orientation: 'landscape' });
+  if (typeof doc.autoTable !== 'function') { toast('PDF table plugin failed to load. Check your internet connection.'); return null; }
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 40;
+  const n = new Date();
+  const scope = state.dailyMode === 'range' ? formatShort(state.rangeFrom) + ' to ' + formatShort(state.rangeTo) : formatLong(state.dailyDate);
+  let y = 50;
+  doc.setTextColor(40, 25, 15);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(17); doc.text('Attendance Disciplines', M, y);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+  doc.text('Chicago Union Attendance  |  ' + scope + '  |  ' + live.length + ' ticket' + (live.length === 1 ? '' : 's'), M, y + 17);
+  doc.text('Generated ' + mdyyyy(pd(TODAY)) + ' ' + ((n.getHours() % 12) || 12) + ':' + pad2(n.getMinutes()) + ' ' + (n.getHours() >= 12 ? 'PM' : 'AM'), W - M, y, { align: 'right' });
+  y += 46;
+  const ensure = function (space) { if (y + space > H - 48) { doc.addPage(); y = 50; } };
+  const heading = function (text) { ensure(70); doc.setFont('helvetica', 'bold'); doc.setFontSize(11.5); doc.setTextColor(105, 39, 10); doc.text(text, M, y); doc.setTextColor(40, 25, 15); y += 10; };
+
+  // 1) the daily email lines, one block per day (same wording as the daily email)
+  heading('Discipline level changes');
+  y += 8;
+  const days = Array.from(new Set(live.map(function (t) { return t.gen; }))).sort(cmpDate);
+  days.forEach(function (d) {
+    const group = live.filter(function (t) { return t.gen === d; }).sort(function (a, b) { return a.emp - b.emp || Number(a.id) - Number(b.id); });
+    if (state.dailyMode === 'range') { ensure(40); doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5); doc.text(formatLong(d) + '  (' + group.length + ' ticket' + (group.length === 1 ? '' : 's') + ')', M, y); y += 14; }
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
+    ensure(20); doc.text('The following employees have had a discipline level change.', M, y); y += 15;
+    group.forEach(function (t) {
+      const lines = doc.splitTextToSize(emailLine(t), W - 2 * M - 12);
+      ensure(lines.length * 12 + 4);
+      doc.text(lines, M + 12, y); y += lines.length * 12 + 3;
+    });
+    y += 8;
+  });
+  y += 6;
+
+  const tableStyle = { theme: 'grid', styles: { font: 'helvetica', fontSize: 8, cellPadding: 3, lineColor: [215, 200, 188], lineWidth: 0.5, textColor: [40, 25, 15] }, headStyles: { fillColor: [105, 39, 10], textColor: [255, 255, 255], fontStyle: 'bold' } };
+  const section = function (title, head, body, widths) {
+    heading(title);
+    const cs = {}; widths.forEach(function (w, i) { cs[i] = { cellWidth: w }; });
+    doc.autoTable(Object.assign({ startY: y, margin: { left: M, right: M }, head: [head], body: body, columnStyles: cs }, tableStyle));
+    y = doc.lastAutoTable.finalY + 26;
+  };
+  const trig = [], hist = [];
+  live.forEach(function (t) {
+    t.ev.forEach(function (x) { trig.push([t.id, t.emp, EMP[t.emp].name, x.trans, dmy(x.date), TRACKS[t.track].event, fmtHours(x.hrs), dmy(t.gen)]); });
+    histFor(t.emp, t.track).forEach(function (h) { hist.push([t.id, t.emp, EMP[t.emp].name, h.ticket, dmy(h.post), TRACKS[t.track].word, String(h.amount), h.amount === 1 ? FORM_NAMES[h.level] : '']); });
+  });
+  section('Trigger events', ['Ticket ID', 'Employee #', 'Employee Name', 'Trans Id', 'Post Date', 'Event', 'Duration', 'Update Date'], trig, [62, 70, 120, 78, 70, 140, 80, 80]);
+  section('Level history', ['Ticket ID', 'Employee #', 'Employee Name', 'Ticket #', 'Post Date', 'Balance', 'Amount', 'Level Name'], hist, [62, 70, 120, 62, 70, 100, 50, 160]);
+  section('Distribution tracker', ['Ticket ID', 'Employee #', 'Employee Name', 'Track', 'Level', 'Supervisor', 'Status', 'Sent', 'Completed', 'Reminders'],
+    trackerRows(live), [58, 62, 100, 80, 40, 90, 80, 68, 68, 60]);
+
+  const pages = doc.getNumberOfPages();
+  for (let i = 1; i <= pages; i++) {
+    doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(130, 115, 105);
+    doc.text('Page ' + i + ' of ' + pages, W - M, H - 24, { align: 'right' });
+    doc.text('Chicago Union Attendance  |  CloudApper', M, H - 24);
+  }
+  return doc;
+}
+function exportListPdf() {
+  const live = packetList(dailyTickets());
+  if (!live.length) { toast('No tickets to export.'); return; }
+  const doc = buildListPDF(live);
+  if (!doc) return;
+  doc.save(listFileName(live, 'pdf'));
+  toast('PDF downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
 }
 
-function reopenTrack(key){
-  const trackEl = [...document.querySelectorAll('.track')].find(el=>el.querySelector('[data-toggle="'+key+'"]'));
-  if(trackEl) trackEl.classList.add('open');
+/* ================================================================
+   EXCEL EXPORT (same layout as the daily discipline email, plus detail sheets)
+   ================================================================ */
+function exportExcel() {
+  if (typeof XLSX === 'undefined') { toast('Excel library failed to load. Check your internet connection.'); return; }
+  const live = packetList(dailyTickets());
+  if (!live.length) { toast('No tickets to export.'); return; }
+  const wb = XLSX.utils.book_new();
+  const add = function (name, aoa, widths) { const ws = XLSX.utils.aoa_to_sheet(aoa); ws['!cols'] = widths.map(function (w) { return { wch: w }; }); XLSX.utils.book_append_sheet(wb, ws, name); };
+  add('Level Changes', [['Employee #', 'Employee Name', 'Track', 'Level', 'Level Name', 'Level Change', 'Ticket ID', 'Email Line']].concat(live.map(function (t) {
+    return [t.emp, EMP[t.emp].name, TRACKS[t.track].word, t.lvl, FORM_NAMES[t.lvl], 1, Number(t.id), emailLine(t)];
+  })), [12, 20, 16, 7, 26, 13, 10, 100]);
+  const trig = [['Ticket ID', 'Employee #', 'Employee Name', 'Trans Id', 'Post Date', 'Event', 'Duration', 'Update Date']];
+  live.forEach(function (t) { t.ev.forEach(function (x) { trig.push([Number(t.id), t.emp, EMP[t.emp].name, x.trans, dmy(x.date), TRACKS[t.track].event, fmtHours(x.hrs), dmy(t.gen)]); }); });
+  add('Trigger Events', trig, [10, 11, 20, 11, 11, 28, 12, 12]);
+  const hist = [['Ticket ID', 'Employee #', 'Employee Name', 'Ticket #', 'Post Date', 'Balance', 'Amount', 'Level Name']];
+  live.forEach(function (t) { histFor(t.emp, t.track).forEach(function (h) { hist.push([Number(t.id), t.emp, EMP[t.emp].name, h.ticket ? Number(h.ticket) : '', dmy(h.post), TRACKS[t.track].word, h.amount, h.amount === 1 ? FORM_NAMES[h.level] : '']); }); });
+  add('Level History', hist, [10, 11, 20, 10, 11, 16, 8, 28]);
+  const trk = [['Ticket ID', 'Employee #', 'Employee Name', 'Track', 'Level', 'Supervisor', 'Status', 'Sent to Supervisor', 'Completed', 'Reminders']];
+  live.forEach(function (t) {
+    const s = lastSent(t), c = t.log.filter(function (e) { return e.type === 'complete'; }).pop();
+    trk.push([Number(t.id), t.emp, EMP[t.emp].name, TRACKS[t.track].word, t.lvl, t.lvl <= 3 ? t.sup : 'HR managed', STATUS_LABEL[t.status], s ? s.ts.split(' ')[0] : '', c ? c.ts.split(' ')[0] : '', t.log.filter(function (e) { return e.type === 'reminder'; }).length]);
+  });
+  add('Distribution Tracker', trk, [10, 11, 20, 16, 7, 18, 16, 18, 12, 10]);
+  XLSX.writeFile(wb, listFileName(live, 'xlsx'));
+  toast('Excel file downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
 }
 
-/* ============================= EVENTS ============================= */
-document.addEventListener('click', (e)=>{
+/* ================================================================
+   EVENTS
+   ================================================================ */
+document.addEventListener('click', function (e) {
+  const T = e.target;
+  const q = function (sel) { return T.closest(sel); };
 
-  // tab switching
-  const tabBtn = e.target.closest('.tab-btn');
-  if(tabBtn){ switchTab(tabBtn.dataset.tab); return; }
+  const tabBtn = q('.tab-btn');
+  if (tabBtn) { switchTab(tabBtn.dataset.tab); return; }
 
-  // by-level: track pill
-  const levelPill = e.target.closest('[data-level-track]');
-  if(levelPill){
-    state.levelTrack = levelPill.dataset.levelTrack;
-    renderByLevel();
-    return;
-  }
+  // ----- ticket detail from anywhere
+  const open = q('[data-ticket-open]');
+  if (open) { showTicketModal(open.dataset.ticketOpen); return; }
 
-  // by-level: jump to employee
-  const gotoEmp = e.target.closest('[data-goto-emp]');
-  if(gotoEmp){
-    state.currentEmp = Number(gotoEmp.dataset.gotoEmp);
-    state.openTracks = {};
-    state.searchFocused = false;
-    render();
-    switchTab('employee');
-    toast('Viewing '+DATA[state.currentEmp].name+'.');
-    return;
-  }
+  // ----- by level
+  const lp = q('[data-level-track]');
+  if (lp) { state.levelTrack = lp.dataset.levelTrack; renderByLevel(); return; }
+  const go = q('[data-goto-emp]');
+  if (go) { state.currentEmp = Number(go.dataset.gotoEmp); state.openTracks = {}; state.searchFocused = false; render(); switchTab('employee'); toast('Viewing ' + EMP[state.currentEmp].name + '.'); return; }
 
-  // daily activity: mode toggle
-  const modeBtn = e.target.closest('.mode-btn');
-  if(modeBtn){ setDailyMode(modeBtn.dataset.mode); return; }
-
-  // daily activity: date nav
-  if(e.target.closest('#dnPrev')){
-    state.dailyDate = shiftDate(state.dailyDate, -1);
-    renderDaily();
-    return;
-  }
-  if(e.target.closest('#dnNext')){
-    if(state.dailyDate!==TODAY){ state.dailyDate = shiftDate(state.dailyDate, 1); renderDaily(); }
-    return;
-  }
-  if(e.target.closest('#dnToday')){
-    state.dailyDate = TODAY;
-    renderDaily();
-    return;
-  }
-
-  // daily activity: range apply
-  if(e.target.closest('#rangeApplyBtn')){
-    const fromVal = document.getElementById('rangeFromInput').value;
-    const toVal = document.getElementById('rangeToInput').value;
-    if(!fromVal || !toVal){ toast('Please choose both a from and to date.'); return; }
-    if(fromVal > toVal){ toast('The from date must be before the to date.'); return; }
-    state.rangeFrom = fromISO(fromVal);
-    state.rangeTo = fromISO(toVal);
-    renderDaily();
-    toast('Range applied.');
-    return;
-  }
-
-  // daily activity: ticket click
-  const dailyTicket = e.target.closest('[data-daily-track]');
-  if(dailyTicket){
-    const track = dailyTicket.dataset.dailyTrack;
-    const empId = Number(dailyTicket.dataset.dailyEmp);
-    const occDate = dailyTicket.dataset.dailyDate;
-    const occ = DATA[empId].tracks[track].occ.find(o=>o.date===occDate && o.ticket===dailyTicket.dataset.ticket);
-    if(occ) showTicketModal(track, occ, empId);
-    return;
-  }
-
-  // daily activity: export
-  if(e.target.closest('#printDayBtn')){
-    if(!document.getElementById('printDayBtn').disabled) printDay();
-    return;
-  }
-  if(e.target.closest('#exportExcelBtn')){
-    if(!document.getElementById('exportExcelBtn').disabled) exportExcel();
-    return;
-  }
-  if(e.target.closest('#exportPdfBtn')){
-    if(!document.getElementById('exportPdfBtn').disabled) exportPdf();
-    return;
-  }
-
-  // sync
-  if(e.target.closest('#syncBtn')){
-    const pill = document.getElementById('syncBtn');
-    pill.classList.add('spin');
-    document.getElementById('syncLabel').textContent = 'Syncing\u2026';
-    setTimeout(()=>{
-      pill.classList.remove('spin');
-      document.getElementById('syncLabel').textContent = 'Synced';
-      toast('Tile data refreshed from UKG Pro WFM.');
-    }, 650);
-    return;
-  }
-
-  // per-employee refresh (Employee tab)
-  if(e.target.closest('#empRefreshBtn')){
-    const btn = document.getElementById('empRefreshBtn');
-    const emp = DATA[state.currentEmp];
-    btn.classList.add('spin');
-    setTimeout(()=>{
-      btn.classList.remove('spin');
-      toast('Refreshed data for '+emp.name+'.');
-    }, 550);
-    return;
-  }
-
-  // per-employee full history (Employee tab)
-  if(e.target.closest('#empHistoryBtn')){
-    showAudit(false);
-    return;
-  }
-
-  // clear search
-  if(e.target.closest('#empSearchClear')){
-    const input = document.getElementById('empSearchInput');
-    input.value = '';
-    input.focus();
-    renderEmpMenu('');
-    document.getElementById('empMenu').classList.add('open');
-    document.getElementById('empSearchClear').classList.remove('show');
-    return;
-  }
-
-  const switchBtn = e.target.closest('[data-switch]');
-  if(switchBtn){
-    state.currentEmp = Number(switchBtn.dataset.switch);
-    state.openTracks = {};
-    state.searchFocused = false;
-    document.getElementById('empMenu').classList.remove('open');
-    document.getElementById('empSearchBox').classList.remove('focused');
-    render();
-    toast('Switched to '+DATA[state.currentEmp].name+'.');
-    return;
-  }
-
-  // tickets badge -> open audit filtered
-  if(e.target.closest('#ticketsBadge')){
-    showAudit(true);
-    return;
-  }
-
-  // identity -> profile modal
-  if(e.target.closest('#identityBtn')){
-    const emp = DATA[state.currentEmp];
-    openModal('Employee profile',
-      '<div class="mrow"><div class="k">Name</div><div class="v">'+emp.name+'</div></div>'+
-      '<div class="mrow"><div class="k">Employee ID</div><div class="v mono">'+state.currentEmp+'</div></div>'+
-      '<div class="mrow"><div class="k">Department</div><div class="v">'+emp.dept+'</div></div>'+
-      '<div class="mrow"><div class="k">Shift</div><div class="v">'+emp.shift+'</div></div>'+
-      '<div class="mrow"><div class="k">Hire date</div><div class="v mono">'+emp.hire+'</div></div>'+
-      '<div class="mrow"><div class="k">Union</div><div class="v">'+emp.union+'</div></div>',
-      '<button class="btn ghost" id="closeBtn1">Close</button>'
-    );
-    return;
-  }
-
-  // flag banner actions
-  if(e.target.closest('#flagViewBtn')){
-    const key = document.getElementById('flagBanner').dataset.track;
-    const emp = DATA[state.currentEmp];
-    const latest = emp.tracks[key].occ[0];
-    showTicketModal(key, latest);
-    return;
-  }
-  if(e.target.closest('#flagAckBtn')){
-    const key = document.getElementById('flagBanner').dataset.track;
-    if(!confirm('Acknowledge this flagged track for HR review?')) return;
-    state.ackFlags[state.currentEmp+':'+key] = true;
-    render();
-    toast('Flag acknowledged.');
-    return;
-  }
-
-  // track row toggle
-  const toggleBtn = e.target.closest('[data-toggle]');
-  if(toggleBtn && !e.target.closest('.t-actions')){
-    const key = toggleBtn.dataset.toggle;
-    state.openTracks[key] = !state.openTracks[key];
-    render();
-    return;
-  }
-
-  // excuse / note
-  const excuseBtn = e.target.closest('[data-excuse]');
-  if(excuseBtn){ excuseLatest(excuseBtn.dataset.excuse); return; }
-
-  const noteBtn = e.target.closest('[data-note]');
-  if(noteBtn){
-    const key = noteBtn.dataset.note;
-    const txt = prompt('Add a note for this track:');
-    if(txt && txt.trim()){
-      const noteKey = state.currentEmp+':'+key;
-      if(!state.notes[noteKey]) state.notes[noteKey] = [];
-      state.notes[noteKey].unshift({ date: TODAY, author: 'You', text: txt.trim() });
-      state.openTracks[key] = true;
-      render();
-      reopenTrack(key);
-      toast('Note added.');
+  // ----- communication
+  const cv = q('[data-comm-view]');
+  if (cv) { state.commView = cv.dataset.commView; renderComm(); return; }
+  const cf = q('[data-comm-filter]');
+  if (cf) { state.commFilter = cf.dataset.commFilter; renderComm(); return; }
+  const ct = q('[data-comm-toggle]');
+  if (ct) { const id = ct.dataset.commToggle; state.commOpen[id] = !state.commOpen[id]; renderComm(); return; }
+  const em = q('[data-email]');
+  if (em) { showEmail(em.dataset.email); return; }
+  const act = q('[data-act]');
+  if (act) {
+    const t = ticketById(act.dataset.id);
+    switch (act.dataset.act) {
+      case 'print': printPackets([t]); break;
+      case 'send': showSendModal(t.id); break;
+      case 'remind': remind(t); render(); toast('Reminder sent to ' + t.sup + '.'); break;
+      case 'meeting': {
+        const txt = prompt('HR meeting date and time (for example 10/19/26 10:00 AM):');
+        if (txt && txt.trim()) { addLog(t, 'meeting', 'Employee, supervisor, union steward', 'Calendar', 'HR meeting scheduled for ' + txt.trim()); render(); toast('HR meeting logged.'); }
+        break;
+      }
+      case 'complete':
+        if (confirm('Mark ticket ' + t.id + ' complete?')) { completeTicket(t); state.commSel.delete(t.id); render(); toast('Ticket ' + t.id + ' marked complete.'); }
+        break;
     }
     return;
   }
-
-  // ticket click
-  const ticketBtn = e.target.closest('.occ-ticket');
-  if(ticketBtn){
-    const key = ticketBtn.dataset.track;
-    const idx = Number(ticketBtn.dataset.idx);
-    const emp = DATA[state.currentEmp];
-    showTicketModal(key, emp.tracks[key].occ[idx]);
-    return;
+  if (q('#bulkPrint')) { printPackets(Array.from(state.commSel).map(ticketById)); return; }
+  if (q('#bulkRemind')) {
+    const sent = Array.from(state.commSel).map(ticketById).filter(function (t) { return t.status === 'sent'; });
+    if (!sent.length) { toast('Select tickets that are with a supervisor to send reminders.'); return; }
+    sent.forEach(remind); render(); toast('Reminders sent for ' + sent.length + ' ticket' + (sent.length === 1 ? '' : 's') + '.'); return;
+  }
+  if (q('#bulkComplete')) {
+    const openT = Array.from(state.commSel).map(ticketById).filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; });
+    if (!openT.length) { toast('The selected tickets are already closed.'); return; }
+    if (!confirm('Mark ' + openT.length + ' ticket' + (openT.length === 1 ? '' : 's') + ' complete?')) return;
+    openT.forEach(function (t) { completeTicket(t); state.commSel.delete(t.id); }); render(); toast(openT.length + ' ticket' + (openT.length === 1 ? '' : 's') + ' marked complete.'); return;
   }
 
-  // full audit
-  if(e.target.closest('#fullAuditBtn')){ showAudit(false); return; }
+  // ----- daily activity
+  const mb = q('.mode-btn');
+  if (mb) { setDailyMode(mb.dataset.mode); return; }
+  if (q('#dnPrev')) { state.dailyDate = shiftDate(state.dailyDate, -1); renderDaily(); return; }
+  if (q('#dnNext')) { if (state.dailyDate !== TODAY) { state.dailyDate = shiftDate(state.dailyDate, 1); renderDaily(); } return; }
+  if (q('#dnToday')) { state.dailyDate = TODAY; renderDaily(); return; }
+  if (q('#rangeApplyBtn')) {
+    const f = document.getElementById('rangeFromInput').value, t = document.getElementById('rangeToInput').value;
+    if (!f || !t) { toast('Please choose both a from and to date.'); return; }
+    if (f > t) { toast('The from date must be before the to date.'); return; }
+    state.rangeFrom = fromISO(f); state.rangeTo = fromISO(t); renderDaily(); toast('Range applied.'); return;
+  }
+  if (q('#printDayBtn')) { if (!document.getElementById('printDayBtn').disabled) printPackets(dailyTickets()); return; }
+  if (q('#exportPdfBtn')) { if (!document.getElementById('exportPdfBtn').disabled) exportListPdf(); return; }
+  if (q('#exportExcelBtn')) { if (!document.getElementById('exportExcelBtn').disabled) exportExcel(); return; }
 
-  // open in cloudapper
-  // if(e.target.closest('#openCloudApperBtn')){
-  //   toast('Opening full CloudApper record for '+DATA[state.currentEmp].name+' in a new tab\u2026');
-  //   return;
-  // }
+  // ----- employee tab
+  if (q('#syncBtn')) {
+    const pill = document.getElementById('syncBtn');
+    pill.classList.add('spin'); document.getElementById('syncLabel').textContent = 'Syncing...';
+    setTimeout(function () { pill.classList.remove('spin'); document.getElementById('syncLabel').textContent = 'Synced'; toast('Tile data refreshed from UKG Pro WFM.'); }, 650);
+    return;
+  }
+  if (q('#empRefreshBtn')) {
+    const btn = document.getElementById('empRefreshBtn'); btn.classList.add('spin');
+    setTimeout(function () { btn.classList.remove('spin'); toast('Refreshed data for ' + EMP[state.currentEmp].name + '.'); }, 550);
+    return;
+  }
+  if (q('#empHistoryBtn')) { showHistory(state.currentEmp, false); return; }
+  if (q('#ticketsBadge')) { showHistory(state.currentEmp, true); return; }
+  if (q('#empSearchClear')) {
+    const input = document.getElementById('empSearchInput');
+    input.value = ''; input.focus(); renderEmpMenu(''); document.getElementById('empMenu').classList.add('open'); document.getElementById('empSearchClear').classList.remove('show'); return;
+  }
+  const sw = q('[data-switch]');
+  if (sw) { state.currentEmp = Number(sw.dataset.switch); state.openTracks = {}; state.searchFocused = false; document.getElementById('empMenu').classList.remove('open'); document.getElementById('empSearchBox').classList.remove('focused'); render(); toast('Switched to ' + EMP[state.currentEmp].name + '.'); return; }
+  if (q('#identityBtn')) {
+    const emp = EMP[state.currentEmp];
+    openModal('Employee profile',
+      '<div class="mrow"><div class="k">Name</div><div class="v">' + esc(emp.name) + '</div></div>' +
+      '<div class="mrow"><div class="k">Employee ID</div><div class="v mono">' + state.currentEmp + '</div></div>' +
+      '<div class="mrow"><div class="k">Department</div><div class="v">' + esc(emp.dept) + '</div></div>' +
+      '<div class="mrow"><div class="k">Shift</div><div class="v">' + emp.shift + '</div></div>' +
+      '<div class="mrow"><div class="k">Supervisor</div><div class="v">' + esc(emp.supervisor) + '</div></div>' +
+      '<div class="mrow"><div class="k">Hire date</div><div class="v mono">' + emp.hire + '</div></div>' +
+      '<div class="mrow"><div class="k">Union</div><div class="v">' + emp.union + '</div></div>',
+      '<button class="btn ghost" id="closeBtn1">Close</button>');
+    return;
+  }
+  const tg = q('[data-toggle]');
+  if (tg) { state.openTracks[tg.dataset.toggle] = !state.openTracks[tg.dataset.toggle]; renderEmployee(); return; }
+  const nb = q('[data-note]');
+  if (nb) {
+    const key = nb.dataset.note;
+    const txt = prompt('Add a note for this track:');
+    if (txt && txt.trim()) {
+      const k = state.currentEmp + ':' + key;
+      (state.notes[k] = state.notes[k] || []).unshift({ date: TODAY, author: 'You', text: txt.trim() });
+      state.openTracks[key] = true; renderEmployee(); toast('Note added.');
+    }
+    return;
+  }
+  if (q('#openCloudApperBtn')) { toast('Opening the CloudApper application for ' + EMP[state.currentEmp].name + ' in a new tab...'); return; }
 
-  // modal close
-  if(e.target.closest('#modalClose') || e.target.id==='closeBtn1' || e.target.id==='closeBtn2'){ closeModal(); return; }
-  if(e.target.id==='overlay'){ closeModal(); return; }
+  // ----- modal
+  if (q('#modalClose') || T.id === 'closeBtn1' || T.id === 'closeBtn2' || T.id === 'overlay') { closeModal(); return; }
 
-  // close open menus if clicking elsewhere
-  if(!e.target.closest('.search-wrap')){
+  // ----- close search menu on outside click
+  if (!q('.search-wrap')) {
     document.getElementById('empMenu').classList.remove('open');
     document.getElementById('empSearchBox').classList.remove('focused');
     state.searchFocused = false;
-    document.getElementById('empSearchInput').value = DATA[state.currentEmp].name + ' (#'+state.currentEmp+')';
+    document.getElementById('empSearchInput').value = EMP[state.currentEmp].name + ' (#' + state.currentEmp + ')';
   }
 });
 
-/* ---- search input wiring ---- */
+document.addEventListener('change', function (e) {
+  const T = e.target;
+  if (T.matches && T.matches('[data-sel]')) {
+    if (T.checked) state.commSel.add(T.dataset.sel); else state.commSel.delete(T.dataset.sel);
+    renderComm(); return;
+  }
+  if (T.id === 'commSelectAll') {
+    commFiltered().forEach(function (t) { if (T.checked) state.commSel.add(t.id); else state.commSel.delete(t.id); });
+    renderComm();
+  }
+});
+
 const searchInput = document.getElementById('empSearchInput');
-searchInput.addEventListener('focus', ()=>{
+searchInput.addEventListener('focus', function () {
   state.searchFocused = true;
   document.getElementById('empSearchBox').classList.add('focused');
-  searchInput.select();
-  renderEmpMenu('');
-  document.getElementById('empMenu').classList.add('open');
+  searchInput.select(); renderEmpMenu(''); document.getElementById('empMenu').classList.add('open');
 });
-searchInput.addEventListener('input', ()=>{
-  renderEmpMenu(searchInput.value);
-  document.getElementById('empMenu').classList.add('open');
+searchInput.addEventListener('input', function () {
+  renderEmpMenu(searchInput.value); document.getElementById('empMenu').classList.add('open');
   document.getElementById('empSearchClear').classList.toggle('show', !!searchInput.value);
 });
-searchInput.addEventListener('keydown', (e)=>{
-  if(e.key==='Escape'){ searchInput.blur(); return; }
-  if(e.key==='Enter'){
-    const firstOpt = document.querySelector('#empMenu .opt');
-    if(firstOpt) firstOpt.click();
-  }
+searchInput.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { searchInput.blur(); return; }
+  if (e.key === 'Enter') { const first = document.querySelector('#empMenu .opt'); if (first) first.click(); }
+});
+document.getElementById('singleDateInput').addEventListener('change', function (e) {
+  if (!e.target.value) return;
+  state.dailyDate = fromISO(e.target.value); renderDaily();
 });
 
-/* ---- single-day date picker wiring ---- */
-document.getElementById('singleDateInput').addEventListener('change', (e)=>{
-  if(!e.target.value) return;
-  state.dailyDate = fromISO(e.target.value);
-  renderDaily();
-});
-
-function showTicketModal(trackKey, occ, empId){
-  const id = empId || state.currentEmp;
-  const emp = DATA[id];
-  openModal('Ticket detail',
-    '<div class="mrow"><div class="k">Employee</div><div class="v">'+emp.name+' (#'+id+')</div></div>'+
-    '<div class="mrow"><div class="k">Track</div><div class="v">'+TRACK_META[trackKey].label+'</div></div>'+
-    '<div class="mrow"><div class="k">Change</div><div class="v" style="text-align:left;max-width:260px;">'+occ.change+'</div></div>'+
-    '<div class="mrow"><div class="k">Ticket</div><div class="v mono">'+(occ.ticket||'-')+'</div></div>'+
-    '<div class="mrow"><div class="k">Date</div><div class="v mono">'+occ.date+'</div></div>'+
-    '<div class="mrow"><div class="k">Status</div><div class="v">'+(occ.status==='active'?'Active':occ.status==='pending'?'Pending HR Review':'Excused')+'</div></div>',
-    (occ.status==='pending' ? '<button class="btn primary" id="ackTicketBtn">Mark reviewed</button>' : '<button class="btn ghost" id="closeBtn2">Close</button>')
-  );
-  const ackBtn = document.getElementById('ackTicketBtn');
-  if(ackBtn){
-    ackBtn.addEventListener('click', ()=>{
-      occ.status='active';
-      closeModal();
-      render();
-      toast('Ticket '+(occ.ticket||'')+' marked reviewed.');
-    });
-  }
-}
-
-function showAudit(openOnly){
-  const emp = DATA[state.currentEmp];
-  let rows = [];
-  Object.keys(emp.tracks).forEach(key=>{
-    emp.tracks[key].occ.forEach(o=>{
-      if(!openOnly || o.status==='active' || o.status==='pending'){
-        rows.push(Object.assign({track:key}, o));
-      }
-    });
-  });
-  rows.sort((a,b)=> b.date.localeCompare(a.date));
-  const html = rows.length ? rows.map(o=>{
-    return '<div class="occ-row">'+
-      '<div class="occ-date mono">'+o.date+'</div>'+
-      '<div class="occ-change">'+TRACK_META[o.track].label+' - '+o.change+'</div>'+
-      '<div class="occ-status '+o.status+'">'+ (o.status==='active'?'Active':o.status==='pending'?'Pending':'Excused') +'</div>'+
-    '</div>';
-  }).join('') : '<div style="font-size:12.5px;color:var(--muted);padding:10px 0;">No matching records.</div>';
-
-  openModal(openOnly ? 'Open tickets - '+emp.name : 'Full audit trail - '+emp.name,
-    '<div class="audit-list">'+html+'</div>',
-    '<button class="btn ghost" id="closeBtn2">Close</button>'
-  );
-}
-
-/* init */
+/* ================================================================
+   INIT
+   ================================================================ */
 document.getElementById('singleDateInput').max = toISO(TODAY);
 document.getElementById('rangeFromInput').value = toISO(state.rangeFrom);
 document.getElementById('rangeToInput').value = toISO(state.rangeTo);
 render();
+
 </script>
 </body>
 </html>
