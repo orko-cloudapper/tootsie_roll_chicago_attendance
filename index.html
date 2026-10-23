@@ -21,8 +21,10 @@
  --card:#FFFFFF;
  --border:#E8DDD3;
  --text:#2B1B12;
- --muted:#7A6A5D;
- --muted-2:#9C8D80;
+ --muted:#6B5C50;
+ --muted-2:#74655A;
+ --teal-text:#8A5A12;
+ --rust-text:#B8231A;
  --radius:12px;
   }
   *{box-sizing:border-box;}
@@ -181,7 +183,6 @@
     .sub-row{padding:0 16px 12px 16px;}
     .identity{margin:0 16px 12px 16px;}
     .tracks{margin:0 16px 4px 16px;}
-    .tile-foot{padding:14px 16px 16px 16px;flex-wrap:wrap;gap:10px;}
     .sso-note{padding:0 16px 14px 16px;}
     .search-wrap{max-width:none;flex-basis:100%;}
     .sub-tools{flex-basis:100%;justify-content:flex-start;}
@@ -284,19 +285,6 @@
   .t-btn.primary:hover{background:var(--ink-2);}
 
   /* ---- footer ---- */
-  .tile-foot{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:14px 20px 16px 20px;
-    border-top:1px solid var(--border);
-    margin-top:10px;
-  }
-  .foot-cta{
-    background:var(--ink);color:#fff;border:none;border-radius:8px;
-    padding:8px 13px;font-size:12px;font-weight:600;
-    display:flex;align-items:center;gap:6px;
-  }
-  .foot-cta:hover{background:var(--ink-2);}
-  .foot-cta svg{width:12px;height:12px;}
 
   .sso-note{
     display:flex;align-items:center;gap:7px;
@@ -557,8 +545,6 @@
   .email-head b{color:var(--text);}
   .email-line{margin:0 0 6px 0;}
 
-  .cal-opt{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);cursor:pointer;}
-  .cal-opt input{accent-color:var(--ink);}
   .form-row{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
   .form-row label{font-size:11px;font-weight:700;color:var(--muted-2);}
   .form-row select{border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-family:inherit;font-size:13px;background:#F7F8FA;color:var(--text);}
@@ -570,8 +556,7 @@
     .email-list{padding:12px 16px 14px 16px;}
     .bulk-actions{margin-left:0;width:100%;}
   }
-  .foot-note{font-size:11px;color:var(--muted-2);}
-  @media (max-width: 560px){ .tile-foot .foot-note{flex-basis:100%;} }
+  
 
   /* ---- print packets (HTML pages mirroring the PDF; printed through the browser dialog) ---- */
   #printArea{display:none;}
@@ -595,6 +580,221 @@
     body.printing > :not(#printArea){display:none !important;}
     body.printing #printArea{display:block;}
   }
+
+
+  /* ================================================================
+     v6: accessibility, tap targets, embed mode, dialogs, paging
+     ================================================================ */
+  html.modal-open{overflow:hidden;}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+  .emp-search input:focus-visible,.comm-search input:focus-visible{outline:none;}
+  .emp-search:focus-within,.comm-search:focus-within{border-color:var(--teal);background:#fff;box-shadow:0 0 0 3px var(--teal-light);}
+  .tab-btn:focus-visible{outline-offset:-2px;border-radius:6px;}
+
+  /* readable text colors on white and tinted backgrounds */
+  .sync-pill,.emp-menu .opt.active .n,.occ-ticket,.dn-today-btn,.comm-title .tn{color:var(--teal-text);}
+  .comm-sub .late{color:var(--rust-text);}
+  .tl-dot.t-reminder{color:var(--gold-ink);border-color:var(--gold-ink);}
+
+  /* header settings button */
+  .hbtn{width:32px;height:32px;border-radius:100px;border:1px solid var(--border);background:#fff;color:var(--muted);display:flex;align-items:center;justify-content:center;padding:0;}
+  .hbtn svg{width:15px;height:15px;}
+  .hbtn:hover{background:#F7F2EE;color:var(--ink);}
+  .sync-pill{min-height:32px;}
+
+  /* tap targets */
+  .chip{min-height:32px;padding:6px 12px;}
+  .bbtn{min-height:34px;}
+  .seg button{min-height:32px;}
+  .mode-btn,.track-pill-btn{min-height:34px;}
+  .t-btn{min-height:34px;}
+  .dn-btn{width:34px;height:34px;}
+  .dn-date-pick{min-height:34px;}
+  .emp-tool-btn,.tickets-badge{min-height:34px;}
+  .export-btn{min-height:36px;}
+  .emp-search{min-height:36px;cursor:text;}
+  .emp-search .clear-btn{width:28px;height:28px;margin:-6px -6px -6px 0;border-radius:6px;}
+  .occ-ticket{min-height:32px;padding:0 4px;display:inline-flex;align-items:center;}
+  .modal-close{width:32px;height:32px;}
+  .sel-box{display:flex;align-items:center;justify-content:center;width:36px;height:36px;margin:-8px 0 -8px -10px;cursor:pointer;flex-shrink:0;}
+  .sel-box input{margin:0;}
+  .bulk-bar label{min-height:32px;}
+  @media (pointer:coarse){
+    .chip,.bbtn,.mode-btn,.track-pill-btn,.t-btn,.emp-tool-btn,.tickets-badge,.export-btn,.occ-ticket,.pref-link{min-height:40px;}
+    .dn-btn{width:40px;height:40px;}
+  }
+
+  /* narrow widths: allow rows to wrap instead of overflowing */
+  .occ-row{flex-wrap:wrap;row-gap:4px;}
+  .occ-row .occ-change{flex:1 1 150px;min-width:0;overflow-wrap:break-word;}
+  .daily-row{flex-wrap:wrap;row-gap:4px;}
+  .daily-row .dr-change{flex:2 1 150px;min-width:0;overflow-wrap:break-word;}
+  .daily-row .dr-emp{flex:1 1 130px;min-width:0;overflow-wrap:break-word;}
+  .lg-emp-name,.comm-title{overflow-wrap:break-word;}
+  .comm-card{min-width:0;}
+  .bulk-actions .bbtn .lbl-more{display:inline;}
+
+  @media (max-width: 560px){
+    /* header: title and controls share one row; the title wraps instead of pushing controls down */
+    .tile-head{flex-wrap:nowrap;gap:10px;}
+    .tile-head .title-block{flex:1 1 auto;min-width:0;}
+    .tile-head .head-actions{flex:0 0 auto;}
+  }
+  @media (max-width: 420px){
+    /* tabs: all four fit without sideways scrolling */
+    .tab-bar{padding:0 6px;gap:0;}
+    .tab-btn{padding:10px 8px 11px 8px;font-size:11.5px;white-space:nowrap;}
+    .tab-btn svg,.tab-more{display:none;}
+    /* rows: change text drops under the employee, ticket and status */
+    .daily-row .dr-emp{flex:1 1 0;}
+    .daily-row .dr-change{flex:1 1 100%;order:5;}
+    .occ-row .occ-change{flex:1 1 100%;order:5;}
+    /* communication cards: status pill moves under the title so names never break mid-word */
+    .comm-head{display:grid;grid-template-columns:auto 1fr auto;column-gap:8px;row-gap:6px;align-items:start;padding:10px 10px 10px 12px;}
+    .comm-head .sel-box{grid-column:1;grid-row:1;}
+    .comm-head .comm-main{grid-column:2;grid-row:1;}
+    .comm-head .t-chevron{grid-column:3;grid-row:1;margin-top:8px;}
+    .comm-head .occ-status{grid-column:2;grid-row:2;justify-self:start;}
+    /* bulk actions: compact three-up row */
+    .bulk-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%;margin-left:0;}
+    .bulk-actions .bbtn{justify-content:center;padding:7px 6px;font-size:11.5px;}
+    .bulk-actions .bbtn svg,.bulk-actions .bbtn .lbl-more{display:none;}
+    .daily-foot{flex-wrap:wrap;gap:12px;}
+    .export-actions{width:100%;}
+    .export-actions .export-btn{flex:1;justify-content:center;}
+  }
+  /* modals fit short embeds */
+  .modal{max-height:calc(100vh - 40px);display:flex;flex-direction:column;}
+  .modal-body{flex:1;max-height:none;overflow-y:auto;}
+  #toast-wrap{z-index:400;}
+  @media (max-width: 480px){ #toast-wrap{left:12px;right:12px;bottom:12px;} .toast{max-width:none;} }
+
+  /* embed mode (inside an iframe or ?embed=1): host supplies the frame */
+  html.embedded body{padding:0;background:transparent;min-height:0;}
+  html.embedded .tile{border:0;border-radius:0;box-shadow:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+  }
+
+  /* print preference links */
+  .pref-link{background:none;border:none;color:var(--muted);font-size:11.5px;padding:6px 4px;min-height:32px;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;}
+  .pref-link b{color:var(--ink);font-weight:700;}
+  .pref-link:hover{color:var(--ink);}
+  .daily-foot .left{display:flex;flex-direction:column;align-items:flex-start;gap:0;}
+
+  /* stacked dialog layer (replaces native confirm/prompt, which embedded frames block) */
+  .dlg-overlay{z-index:300;}
+  .dlg{max-width:440px;}
+  .dlg-msg{margin:0;font-size:13px;line-height:1.5;color:var(--text);}
+  .dlg-hint{font-size:11.5px;color:var(--muted);margin:8px 0 0 0;line-height:1.45;}
+  .form-row textarea,.form-row input[type="text"],.form-row input[type="datetime-local"]{border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-family:inherit;font-size:13px;background:#F7F8FA;color:var(--text);width:100%;}
+  .form-row textarea{resize:vertical;min-height:84px;}
+  .remember{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12px;color:var(--muted);cursor:pointer;min-height:32px;}
+  .remember input{accent-color:var(--ink);width:16px;height:16px;}
+  .opt-card{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:10px;padding:11px 12px;margin-bottom:8px;cursor:pointer;background:#fff;}
+  .opt-card.sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset;background:#FBF7F3;}
+  .opt-card input{margin-top:2px;accent-color:var(--ink);width:16px;height:16px;flex-shrink:0;}
+  .opt-card .t{font-size:12.5px;font-weight:700;color:var(--text);}
+  .opt-card .d{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4;}
+
+  /* Communication: search and paging */
+  .comm-search{display:flex;align-items:center;gap:8px;margin:12px 20px 0 20px;border:1px solid var(--border);border-radius:9px;background:#F7F8FA;padding:0 11px;min-height:38px;}
+  .comm-search svg{width:14px;height:14px;color:var(--muted-2);flex-shrink:0;}
+  .comm-search input{border:none;outline:none;background:transparent;font-family:inherit;font-size:12.5px;color:var(--text);width:100%;min-height:34px;}
+  .pager{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:2px 20px 16px 20px;}
+  .pager .info{font-size:11.5px;color:var(--muted);}
+  .pager-btns{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);}
+  @media (max-width: 560px){ .comm-search{margin:10px 16px 0 16px;} .pager{padding:2px 16px 14px 16px;} }
+
+  .emp-menu .opt.kb{background:#F2F4F7;outline:2px solid var(--ink);outline-offset:-2px;}
+
+
+  /* ================================================================
+     v7: built for about 500 employees (dashboard, filters, pagers)
+     ================================================================ */
+  [hidden]{display:none !important;}
+  .st-badge{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:100px;vertical-align:1px;white-space:nowrap;}
+  .st-badge.layoff{background:var(--gold-light);color:var(--gold-ink);}
+  .st-badge.terminated{background:#EDEFF2;color:var(--muted);}
+  .menu-hint{padding:8px 10px;font-size:11.5px;color:var(--muted);line-height:1.4;}
+
+  /* pager */
+  .pager{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding:10px 20px 16px 20px;}
+  .pager-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .pager .info{font-size:11.5px;color:var(--muted);}
+  .pg-size{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .pg-size select{border:1px solid var(--border);border-radius:7px;padding:4px 6px;font-family:inherit;font-size:11.5px;background:#fff;color:var(--text);min-height:32px;}
+  .pager-nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+  .pg-btn{min-width:32px;height:32px;padding:0 8px;border:1px solid var(--border);background:#fff;border-radius:7px;font-size:12px;font-weight:600;color:var(--text);}
+  .pg-btn:hover:not(:disabled){background:#F7F2EE;}
+  .pg-btn.cur{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .pg-btn:disabled{opacity:.4;cursor:default;}
+  .pg-gap{color:var(--muted);padding:0 2px;}
+  .pg-mini{display:none;font-size:11.5px;color:var(--muted);padding:0 6px;}
+  @media (max-width: 560px){ .pg-num,.pg-gap{display:none;} .pg-mini{display:inline;} .pager{padding:8px 16px 14px 16px;} }
+
+  /* sticky bulk bar so the actions stay in reach on long pages */
+  .bulk-bar{position:sticky;top:0;z-index:6;background:#fff;border-bottom:1px solid var(--border);}
+
+  /* daily emails tools */
+  .email-tools{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding:12px 20px 0 20px;}
+  .email-tools label{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px;min-height:32px;}
+  .email-tools input[type="checkbox"]{accent-color:var(--ink);width:16px;height:16px;}
+  .email-tools input[type="date"]{border:1px solid var(--border);border-radius:7px;padding:4px 8px;font-family:inherit;font-size:12px;background:#F7F8FA;color:var(--text);min-height:34px;}
+  @media (max-width: 560px){ .email-tools{padding:10px 16px 0 16px;} }
+
+  /* By Level dashboard */
+  .bl-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px 20px 0 20px;}
+  .kpi{display:flex;flex-direction:column;align-items:flex-start;text-align:left;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;min-height:84px;}
+  .kpi:hover{background:#FBF7F3;}
+  .kpi[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset;background:#FBF7F3;}
+  .kpi .v{font-size:24px;font-weight:800;color:var(--ink);line-height:1.1;}
+  .kpi .l{font-size:11.5px;font-weight:700;color:var(--text);margin-top:4px;}
+  .kpi .s{font-size:11px;color:var(--muted);margin-top:1px;line-height:1.3;}
+  .bl-dist{margin:12px 20px 0 20px;border:1px solid var(--border);border-radius:10px;padding:8px 10px 6px 10px;background:#fff;}
+  .bl-dist h4{margin:2px 4px 6px 4px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .dist-row{display:grid;grid-template-columns:58px minmax(130px,210px) 1fr 38px;grid-template-areas:"lab name bar n";align-items:center;gap:8px;width:100%;background:none;border:none;text-align:left;padding:4px 6px;border-radius:7px;min-height:32px;}
+  .dist-row:hover{background:#FBF7F3;}
+  .dist-row[aria-pressed="true"]{background:#F6EBD9;}
+  .dist-row .d-lab{grid-area:lab;font-size:12px;font-weight:700;color:var(--text);}
+  .dist-row .d-name{grid-area:name;font-size:11.5px;color:var(--muted);}
+  .dist-row .d-bar{grid-area:bar;height:10px;background:#F1EAE4;border-radius:100px;overflow:hidden;}
+  .dist-row .d-bar i{display:block;height:100%;border-radius:100px;min-width:2px;}
+  .dist-row .d-n{grid-area:n;font-size:12.5px;font-weight:700;text-align:right;color:var(--text);}
+  .dist-zero{border-top:1px dashed var(--border);border-radius:0 0 7px 7px;margin-top:2px;}
+  .bl-filters{padding:12px 20px 0 20px;}
+  .bl-selects{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;}
+  .bl-selects .sel{display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .bl-selects .sel span{font-size:10.5px;font-weight:700;color:var(--muted);}
+  .bl-selects select{border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-family:inherit;font-size:12px;background:#F7F8FA;color:var(--text);min-height:36px;width:100%;min-width:0;}
+  .bl-activebar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;}
+  .bl-activebar:empty{display:none;}
+  .tag{display:inline-flex;align-items:center;gap:2px;background:var(--teal-light);color:var(--gold-ink);border-radius:100px;padding:2px 2px 2px 10px;font-size:11.5px;font-weight:700;}
+  .tag button{border:none;background:none;color:var(--gold-ink);min-width:26px;min-height:26px;border-radius:100px;font-size:16px;line-height:1;}
+  .bl-legend{margin:8px 0 0 0;font-size:11px;color:var(--muted);}
+  .bl-list{margin:10px 20px 0 20px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;}
+  .bl-list .lg-emp-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 12px;width:100%;background:#fff;border:none;text-align:left;}
+  .bl-list .lg-emp-row + .lg-emp-row{border-top:1px solid var(--border);}
+  .bl-list .lg-emp-row:hover{background:#FBF7F3;}
+  .lg-main{flex:1 1 170px;min-width:0;}
+  .lg-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+  .lvl-chip{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:34px;height:22px;padding:0;border-radius:6px;font-size:11px;font-weight:700;}
+  .lvl-chip.tier-none{background:#F1EAE4;color:var(--muted);}
+  .lvl-chip.tier-ok,.lvl-pill.tier-ok{background:var(--teal-light);color:var(--teal-text);}
+  .lvl-chip.tier-mid,.lvl-pill.tier-mid{background:var(--gold-light);color:var(--gold-ink);}
+  .lvl-chip.tier-crit,.lvl-pill.tier-crit{background:var(--rust-light);color:var(--rust-text);}
+  .lvl-pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px;white-space:nowrap;}
+  .lvl-pill.tier-none{background:#F1EAE4;color:var(--muted);}
+  @media (max-width: 420px){ .track-pills{gap:6px;} .track-pill-btn{padding:6px 11px;font-size:11.5px;} .track-pill-btn svg{display:none;} }
+  @media (max-width: 760px){ .bl-kpis{grid-template-columns:repeat(2,1fr);} .bl-selects{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width: 560px){
+    .bl-kpis{padding:10px 16px 0 16px;} .bl-dist{margin:10px 16px 0 16px;} .bl-filters{padding:10px 16px 0 16px;} .bl-list{margin:10px 16px 0 16px;}
+    .dist-row{grid-template-columns:1fr 36px;grid-template-areas:"lab n" "name name" "bar bar";row-gap:2px;padding:6px 6px;}
+    .dist-row .d-lab{font-size:12.5px;}
+    .bl-list .lg-emp-row .lg-meta{flex-basis:100%;justify-content:flex-start;padding-left:36px;}
+    .bl-list .lg-emp-row .lg-arrow{display:none;}
+  }
 </style>
 </head>
 <body>
@@ -611,6 +811,9 @@
         </div>
       </div>
       <div class="head-actions">
+        <button class="hbtn" id="settingsBtn" data-open-print-settings aria-label="Print settings" title="Print settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3h0a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5h0a1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8v0a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
+        </button>
         <button class="sync-pill" id="syncBtn" title="Refresh all tile data">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 10-3 6.7M21 5v6h-6"/></svg>
           <span id="syncLabel">Synced</span>
@@ -618,37 +821,37 @@
       </div>
     </div>
 
-    <div class="tab-bar">
-      <button class="tab-btn active" data-tab="employee">
+    <div class="tab-bar" role="tablist" aria-label="Attendance views">
+      <button class="tab-btn active" data-tab="employee" id="tab-employee" role="tab" aria-selected="true" aria-controls="panel-employee">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M4.5 21c1.3-4 4.2-6 7.5-6s6.2 2 7.5 6"/></svg>
         Employee
       </button>
-      <button class="tab-btn" data-tab="bylevel">
+      <button class="tab-btn" data-tab="bylevel" id="tab-bylevel" role="tab" aria-selected="false" aria-controls="panel-bylevel">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h4v4H3zM10 11h4v10h-4zM17 5h4v16h-4z"/></svg>
         By Level
       </button>
-      <button class="tab-btn" data-tab="daily">
+      <button class="tab-btn" data-tab="daily" id="tab-daily" role="tab" aria-selected="false" aria-controls="panel-daily">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
-        Daily Activity
+        <span>Daily<span class="tab-more"> Activity</span></span>
       </button>
-      <button class="tab-btn" data-tab="comm">
+      <button class="tab-btn" data-tab="comm" id="tab-comm" role="tab" aria-selected="false" aria-controls="panel-comm">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
         Communication
       </button>
     </div>
 
     <!-- ================= EMPLOYEE ================= -->
-    <div class="tab-panel active" id="panel-employee">
+    <div class="tab-panel active" id="panel-employee" role="tabpanel" aria-labelledby="tab-employee">
       <div class="sub-row">
         <div class="search-wrap">
           <div class="emp-search" id="empSearchBox">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-            <input type="text" id="empSearchInput" placeholder="Search employee name or ID..." autocomplete="off" />
-            <button class="clear-btn" id="empSearchClear" title="Clear">
+            <input type="text" id="empSearchInput" placeholder="Search employee name or ID..." autocomplete="off" role="combobox" aria-label="Search employee by name or ID" aria-expanded="false" aria-controls="empMenu" aria-autocomplete="list" />
+            <button class="clear-btn" id="empSearchClear" title="Clear" aria-label="Clear search">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>
             </button>
           </div>
-          <div class="emp-menu" id="empMenu"></div>
+          <div class="emp-menu" id="empMenu" role="listbox" aria-label="Matching employees"></div>
         </div>
         <div class="sub-tools">
           <button class="tickets-badge" id="ticketsBadge">
@@ -677,26 +880,41 @@
 
       <div class="tracks" id="tracks"></div>
 
-      <div class="tile-foot">
-        
-      </div>
     </div>
 
     <!-- ================= BY LEVEL ================= -->
-    <div class="tab-panel" id="panel-bylevel">
-      <div class="track-pills" id="levelTrackPills"></div>
-      <div class="level-groups" id="levelGroups"></div>
+    <div class="tab-panel" id="panel-bylevel" role="tabpanel" aria-labelledby="tab-bylevel">
+      <div class="track-pills" id="levelTrackPills" role="group" aria-label="Discipline track"></div>
+      <div class="bl-kpis" id="blKpis" role="group" aria-label="Key figures; select one to filter the list"></div>
+      <div class="bl-dist" id="blDist" role="group" aria-label="Employees by level; select a level to filter the list"></div>
+      <div class="bl-filters">
+        <div class="comm-search" style="margin:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="search" id="blSearch" placeholder="Search name or employee ID..." aria-label="Search employees" autocomplete="off" />
+        </div>
+        <div class="bl-selects">
+          <label class="sel"><span>Department</span><select id="blDept"></select></label>
+          <label class="sel"><span>Shift</span><select id="blShift"></select></label>
+          <label class="sel"><span>Supervisor</span><select id="blSup"></select></label>
+          <label class="sel"><span>Status</span><select id="blStatus"></select></label>
+          <label class="sel"><span>Sort by</span><select id="blSort"></select></label>
+        </div>
+        <div class="bl-activebar" id="blActive" aria-live="polite"></div>
+        <p class="bl-legend">A = Absence, L = Late Arrival, E = Early Departure. The number is the current level.</p>
+      </div>
+      <div class="bl-list" id="levelGroups"></div>
+      <div class="pager-wrap" id="blPager"></div>
     </div>
 
     <!-- ================= DAILY ACTIVITY ================= -->
-    <div class="tab-panel" id="panel-daily">
+    <div class="tab-panel" id="panel-daily" role="tabpanel" aria-labelledby="tab-daily">
       <div class="mode-toggle">
         <button class="mode-btn active" id="modeSingleBtn" data-mode="single">Single Day</button>
         <button class="mode-btn" id="modeRangeBtn" data-mode="range">Date Range</button>
       </div>
 
       <div class="date-nav" id="singleNav">
-        <button class="dn-btn" id="dnPrev" title="Previous day">
+        <button class="dn-btn" id="dnPrev" title="Previous day" aria-label="Previous day">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
         </button>
         <div class="dn-mid">
@@ -705,12 +923,12 @@
           <div class="dn-quick-row">
             <label class="dn-date-pick">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
-              <input type="date" id="singleDateInput" />
+              <input type="date" id="singleDateInput" aria-label="Choose a date" />
             </label>
             <button class="dn-today-btn" id="dnToday">Today</button>
           </div>
         </div>
-        <button class="dn-btn" id="dnNext" title="Next day">
+        <button class="dn-btn" id="dnNext" title="Next day" aria-label="Next day">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
         </button>
       </div>
@@ -729,13 +947,14 @@
       <div class="range-summary" id="rangeSummary" style="display:none;"></div>
 
       <div class="daily-list" id="dailyList"></div>
+      <div class="pager-wrap" id="dailyPager"></div>
       <div class="daily-foot">
-        <div>
-          <span class="dcount" id="dailyCount">0 tickets</span>
-          <label class="cal-opt"><input type="checkbox" id="calToggle" checked /> Include attendance calendar when printing packets</label>
+        <div class="left">
+          <span class="dcount" id="dailyCount" aria-live="polite">0 tickets</span>
+          <button class="pref-link" data-open-print-settings title="Change how packets are printed">Packets: <b data-print-pref-label>with calendar</b> &middot; Change</button>
         </div>
         <div class="export-actions">
-          <button class="export-btn" id="printDayBtn" title="Open ticket packets for printing">
+          <button class="export-btn" id="printDayBtn" title="Print ticket packets">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-5a1 1 0 011-1h16a1 1 0 011 1v5a1 1 0 01-1 1h-2M6 14h12v7H6z"/></svg>
             Print
           </button>
@@ -752,7 +971,7 @@
     </div>
 
     <!-- ================= COMMUNICATION ================= -->
-    <div class="tab-panel" id="panel-comm">
+    <div class="tab-panel" id="panel-comm" role="tabpanel" aria-labelledby="tab-comm">
       <div class="comm-top">
         <div class="seg">
           <button class="active" data-comm-view="tickets">By ticket</button>
@@ -762,10 +981,17 @@
       </div>
 
       <div id="commTicketsView">
-        <div class="comm-chips" id="commChips"></div>
+        <div class="comm-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="search" id="commSearch" placeholder="Search ticket, name or employee ID..." aria-label="Search tickets" autocomplete="off" />
+        </div>
+        <div class="comm-chips" id="commChips" role="group" aria-label="Filter tickets by status"></div>
         <div class="bulk-bar">
-          <label><input type="checkbox" id="commSelectAll" /> Select all</label>
-          <span class="bulk-count" id="bulkCount">0 selected</span>
+          <label><input type="checkbox" id="commSelectAll" /> Select all on page</label>
+          <span class="bulk-count" id="bulkCount" aria-live="polite">0 selected</span>
+          <button class="pref-link" id="bulkAllMatching" hidden>Select all in this view</button>
+          <button class="pref-link" id="bulkClear" hidden>Clear selection</button>
+          <button class="pref-link" data-open-print-settings title="Change how packets are printed">Packets: <b data-print-pref-label>with calendar</b></button>
           <div class="bulk-actions">
             <button class="bbtn" id="bulkPrint" disabled>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-5a1 1 0 011-1h16a1 1 0 011 1v5a1 1 0 01-1 1h-2M6 14h12v7H6z"/></svg>
@@ -773,7 +999,7 @@
             </button>
             <button class="bbtn" id="bulkRemind" disabled>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
-              Remind supervisors
+              Remind<span class="lbl-more">&nbsp;supervisors</span>
             </button>
             <button class="bbtn primary" id="bulkComplete" disabled>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>
@@ -782,10 +1008,16 @@
           </div>
         </div>
         <div class="comm-list" id="commList"></div>
+        <div class="pager-wrap" id="commPager"></div>
       </div>
 
       <div id="commEmailsView" style="display:none;">
+        <div class="email-tools">
+          <label class="chk"><input type="checkbox" id="emailOpenOnly" /> Only days with open tickets</label>
+          <label class="jump">Jump to date <input type="date" id="emailJump" aria-label="Jump to a date" /></label>
+        </div>
         <div class="email-list" id="emailList"></div>
+        <div class="pager-wrap" id="emailPager"></div>
       </div>
     </div>
 
@@ -797,10 +1029,10 @@
 
   <!-- Generic modal -->
   <div class="overlay" id="overlay">
-    <div class="modal" id="modal">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-head">
         <h3 id="modalTitle">Title</h3>
-        <button class="modal-close" id="modalClose">
+        <button class="modal-close" id="modalClose" aria-label="Close">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
       </div>
@@ -809,13 +1041,23 @@
     </div>
   </div>
 
-  <div id="toast-wrap"></div>
+  <div class="overlay dlg-overlay" id="dlgOverlay">
+    <div class="modal dlg" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+      <div class="modal-head">
+        <h3 id="dlgTitle">Dialog</h3>
+        <button class="modal-close" id="dlgClose" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="dlgBody"></div>
+      <div class="modal-foot" id="dlgFoot"></div>
+    </div>
+  </div>
+
+  <div id="toast-wrap" role="status" aria-live="polite"></div>
   <div id="printArea" aria-hidden="true"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-<script>
+  <script>
 'use strict';
 /* ================================================================
    CONSTANTS AND HELPERS
@@ -835,6 +1077,9 @@ const NOTICE_NAMES = ['Verbal Warning', 'Written Warning', 'Two Day In-house Sus
 const STATUS_LABEL = { new: 'New', sent: 'With supervisor', hr: 'HR managed', complete: 'Completed', excused: 'Excused' };
 const OPEN_STATUS = ['new', 'sent', 'hr'];
 const MON = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+const PAGE_SIZES = { comm: [10, 25, 50, 100], email: [7, 14, 30], bl: [10, 25, 50], daily: [10, 25, 50] };
+const LARGE_PAGES = 600;
+const CAL_MODE_LABEL = { with: 'with calendar', without: 'without calendar', ask: 'ask every time' };
 const SUPERVISORS = ['Kenneth Morgan', 'Tara Ellis', 'Lena Okafor', 'Marcus Bell'];
 
 const ICONS = {
@@ -873,7 +1118,7 @@ function clock12(hhmm) { let [h, m] = hhmm.split(':').map(Number); const ap = h 
 function fmtTs(ts) { const [d, t] = ts.split(' '); return d + ' ' + clock12(t); }
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function tier(level) { return level <= 0 ? 'none' : level <= 2 ? 'ok' : level <= 5 ? 'mid' : 'crit'; }
-function tierColor(t) { return t === 'ok' ? 'var(--teal)' : t === 'mid' ? 'var(--gold-ink)' : t === 'crit' ? 'var(--rust)' : 'var(--muted)'; }
+function tierColor(t) { return t === 'ok' ? 'var(--teal-text)' : t === 'mid' ? 'var(--gold-ink)' : t === 'crit' ? 'var(--rust-text)' : 'var(--muted)'; }
 function changeText(t) { return 'Level ' + (t.lvl - 1) + ' \u2192 ' + t.lvl + ' \u00b7 ' + LEVEL_NAMES[t.lvl]; }
 
 /* ================================================================
@@ -883,6 +1128,10 @@ const EMP = {
   48213: { name: 'Jorge Alvarez', first: 'Jorge', last: 'Alvarez', initials: 'JA', dept: 'Sweets Department', shift: '2nd Shift', hire: '03/11/2021', union: 'Chicago Bargaining Unit', supervisor: 'Kenneth Morgan', levels: { absence: 2, late: 3, early: 6 }, win: { absence: 2, late: 2, early: 2 } },
   51067: { name: 'Mei Chen', first: 'Mei', last: 'Chen', initials: 'MC', dept: 'Packaging Department', shift: '1st Shift', hire: '06/02/2019', union: 'Chicago Bargaining Unit', supervisor: 'Tara Ellis', levels: { absence: 1, late: 1, early: 0 }, win: { absence: 1, late: 1, early: 0 } },
   39950: { name: 'Robert Thompson', first: 'Robert', last: 'Thompson', initials: 'RT', dept: 'Shipping Department', shift: '3rd Shift', hire: '11/20/2022', union: 'Chicago Bargaining Unit', supervisor: 'Lena Okafor', levels: { absence: 4, late: 2, early: 3 }, win: { absence: 2, late: 2, early: 2 }, inactive: [['02/02/26', '02/27/26']] },
+  52144: { name: 'Priya Nair', first: 'Priya', last: 'Nair', initials: 'PN', dept: 'Packaging Department', shift: '2nd Shift', hire: '08/15/2022', union: 'Chicago Bargaining Unit', supervisor: 'Tara Ellis', levels: { absence: 1, late: 1, early: 0 }, win: { absence: 1, late: 1, early: 0 } },
+  47790: { name: 'Marcus Webb', first: 'Marcus', last: 'Webb', initials: 'MW', dept: 'Shipping Department', shift: '3rd Shift', hire: '02/03/2021', union: 'Chicago Bargaining Unit', supervisor: 'Lena Okafor', levels: { absence: 1, late: 1, early: 0 }, win: { absence: 1, late: 1, early: 0 } },
+  50321: { name: 'Elena Park', first: 'Elena', last: 'Park', initials: 'EP', dept: 'Sweets Department', shift: '1st Shift', hire: '05/19/2023', union: 'Chicago Bargaining Unit', supervisor: 'Marcus Bell', levels: { absence: 1, late: 0, early: 1 }, win: { absence: 1, late: 0, early: 1 } },
+  43987: { name: 'Tyrone Banks', first: 'Tyrone', last: 'Banks', initials: 'TB', dept: 'Packaging Department', shift: '1st Shift', hire: '09/07/2020', union: 'Chicago Bargaining Unit', supervisor: 'Marcus Bell', levels: { absence: 1, late: 1, early: 0 }, win: { absence: 1, late: 1, early: 0 } },
   44810: { name: 'Daniel Reyes', first: 'Daniel', last: 'Reyes', initials: 'DR', dept: 'Sweets Department', shift: '2nd Shift', hire: '01/14/2023', union: 'Chicago Bargaining Unit', supervisor: 'Kenneth Morgan', levels: { absence: 1, late: 3, early: 0 }, win: { absence: 1, late: 2, early: 0 } }
 };
 
@@ -935,14 +1184,198 @@ tk(131140, 48213, 'late', 3, '10/16/26', 'new');
 tk(131141, 48213, 'early', 6, '10/16/26', 'hr');
 tk(131142, 39950, 'early', 3, '10/16/26', 'new');
 tk(131143, 44810, 'late', 3, '10/16/26', 'new');
-
-function ticketById(id) { return TICKETS.find(function (t) { return t.id === String(id); }); }
-function ticketsFor(empId, track) {
-  return TICKETS.filter(function (t) { return t.emp == empId && (!track || t.track === track); })
-    .sort(function (a, b) { return cmpDate(b.gen, a.gen) || Number(b.id) - Number(a.id); });
+// older, fully closed tickets (a normal full cycle: print, send to supervisor, signed copy back, marked complete)
+function tkDone(id, emp, track, lvl, gen) {
+  const sup = EMP[emp].supervisor;
+  tk(id, emp, track, lvl, gen, 'complete', [
+    [gen + ' 08:20', 'printed', 'You (HR admin)', '', 'Print', 'Packet printed'],
+    [addDays(gen, 1) + ' 09:00', 'sent', 'You (HR admin)', sup, 'Internal mail', 'Packet sent to supervisor'],
+    [addDays(gen, 3) + ' 13:15', 'returned', sup, '', 'Internal mail', 'Signed copy returned'],
+    [addDays(gen, 4) + ' 09:10', 'complete', 'You (HR admin)', '', 'Tile', 'Marked complete']]);
 }
-function openCount(empId) { return TICKETS.filter(function (t) { return t.emp == empId && OPEN_STATUS.indexOf(t.status) > -1; }).length; }
-function latestTicket(empId, track) { return ticketsFor(empId, track).filter(function (t) { return t.status !== 'excused'; })[0]; }
+tkDone(131008, 52144, 'absence', 1, '09/28/26');
+tkDone(131015, 47790, 'late', 1, '09/30/26');
+tkDone(131033, 50321, 'early', 1, '10/01/26');
+tkDone(131070, 52144, 'late', 1, '10/05/26');
+tkDone(131074, 47790, 'absence', 1, '10/06/26');
+tkDone(131078, 50321, 'absence', 1, '10/07/26');
+tkDone(131081, 43987, 'late', 1, '10/08/26');
+tkDone(131084, 43987, 'absence', 1, '10/09/26');
+
+/* ================================================================
+   GENERATED ROSTER AND HISTORY
+   About 480 fictional Chicago plant employees and 12 weeks of tickets that follow
+   the real process: daily email, print, supervisor or HR, reminders, signed copy, complete.
+   Deterministic (seeded), so every load shows the same data.
+   ================================================================ */
+const NOW_CLOCK = '07:30';   // mock time of day on TODAY, so seeded history never sits in the future
+(function generateRoster() {
+  const r = mulberry32(20261016);
+  const pick = function (a) { return a[Math.floor(r() * a.length)]; };
+  const pickW = function (a) { let x = r() * a.reduce(function (s, v) { return s + v[1]; }, 0); for (let i = 0; i < a.length; i++) { x -= a[i][1]; if (x <= 0) return a[i][0]; } return a[a.length - 1][0]; };
+  const FIRST = ['Adriana', 'Alejandro', 'Alicia', 'Andre', 'Angela', 'Anthony', 'Antonio', 'Ashley', 'Beatriz', 'Brandon', 'Brian', 'Brittany', 'Carlos', 'Carmen', 'Charles', 'Cheryl', 'Christopher', 'Claudia', 'Cynthia', 'Daniela', 'Darius', 'David', 'Deborah', 'Denise', 'Derek', 'Diana', 'Eduardo', 'Emily', 'Enrique', 'Eric', 'Erica', 'Esteban', 'Fernando', 'Francisco', 'Gabriela', 'George', 'Gloria', 'Gregory', 'Guadalupe', 'Hector', 'Imani', 'Isaac', 'Isabel', 'Jacqueline', 'Jamal', 'Janet', 'Jasmine', 'Jennifer', 'Jesse', 'Jessica', 'Joanna', 'Jose', 'Joshua', 'Juan', 'Julia', 'Karen', 'Kevin', 'Khalil', 'Kimberly', 'Krystyna', 'Lakisha', 'Laura', 'Leon', 'Lillian', 'Lorenzo', 'Luis', 'Luz', 'Maria', 'Mario', 'Marta', 'Martin', 'Melissa', 'Michael', 'Miguel', 'Monica', 'Nadia', 'Natalia', 'Nicole', 'Omar', 'Oscar', 'Pablo', 'Patricia', 'Rafael', 'Ramon', 'Raul', 'Rebecca', 'Ricardo', 'Rosa', 'Ruben', 'Samuel', 'Sandra', 'Sergio', 'Sofia', 'Stanley', 'Stephanie', 'Tamika', 'Teresa', 'Terrence', 'Tomasz', 'Tiffany', 'Valerie', 'Veronica', 'Victor', 'Wendy', 'William', 'Xavier', 'Yolanda', 'Zofia'];
+  const LAST = ['Abbott', 'Acosta', 'Adams', 'Aguilar', 'Alvarado', 'Andrews', 'Arroyo', 'Baker', 'Barnes', 'Bautista', 'Benitez', 'Brooks', 'Brown', 'Bryant', 'Burke', 'Cabrera', 'Campbell', 'Castillo', 'Chavez', 'Coleman', 'Contreras', 'Cooper', 'Cruz', 'Davis', 'Delgado', 'Diaz', 'Dominguez', 'Duran', 'Edwards', 'Espinoza', 'Evans', 'Fisher', 'Flores', 'Foster', 'Garcia', 'Gomez', 'Gonzalez', 'Gray', 'Green', 'Griffin', 'Guerrero', 'Gutierrez', 'Hall', 'Harris', 'Henderson', 'Hernandez', 'Howard', 'Huerta', 'Jackson', 'Jimenez', 'Johnson', 'Jones', 'Kaminski', 'Kowalski', 'Lewis', 'Lopez', 'Lozano', 'Maldonado', 'Martinez', 'Medina', 'Mendoza', 'Miller', 'Mitchell', 'Morales', 'Moreno', 'Nowak', 'Ortega', 'Ortiz', 'Owens', 'Pacheco', 'Parker', 'Perez', 'Peterson', 'Phillips', 'Ramirez', 'Ramos', 'Reed', 'Rivera', 'Roberts', 'Robinson', 'Rodriguez', 'Rojas', 'Romero', 'Ruiz', 'Salazar', 'Sanchez', 'Sandoval', 'Santiago', 'Scott', 'Serrano', 'Simmons', 'Smith', 'Sosnowski', 'Stewart', 'Sullivan', 'Taylor', 'Torres', 'Turner', 'Valdez', 'Vargas', 'Vega', 'Velasquez', 'Villanueva', 'Walker', 'Washington', 'Watson', 'White', 'Wilson', 'Wisniewski', 'Wright', 'Zielinski', 'Zamora'];
+  const DEPTS = [['Packaging Department', 24], ['Sweets Department', 22], ['Wrapping Department', 12], ['Shipping Department', 12], ['Warehouse', 10], ['Maintenance Department', 8], ['Quality Assurance', 7], ['Mixing and Cooking', 5]];
+  const SHIFTS = [['1st Shift', 45], ['2nd Shift', 35], ['3rd Shift', 20]];
+  const SUPNAMES = ['Denise Holloway', 'Raymond Cortez', 'Patricia Nowicki', 'Andre Whitfield', 'Sandra Kowalczyk', 'Luis Montoya', 'Gloria Fennell', 'Marcus Delaney', 'Rosa Aldana', 'Terrence Oakes', 'Joanna Brzezinski', 'Hector Palma', 'Lillian Marsh', 'Omar Haddad', 'Teresa Quiroga', 'Stanley Pruitt', 'Natalia Wojcik', 'Brian Castellano', 'Yolanda Ferris', 'Gregory Lindqvist', 'Imani Rutledge', 'Esteban Roldan', 'Karen Dobbs', 'Victor Salgado'];
+
+  // one supervisor per department and shift (the hand-built employees keep theirs)
+  const supOf = {}; let si = 0;
+  DEPTS.forEach(function (d) { SHIFTS.forEach(function (s) { supOf[d[0] + '|' + s[0]] = SUPNAMES[si++]; }); });
+  supOf['Sweets Department|2nd Shift'] = 'Kenneth Morgan';
+  supOf['Packaging Department|1st Shift'] = 'Tara Ellis';
+  supOf['Shipping Department|3rd Shift'] = 'Lena Okafor';
+  supOf['Sweets Department|1st Shift'] = 'Marcus Bell';
+  Object.keys(EMP).forEach(function (id) { EMP[id].status = EMP[id].status || 'Active'; });
+
+  // roster
+  const used = new Set(Object.keys(EMP).map(Number)), usedNames = new Set(Object.keys(EMP).map(function (k) { return EMP[k].name; }));
+  const ids = [];
+  while (ids.length < 472) { const id = 10000 + Math.floor(r() * 44000); if (!used.has(id)) { used.add(id); ids.push(id); } }
+  ids.sort(function (a, b) { return a - b; });
+  const riskOf = function () { const x = r(); return x < 0.72 ? 0.2 + r() * 0.4 : x < 0.94 ? 1 + r() * 1.0 : 2.4 + r() * 2.0; };
+  const initLevel = function (risk) {
+    if (r() > Math.min(0.4, 0.045 * risk)) return 0;
+    const y = r(); return y < 0.6 ? 1 : y < 0.88 ? 2 : 3;
+  };
+  ids.forEach(function (id, i) {
+    let first, last, name;
+    do { first = pick(FIRST); last = pick(LAST); name = first + ' ' + last; } while (usedNames.has(name));
+    usedNames.add(name);
+    const dept = pickW(DEPTS), shift = pickW(SHIFTS), x = r();
+    const status = x < 0.06 ? 'Terminated' : x < 0.09 ? 'Layoff' : 'Active';
+    const hireYear = Math.min(2026, 2004 + Math.floor((i / ids.length) * 22) + Math.floor(r() * 3));
+    const risk = riskOf();
+    const e = { name: name, first: first, last: last, initials: first[0] + last[0], dept: dept, shift: shift,
+      hire: pad2(1 + Math.floor(r() * 12)) + '/' + pad2(1 + Math.floor(r() * 28)) + '/' + hireYear, union: 'Chicago Bargaining Unit',
+      supervisor: supOf[dept + '|' + shift], status: status, risk: risk,
+      levels: { absence: initLevel(risk), late: initLevel(risk), early: initLevel(risk * 0.6) }, win: { absence: 0, late: 0, early: 0 } };
+    if (status === 'Layoff') e.inactive = [[addDays(TODAY, -(20 + Math.floor(r() * 60))), TODAY]];
+    EMP[id] = e;
+  });
+
+  // twelve weeks of tickets, weighted toward employees with a history (about 15 percent cause most of them)
+  const pool = ids.filter(function (id) { return EMP[id].status === 'Active'; });
+  const cum = []; let total = 0;
+  pool.forEach(function (id) { total += Math.pow(EMP[id].risk, 2.2); cum.push(total); });
+  const drawEmp = function () { const x = r() * total; let lo = 0, hi = cum.length - 1; while (lo < hi) { const m = (lo + hi) >> 1; if (cum[m] < x) lo = m + 1; else hi = m; } return pool[lo]; };
+  const lastGen = {}, plans = [], tcount = {};
+  for (let g = '07/20/26'; cmpDate(g, TODAY) <= 0; g = addDays(g, 1)) {
+    const dow = pd(g).getDay(), weekend = dow === 0 || dow === 6;
+    let n = weekend ? Math.floor(r() * 3) : Math.max(2, Math.round(7.5 + (dow === 1 ? 2 : 0) + (r() + r() + r() - 1.5) * 4));
+    if (g === TODAY) n = 7;                       // the four hand-built tickets make 11 for today
+    for (let k = 0; k < n; k++) {
+      for (let tries = 0; tries < 14; tries++) {
+        const id = drawEmp(), track = pickW([['absence', 45], ['late', 35], ['early', 20]]), key = id + '|' + track;
+        if (lastGen[key] && daysBetween(lastGen[key], g) < 12) continue;
+        if ((tcount[id] || 0) >= 7) continue;
+        const cur = EMP[id].levels[track];
+        if (cur >= 5 && r() < 0.75) continue;
+        if (cur >= 6) continue;
+        const excused = r() < 0.03;
+        plans.push({ g: g, id: id, track: track, lvl: cur + 1, excused: excused });
+        lastGen[key] = g; tcount[id] = (tcount[id] || 0) + 1;
+        if (!excused) EMP[id].levels[track] = cur + 1;
+        break;
+      }
+    }
+  }
+
+  // process stages of each ticket, cut at the mock clock, and derive its status
+  const bizOnOrAfter = function (s) { const d = pd(s); while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1); return fd(d); };
+  const addBiz = function (s, n) { const d = pd(s); let k = n; while (k > 0) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) k--; } return fd(d); };
+  const ME = 'You (HR admin)';
+  const stagesFor = function (p) {
+    const ex = [], sup = EMP[p.id].supervisor, day0 = bizOnOrAfter(p.g);
+    const push = function (d, h, mi, type, actor, to, ch, note) {
+      const t = pad2(h) + ':' + pad2(mi);
+      if (cmpDate(d, TODAY) > 0 || (d === TODAY && t > NOW_CLOCK)) return false;
+      ex.push([d + ' ' + t, type, actor, to, ch, note]); return true;
+    };
+    if (p.excused) {
+      const d = addBiz(day0, 1), done = push(d, 16, 30, 'excused', 'System', '', 'System', 'Time card correction approved; ticket excused');
+      return { status: done ? 'excused' : (p.lvl >= 4 ? 'hr' : 'new'), extra: ex };
+    }
+    const stall = r(), printDay = r() < 0.7 ? day0 : addBiz(day0, 1);
+    const printed = push(printDay, 7 + Math.floor(r() * 2), 40 + Math.floor(r() * 15), 'printed', ME, '', 'Print', 'Packet printed');
+    if (p.lvl >= 4) {
+      if (!printed) return { status: 'hr', extra: ex };
+      const meetDay = addBiz(printDay, 1 + Math.floor(r() * 4));
+      push(printDay, 10, 20, 'meeting', ME, 'Employee, supervisor, union steward', 'Calendar', 'HR meeting scheduled for ' + meetDay + ' 10:00 AM');
+      if (stall < 0.05) return { status: 'hr', extra: ex };
+      if (!push(meetDay, 10, 45, 'meeting', ME, 'Employee, supervisor, union steward', 'In person', 'HR meeting held')) return { status: 'hr', extra: ex };
+      const done = push(addBiz(meetDay, Math.floor(r() * 3)), 14, 10, 'complete', ME, '', 'Tile', 'Marked complete');
+      return { status: done ? 'complete' : 'hr', extra: ex };
+    }
+    if (stall < 0.015 || !printed) return { status: 'new', extra: ex };
+    const sendDay = r() < 0.6 ? printDay : addBiz(printDay, 1);
+    if (!push(sendDay, 8 + Math.floor(r() * 2), 30 + Math.floor(r() * 25), 'sent', ME, sup, r() < 0.8 ? 'Internal mail' : 'Email', 'Packet sent to supervisor')) return { status: 'new', extra: ex };
+    const returnDay = stall < 0.045 ? null : addBiz(sendDay, 2 + Math.floor(r() * 4));
+    let remDay = addBiz(sendDay, 3), rem = 0;
+    while (cmpDate(remDay, TODAY) <= 0 && (!returnDay || cmpDate(remDay, returnDay) < 0) && rem < 4) {
+      push(remDay, 8, 50, 'reminder', ME, sup, 'Email', 'Reminder to return signed copy'); remDay = addBiz(remDay, 4); rem++;
+    }
+    if (!returnDay || !push(returnDay, 13, 20 + Math.floor(r() * 30), 'returned', sup, '', 'Internal mail', 'Signed copy returned')) return { status: 'sent', extra: ex };
+    const done = push(addBiz(returnDay, r() < 0.5 ? 0 : 1), 9, 5 + Math.floor(r() * 20), 'complete', ME, '', 'Tile', 'Marked complete');
+    return { status: done ? 'complete' : 'sent', extra: ex };
+  };
+
+  // ticket numbers run in date order, skipping the hand-built ones
+  const taken = new Set(TICKETS.map(function (t) { return Number(t.id); }));
+  let nextId = 130480;
+  plans.forEach(function (p) { while (taken.has(nextId)) nextId++; p.tid = nextId++; });
+  plans.forEach(function (p) { const s = stagesFor(p); tk(p.tid, p.id, p.track, p.lvl, p.g, s.status, s.extra); });
+
+  // 30-day window counts: one occurrence away from the next ticket is what "approaching escalation" means
+  ids.forEach(function (id) {
+    const e = EMP[id];
+    TRACK_KEYS.forEach(function (tr) {
+      const lg = lastGen[id + '|' + tr], recent = lg && daysBetween(lg, TODAY) <= 30;
+      e.win[tr] = e.status !== 'Active' ? 0 : recent ? 2 : (r() < 0.035 ? 1 : 0);
+    });
+  });
+
+  // supervisor list for the "send to supervisor" choice
+  const sups = {}; Object.keys(supOf).forEach(function (k) { sups[supOf[k]] = 1; });
+  Object.keys(EMP).forEach(function (k) { sups[EMP[k].supervisor] = 1; });
+  SUPERVISORS.length = 0; Object.keys(sups).sort().forEach(function (s) { SUPERVISORS.push(s); });
+})();
+const EMP_IDS = Object.keys(EMP).map(Number);
+
+
+/* ---- indexes: built once, rebuilt only when a ticket's status changes ---- */
+let IDX = null;
+function touch() { IDX = null; }
+function idx() {
+  if (IDX) return IDX;
+  const byId = new Map(), byEmp = new Map(), byDate = new Map(), latest = new Map(), latestAny = new Map(), openEmp = new Set();
+  const counts = { all: 0, open: 0 };
+  Object.keys(STATUS_LABEL).forEach(function (s) { counts[s] = 0; });
+  const sorted = TICKETS.slice().sort(function (a, b) { return cmpDate(b.gen, a.gen) || Number(b.id) - Number(a.id); });   // newest first
+  sorted.forEach(function (t) {
+    byId.set(t.id, t);
+    if (!byEmp.has(t.emp)) byEmp.set(t.emp, []);
+    byEmp.get(t.emp).push(t);
+    if (!byDate.has(t.gen)) byDate.set(t.gen, []);
+    byDate.get(t.gen).push(t);
+    counts.all++; counts[t.status]++;
+    if (OPEN_STATUS.indexOf(t.status) > -1) { counts.open++; openEmp.add(t.emp); }
+    if (t.status !== 'excused') {
+      const key = t.emp + '|' + t.track;
+      if (!latest.has(key)) latest.set(key, t);
+      if (!latestAny.has(t.emp)) latestAny.set(t.emp, t);
+    }
+  });
+  IDX = { byId: byId, byEmp: byEmp, byDate: byDate, latest: latest, latestAny: latestAny, openEmp: openEmp, counts: counts, sorted: sorted };
+  return IDX;
+}
+function ticketById(id) { return idx().byId.get(String(id)); }
+function ticketsFor(empId, track) {
+  const list = idx().byEmp.get(Number(empId)) || [];
+  return track ? list.filter(function (t) { return t.track === track; }) : list;     // callers copy before sorting
+}
+function openCount(empId) { return ticketsFor(empId).filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }).length; }
+function latestTicket(empId, track) { return idx().latest.get(Number(empId) + '|' + track); }
 function statusPill(s) { return '<span class="occ-status ' + s + '">' + STATUS_LABEL[s] + '</span>'; }
 function exportable(list) { return list.filter(function (t) { return t.status !== 'excused'; }); }
 
@@ -991,10 +1424,25 @@ function discFor(empId) {
    ================================================================ */
 const state = {
   currentEmp: 48213, openTracks: {}, notes: {}, searchFocused: false,
-  activeTab: 'employee', levelTrack: 'absence',
+  activeTab: 'employee', levelTrack: 'all', recent: [48213, 51067, 39950, 44810],
+  blLevel: null, blQuery: '', blDept: '', blShift: '', blSup: '', blStatus: 'Active', blSort: 'level', blPage: 0, blSize: 25,
+  dailyPage: 0, dailySize: 25, emailOpenOnly: false, commSize: 25, emailSize: 7,
   dailyDate: TODAY, dailyMode: 'single', rangeFrom: '10/12/26', rangeTo: TODAY,
-  commView: 'tickets', commFilter: 'all', commOpen: {}, commSel: new Set()
+  commView: 'tickets', commFilter: 'open', commQuery: '', commPage: 0, emailPage: 0, calMode: 'with', commOpen: {}, commSel: new Set()
 };
+/* only the visible tab is drawn; the others are marked stale and drawn when opened */
+const dirty = { employee: true, bylevel: true, daily: true, comm: true };
+function renderTab(tab) {
+  if (!dirty[tab]) return;
+  if (tab === 'employee') renderEmployee(); else if (tab === 'bylevel') renderByLevel(); else if (tab === 'daily') renderDaily(); else renderComm();
+}
+function debounce(fn, ms) {
+  let t = null;
+  const d = function () { clearTimeout(t); t = setTimeout(function () { t = null; fn(); }, ms); };
+  d.flush = function () { if (t) { clearTimeout(t); t = null; fn(); } };
+  return d;
+}
+function touchRecent(id) { state.recent = [id].concat(state.recent.filter(function (x) { return x !== id; })).slice(0, 8); }
 
 /* ================================================================
    UI HELPERS
@@ -1007,17 +1455,139 @@ function toast(msg) {
   wrap.appendChild(el);
   setTimeout(function () { el.style.transition = 'opacity .25s'; el.style.opacity = '0'; setTimeout(function () { el.remove(); }, 260); }, 2800);
 }
+/* ---- layers: the main modal and a stacked dialog share focus handling ---- */
+const layers = [];
+let dlgCancel = null;
+function focusables(root) {
+  return Array.from(root.querySelectorAll('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'))
+    .filter(function (el) { return el.getClientRects().length > 0; });
+}
+function openLayer(overlayId, focusSel) {
+  const ov = document.getElementById(overlayId);
+  const already = ov.classList.contains('open');
+  if (!already) { layers.push({ ov: ov, opener: document.activeElement }); ov.classList.add('open'); document.documentElement.classList.add('modal-open'); }
+  const box = ov.firstElementChild;
+  setTimeout(function () { const f = focusSel ? box.querySelector(focusSel) : null; (f || focusables(box)[0] || box).focus(); }, 0);
+}
+function closeLayer(overlayId) {
+  const ov = document.getElementById(overlayId);
+  if (!ov.classList.contains('open')) return;
+  ov.classList.remove('open');
+  const i = layers.map(function (l) { return l.ov; }).lastIndexOf(ov);
+  if (i > -1) { const l = layers.splice(i, 1)[0]; if (l.opener && document.contains(l.opener) && l.opener.focus) l.opener.focus(); }
+  if (!layers.length) document.documentElement.classList.remove('modal-open');
+}
 function openModal(title, bodyHtml, footHtml) {
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalBody').innerHTML = bodyHtml;
   document.getElementById('modalFoot').innerHTML = footHtml || '';
-  document.getElementById('overlay').classList.add('open');
+  openLayer('overlay');
 }
-function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+function closeModal() { closeLayer('overlay'); }
+function uiDialog(o) {
+  document.getElementById('dlgTitle').textContent = o.title;
+  document.getElementById('dlgBody').innerHTML = o.body || '';
+  const foot = document.getElementById('dlgFoot');
+  foot.innerHTML = '';
+  (o.buttons || []).forEach(function (b) {
+    const el = document.createElement('button');
+    el.type = 'button'; el.className = 'btn ' + (b.kind || 'ghost'); el.textContent = b.label;
+    el.addEventListener('click', function () {
+      if (b.validate && !b.validate()) return;
+      dlgCancel = null; closeLayer('dlgOverlay');
+      if (b.run) b.run();
+    });
+    foot.appendChild(el);
+  });
+  dlgCancel = o.onCancel || null;
+  openLayer('dlgOverlay', o.focus || '.btn.primary');
+  if (o.afterOpen) o.afterOpen();
+}
+function cancelDialog() { const cb = dlgCancel; dlgCancel = null; closeLayer('dlgOverlay'); if (cb) cb(); }
+function confirmDialog(title, message, confirmLabel, onYes) {
+  uiDialog({ title: title, body: '<p class="dlg-msg">' + esc(message) + '</p>',
+    buttons: [{ label: 'Cancel', kind: 'ghost' }, { label: confirmLabel || 'Confirm', kind: 'primary', run: onYes }] });
+}
+function noteDialog(onSave) {
+  let value = '';
+  uiDialog({ title: 'Add note', focus: '#dlgNote',
+    body: '<div class="form-row"><label for="dlgNote">Note for this track</label><textarea id="dlgNote" rows="4" maxlength="500" placeholder="For example: Called supervisor to confirm the packet was received"></textarea></div>',
+    buttons: [{ label: 'Cancel', kind: 'ghost' }, { label: 'Save note', kind: 'primary',
+      validate: function () { value = document.getElementById('dlgNote').value.trim(); if (!value) { document.getElementById('dlgNote').focus(); toast('Enter a note first.'); return false; } return true; },
+      run: function () { onSave(value); } }] });
+}
+function meetingDialog(onSave) {
+  let value = '';
+  uiDialog({ title: 'Log HR meeting', focus: '#dlgMeeting',
+    body: '<div class="form-row"><label for="dlgMeeting">Meeting date and time</label><input type="datetime-local" id="dlgMeeting" value="2026-10-19T10:00" /></div><p class="dlg-hint">The employee, supervisor and union steward must attend for suspensions and discharge.</p>',
+    buttons: [{ label: 'Cancel', kind: 'ghost' }, { label: 'Save', kind: 'primary',
+      validate: function () { value = document.getElementById('dlgMeeting').value; if (!value) { toast('Choose a date and time.'); return false; } return true; },
+      run: function () {
+        const d = new Date(value);
+        onSave(fd(d) + ' ' + clock12(pad2(d.getHours()) + ':' + pad2(d.getMinutes())));
+      } }] });
+}
+function copyText(text) {
+  const legacy = function () {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    ta.remove(); toast(ok ? 'Email text copied.' : 'Copy is not available here. Select the text and copy it manually.');
+  };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { toast('Email text copied.'); }, legacy);
+  else legacy();
+}
+
+/* ---- print calendar preference: with / without / ask every time ---- */
+const PREF_KEY = 'cloudapper.attendance.printCalendar';
+function loadCalMode() { try { const v = localStorage.getItem(PREF_KEY); if (v && CAL_MODE_LABEL[v]) state.calMode = v; } catch (e) { /* storage blocked: keep default */ } }
+function setCalMode(m) { state.calMode = m; try { localStorage.setItem(PREF_KEY, m); } catch (e) { /* storage blocked: lasts for this session */ } updatePrefLabels(); }
+function updatePrefLabels() { document.querySelectorAll('[data-print-pref-label]').forEach(function (el) { el.textContent = CAL_MODE_LABEL[state.calMode]; }); }
+function showPrintSettings() {
+  const opts = [['with', 'Include the attendance calendar', 'Full packet: notice, level history and the 18-month calendar report (about 22 pages per ticket). Use this for the copy the employee signs.'],
+                ['without', 'Without the calendar', 'Notice and level history only (2 pages per ticket). Quicker and shorter for review copies.'],
+                ['ask', 'Ask every time', 'Choose with or without the calendar each time you print or download a packet.']];
+  uiDialog({ title: 'Print settings', focus: 'input:checked',
+    body: '<p class="dlg-msg" style="margin-bottom:12px;">Applies to Print and Download packet on every screen.</p>' +
+      opts.map(function (o) { return '<label class="opt-card' + (state.calMode === o[0] ? ' sel' : '') + '"><input type="radio" name="calMode" value="' + o[0] + '"' + (state.calMode === o[0] ? ' checked' : '') + ' /><span><span class="t">' + o[1] + '</span><span class="d" style="display:block;">' + o[2] + '</span></span></label>'; }).join(''),
+    buttons: [{ label: 'Cancel', kind: 'ghost' }, { label: 'Save', kind: 'primary', run: function () {
+      const v = document.querySelector('#dlgBody input[name="calMode"]:checked'); if (v) { setCalMode(v.value); toast('Print setting saved: ' + CAL_MODE_LABEL[v.value] + '.'); } } }],
+    afterOpen: function () {
+      document.querySelectorAll('#dlgBody input[name="calMode"]').forEach(function (r) {
+        r.addEventListener('change', function () { document.querySelectorAll('#dlgBody .opt-card').forEach(function (c) { c.classList.toggle('sel', c.querySelector('input').checked); }); });
+      });
+    } });
+}
+function chooseCalendar(count, onChoose) {
+  if (state.calMode === 'with') { onChoose(true); return; }
+  if (state.calMode === 'without') { onChoose(false); return; }
+  const finish = function (v) { if (document.getElementById('dlgRemember') && document.getElementById('dlgRemember').checked) { setCalMode(v ? 'with' : 'without'); } onChoose(v); };
+  uiDialog({ title: 'Include the attendance calendar?',
+    body: '<p class="dlg-msg">' + count + ' ticket packet' + (count === 1 ? '' : 's') + ' selected.</p><p class="dlg-hint"><b>With calendar:</b> about ' + (count * 22) + ' pages (22 per ticket).<br><b>Without calendar:</b> ' + (count * 2) + ' pages (2 per ticket).</p>' +
+      '<label class="remember"><input type="checkbox" id="dlgRemember" /> Remember my choice (change it later in Print settings)</label>',
+    buttons: [{ label: 'Cancel', kind: 'ghost' }, { label: 'Without calendar', kind: 'ghost', run: function () { finish(false); } }, { label: 'With calendar', kind: 'primary', run: function () { finish(true); } }] });
+}
+
+/* ---- export libraries load only when an export is requested ---- */
+const LIBS = { pdf: ['https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js'], xlsx: ['https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'] };
+const libPromises = {};
+function loadScript(src) {
+  return new Promise(function (res, rej) { const s = document.createElement('script'); s.src = src; s.async = false; s.onload = res; s.onerror = function () { rej(new Error('load failed: ' + src)); }; document.head.appendChild(s); });
+}
+function ensureLib(kind) {
+  if (libPromises[kind]) return libPromises[kind];
+  libPromises[kind] = LIBS[kind].reduce(function (p, u) { return p.then(function () { return loadScript(u); }); }, Promise.resolve())
+    .catch(function (e) { delete libPromises[kind]; throw e; });
+  return libPromises[kind];
+}
+function libError() { toast('Could not load the export library. Check the network connection or ask IT to allow cdnjs.cloudflare.com.'); }
+
 function switchTab(tab) {
   state.activeTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.tab === tab); });
+  document.querySelectorAll('.tab-btn').forEach(function (b) { const on = b.dataset.tab === tab; b.classList.toggle('active', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
   ['employee', 'bylevel', 'daily', 'comm'].forEach(function (p) { document.getElementById('panel-' + p).classList.toggle('active', p === tab); });
+  renderTab(tab);
 }
 function highlight(text, q) {
   if (!q) return esc(text);
@@ -1030,10 +1600,11 @@ function highlight(text, q) {
    EMPLOYEE TAB
    ================================================================ */
 function renderEmployee() {
+  dirty.employee = false;
   const emp = EMP[state.currentEmp];
   document.getElementById('empAvatar').textContent = emp.initials;
   document.getElementById('empName').textContent = emp.name;
-  document.getElementById('empSub').textContent = emp.shift + ' \u00b7 ' + emp.dept;
+  document.getElementById('empSub').innerHTML = esc(emp.shift) + ' &middot; ' + esc(emp.dept) + (emp.status !== 'Active' ? ' &middot; <span class="st-badge ' + emp.status.toLowerCase() + '">' + emp.status + '</span>' : '');
   if (!state.searchFocused) document.getElementById('empSearchInput').value = emp.name + ' (#' + state.currentEmp + ')';
   document.getElementById('empSearchClear').classList.toggle('show', !!document.getElementById('empSearchInput').value);
   const oc = openCount(state.currentEmp);
@@ -1080,49 +1651,141 @@ function renderEmployee() {
   });
 }
 
+const MENU_LIMIT = 8;
+function empMatches(q) {
+  q = q.trim().toLowerCase();
+  const digits = /^\d+$/.test(q), hits = [];
+  for (let i = 0; i < EMP_IDS.length; i++) {
+    const id = EMP_IDS[i], e = EMP[id];
+    let score = 0;
+    if (digits) { const s = String(id); score = s === q ? 100 : s.indexOf(q) === 0 ? 60 : s.indexOf(q) > -1 ? 30 : 0; }
+    else { const n = e.name.toLowerCase(); score = n.indexOf(q) === 0 ? 80 : (' ' + n).indexOf(' ' + q) > -1 ? 70 : n.indexOf(q) > -1 ? 40 : e.dept.toLowerCase().indexOf(q) > -1 ? 10 : 0; }
+    if (score) hits.push([score, id]);
+  }
+  hits.sort(function (a, b) { return b[0] - a[0] || EMP[a[1]].name.localeCompare(EMP[b[1]].name); });
+  return hits.map(function (h) { return h[1]; });
+}
 function renderEmpMenu(query) {
-  const q = (query || '').trim();
-  const menu = document.getElementById('empMenu');
-  const matches = Object.keys(EMP).filter(function (id) {
+  const q = (query || '').trim(), menu = document.getElementById('empMenu');
+  let ids, note = '';
+  if (!q) { ids = state.recent.slice(0, 5); note = '<div class="menu-hint">Recent employees. Type a name or employee ID to search all ' + EMP_IDS.length + '.</div>'; }
+  else {
+    const all = empMatches(q);
+    if (!all.length) { menu.innerHTML = '<div class="empty" role="option" aria-disabled="true">No employees match "' + esc(q) + '".</div>'; return; }
+    ids = all.slice(0, MENU_LIMIT);
+    if (all.length > MENU_LIMIT) note = '<div class="menu-hint">Showing ' + MENU_LIMIT + ' of ' + all.length + ' matches. Keep typing to narrow the list.</div>';
+  }
+  menu.innerHTML = note + ids.map(function (id) {
     const e = EMP[id];
-    if (!q) return true;
-    return e.name.toLowerCase().indexOf(q.toLowerCase()) > -1 || String(id).indexOf(q) > -1 || e.dept.toLowerCase().indexOf(q.toLowerCase()) > -1;
-  });
-  if (!matches.length) { menu.innerHTML = '<div class="empty">No employees match "' + esc(q) + '".</div>'; return; }
-  menu.innerHTML = matches.map(function (id) {
-    const e = EMP[id];
-    return '<button class="opt' + (Number(id) === state.currentEmp ? ' active' : '') + '" data-switch="' + id + '"><span class="n">' + highlight(e.name, q) + '</span><span class="s">#' + highlight(String(id), q) + ' &middot; ' + esc(e.dept) + '</span></button>';
+    return '<button class="opt' + (Number(id) === state.currentEmp ? ' active' : '') + '" id="emp-opt-' + id + '" role="option" data-switch="' + id + '"><span class="n">' + highlight(e.name, q) + (e.status !== 'Active' ? ' <span class="st-badge ' + e.status.toLowerCase() + '">' + e.status + '</span>' : '') + '</span><span class="s">#' + highlight(String(id), q) + ' &middot; ' + esc(e.dept) + ' &middot; ' + esc(e.shift) + '</span></button>';
   }).join('');
 }
 
 /* ================================================================
    BY LEVEL TAB
    ================================================================ */
-function renderByLevel() {
-  document.getElementById('levelTrackPills').innerHTML = TRACK_KEYS.map(function (key) {
-    return '<button class="track-pill-btn' + (key === state.levelTrack ? ' active' : '') + '" data-level-track="' + key + '">' + ICONS[TRACKS[key].icon] + TRACKS[key].label + '</button>';
-  }).join('');
-  const groups = {};
-  Object.keys(EMP).forEach(function (id) {
-    const lvl = EMP[id].levels[state.levelTrack];
-    (groups[lvl] = groups[lvl] || []).push(Number(id));
+const TRACK_LETTER = { absence: 'A', late: 'L', early: 'E' };
+function subjectLevel(id) { const l = EMP[id].levels; return state.levelTrack === 'all' ? Math.max(l.absence, l.late, l.early) : l[state.levelTrack]; }
+function nearEscalation(id) {
+  const e = EMP[id], keys = state.levelTrack === 'all' ? TRACK_KEYS : [state.levelTrack];
+  return keys.some(function (k) { return e.win[k] === 1 && e.levels[k] < 7; });
+}
+function blBase() {
+  const q = state.blQuery.trim().toLowerCase();
+  return EMP_IDS.filter(function (id) {
+    const e = EMP[id];
+    if (state.blDept && e.dept !== state.blDept) return false;
+    if (state.blShift && e.shift !== state.blShift) return false;
+    if (state.blSup && e.supervisor !== state.blSup) return false;
+    if (state.blStatus && e.status !== state.blStatus) return false;
+    return !q || e.name.toLowerCase().indexOf(q) > -1 || String(id).indexOf(q) > -1;
   });
-  const levels = Object.keys(groups).map(Number).sort(function (a, b) { return b - a; });
-  document.getElementById('levelGroups').innerHTML = levels.map(function (lvl) {
-    const tr = tier(lvl);
-    const color = tr === 'ok' ? 'var(--teal)' : tr === 'mid' ? 'var(--gold)' : tr === 'crit' ? 'var(--rust)' : 'var(--muted-2)';
-    const rows = groups[lvl].map(function (id) {
-      const lt = latestTicket(id, state.levelTrack);
-      return '<button class="lg-emp-row" data-goto-emp="' + id + '"><div class="lg-avatar">' + EMP[id].initials + '</div>' +
-        '<div><div class="lg-emp-name">' + esc(EMP[id].name) + '</div><div class="lg-emp-sub">#' + id + ' &middot; ' + esc(EMP[id].dept) + '</div></div>' +
-        '<span style="margin-left:auto;">' + (lt ? statusPill(lt.status) : '') + '</span>' +
-        '<svg class="lg-arrow" style="margin-left:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>';
-    }).join('');
-    return '<div class="level-group"><div class="level-group-head"><span class="dot" style="background:' + color + ';"></span>' +
-      '<span class="lg-title" style="color:' + color + ';">Level ' + lvl + ' &middot; ' + LEVEL_NAMES[lvl] + '</span>' +
-      '<span class="lg-count">' + groups[lvl].length + ' employee' + (groups[lvl].length === 1 ? '' : 's') + '</span></div>' +
-      '<div class="level-group-body">' + rows + '</div></div>';
+}
+function blLevelMatch(id, f) {
+  const l = subjectLevel(id);
+  if (f === null) return l >= 1;
+  if (f === 'sup') return l >= 1 && l <= 3;
+  if (f === 'hr') return l >= 4;
+  if (f === 'near') return nearEscalation(id);
+  if (f === 'open') return idx().openEmp.has(id);
+  return l === f;
+}
+function blFilterLabel(f) {
+  return f === 'sup' ? 'Supervisor level (1 to 3)' : f === 'hr' ? 'HR managed (Level 4 and above)' : f === 'near' ? 'One occurrence from escalation' : f === 'open' ? 'With open tickets' : f === 0 ? 'No active discipline' : 'Level ' + f + ' only';
+}
+function lvlChip(track, level) {
+  const full = TRACKS[track].label + ': ' + (level ? 'Level ' + level + ', ' + LEVEL_NAMES[level] : 'no active discipline');
+  return '<span class="lvl-chip tier-' + tier(level) + '" title="' + esc(full) + '" aria-label="' + esc(full) + '">' + TRACK_LETTER[track] + level + '</span>';
+}
+function blRow(id, I) {
+  const e = EMP[id], all = state.levelTrack === 'all', lv = subjectLevel(id);
+  const marks = all ? TRACK_KEYS.map(function (k) { return lvlChip(k, e.levels[k]); }).join('')
+    : '<span class="lvl-pill tier-' + tier(lv) + '">' + (lv ? 'L' + lv + ' &middot; ' + LEVEL_NAMES[lv] : 'No active discipline') + '</span>';
+  const lt = all ? I.latestAny.get(id) : latestTicket(id, state.levelTrack);
+  return '<button class="lg-emp-row" data-goto-emp="' + id + '"><div class="lg-avatar" aria-hidden="true">' + esc(e.initials) + '</div>' +
+    '<div class="lg-main"><div class="lg-emp-name">' + esc(e.name) + (e.status !== 'Active' ? ' <span class="st-badge ' + e.status.toLowerCase() + '">' + e.status + '</span>' : '') + '</div>' +
+    '<div class="lg-emp-sub">#' + id + ' &middot; ' + esc(e.dept) + ' &middot; ' + esc(e.shift) + ' &middot; ' + esc(e.supervisor) + '</div></div>' +
+    '<div class="lg-meta">' + marks + (lt ? statusPill(lt.status) : '') + '</div>' +
+    '<svg class="lg-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>';
+}
+function renderByLevel() {
+  dirty.bylevel = false;
+  const I = idx();
+  document.getElementById('levelTrackPills').innerHTML = [['all', 'All tracks', '']].concat(TRACK_KEYS.map(function (k) { return [k, TRACKS[k].label, ICONS[TRACKS[k].icon]]; })).map(function (t) {
+    return '<button class="track-pill-btn' + (t[0] === state.levelTrack ? ' active' : '') + '" data-level-track="' + t[0] + '" aria-pressed="' + (t[0] === state.levelTrack) + '">' + t[2] + t[1] + '</button>';
   }).join('');
+
+  const base = blBase(), total = base.length, lv = [0, 0, 0, 0, 0, 0, 0, 0];
+  let active = 0, hr = 0, near = 0, open = 0;
+  base.forEach(function (id) {
+    const l = subjectLevel(id); lv[l]++;
+    if (l >= 1) active++;
+    if (l >= 4) hr++;
+    if (nearEscalation(id)) near++;
+    if (I.openEmp.has(id)) open++;
+  });
+  const cards = [[null, 'With active discipline', active, total ? Math.round(active * 100 / total) + '% of ' + total + ' employees' : 'No employees match'],
+                 ['hr', 'HR managed (Level 4+)', hr, 'Administered by HR'],
+                 ['near', 'One occurrence from escalation', near, 'Next occurrence raises the level'],
+                 ['open', 'With open tickets', open, 'Waiting to be sent or returned']];
+  document.getElementById('blKpis').innerHTML = cards.map(function (c) {
+    return '<button class="kpi" data-bl-level="' + (c[0] === null ? 'all' : c[0]) + '" aria-pressed="' + (state.blLevel === c[0]) + '"><span class="v">' + c[2] + '</span><span class="l">' + c[1] + '</span><span class="s">' + c[3] + '</span></button>';
+  }).join('');
+
+  const maxC = Math.max.apply(null, lv.slice(1).concat([1]));
+  let dist = '<h4>Employees by level (' + (state.levelTrack === 'all' ? 'highest level across tracks' : TRACKS[state.levelTrack].label) + ')</h4>';
+  for (let l = 7; l >= 0; l--) {
+    const tr = tier(l), color = tr === 'ok' ? 'var(--teal)' : tr === 'mid' ? 'var(--gold)' : tr === 'crit' ? 'var(--rust)' : 'var(--muted-2)';
+    dist += '<button class="dist-row' + (l === 0 ? ' dist-zero' : '') + '" data-bl-level="' + l + '" aria-pressed="' + (state.blLevel === l) + '"><span class="d-lab">Level ' + l + '</span><span class="d-name">' + LEVEL_NAMES[l] + '</span>' +
+      '<span class="d-bar"><i style="width:' + (l === 0 ? 0 : Math.round(lv[l] * 100 / maxC)) + '%;background:' + color + ';"></i></span><span class="d-n">' + lv[l] + '</span></button>';
+  }
+  document.getElementById('blDist').innerHTML = dist;
+
+  ['blDept', 'blShift', 'blSup', 'blStatus', 'blSort'].forEach(function (id) { document.getElementById(id).value = state[id]; });
+  const tags = [];
+  if (state.blLevel !== null) tags.push('<span class="tag">Showing: ' + esc(blFilterLabel(state.blLevel)) + '<button data-bl-clear="level" aria-label="Clear level filter">&times;</button></span>');
+  if (state.blQuery || state.blDept || state.blShift || state.blSup || state.blStatus !== 'Active') tags.push('<button class="pref-link" data-bl-clear="all">Reset filters</button>');
+  document.getElementById('blActive').innerHTML = tags.join('');
+
+  const list = base.filter(function (id) { return blLevelMatch(id, state.blLevel); });
+  if (state.blSort === 'name') list.sort(function (a, b) { return EMP[a].name.localeCompare(EMP[b].name); });
+  else if (state.blSort === 'recent') list.sort(function (a, b) { const x = I.latestAny.get(a), y = I.latestAny.get(b); return (y ? pd(y.gen) : 0) - (x ? pd(x.gen) : 0) || EMP[a].name.localeCompare(EMP[b].name); });
+  else list.sort(function (a, b) { return subjectLevel(b) - subjectLevel(a) || EMP[a].name.localeCompare(EMP[b].name); });
+  const pages = Math.max(1, Math.ceil(list.length / state.blSize));
+  state.blPage = Math.min(Math.max(0, state.blPage), pages - 1);
+  const pageIds = list.slice(state.blPage * state.blSize, (state.blPage + 1) * state.blSize);
+  document.getElementById('levelGroups').innerHTML = pageIds.length ? pageIds.map(function (id) { return blRow(id, I); }).join('')
+    : '<div class="comm-empty">No employees match these filters.<br><button class="bbtn" data-bl-clear="all" style="margin-top:10px;">Reset filters</button></div>';
+  document.getElementById('blPager').innerHTML = pagerHTML('bl', state.blPage, list.length, state.blSize, 'employee', PAGE_SIZES.bl);
+}
+function initByLevelControls() {
+  const depts = {}; EMP_IDS.forEach(function (id) { depts[EMP[id].dept] = 1; });
+  const fill = function (id, label, values) { document.getElementById(id).innerHTML = '<option value="">' + label + '</option>' + values.map(function (v) { return '<option>' + esc(v) + '</option>'; }).join(''); };
+  fill('blDept', 'All departments', Object.keys(depts).sort());
+  fill('blShift', 'All shifts', ['1st Shift', '2nd Shift', '3rd Shift']);
+  fill('blSup', 'All supervisors', SUPERVISORS);
+  fill('blStatus', 'All statuses', ['Active', 'Layoff', 'Terminated']);
+  document.getElementById('blSort').innerHTML = '<option value="level">Highest level</option><option value="name">Name A to Z</option><option value="recent">Most recent ticket</option>';
 }
 
 /* ================================================================
@@ -1144,20 +1807,26 @@ function setDailyMode(mode) {
   renderDaily();
 }
 function renderDaily() {
+  dirty.daily = false;
   document.getElementById('dnDate').textContent = formatLong(state.dailyDate);
   document.getElementById('dnSub').textContent = state.dailyDate === TODAY ? 'Today \u00b7 since last service run' : 'Historical activity';
   document.getElementById('dnNext').disabled = state.dailyDate === TODAY;
   document.getElementById('dnToday').style.display = state.dailyDate === TODAY ? 'none' : '';
   document.getElementById('singleDateInput').value = toISO(state.dailyDate);
   if (state.dailyMode === 'range') document.getElementById('rangeSummary').textContent = formatShort(state.rangeFrom) + ' to ' + formatShort(state.rangeTo);
+  const key = state.dailyMode + '|' + state.dailyDate + '|' + state.rangeFrom + '|' + state.rangeTo;
+  if (key !== state.dailyKey) { state.dailyKey = key; state.dailyPage = 0; }
   const rows = dailyTickets();
-  const wrap = document.getElementById('dailyList');
-  wrap.innerHTML = rows.length ? rows.map(function (t) {
+  const pages = Math.max(1, Math.ceil(rows.length / state.dailySize));
+  state.dailyPage = Math.min(Math.max(0, state.dailyPage), pages - 1);
+  const pageRows = rows.slice(state.dailyPage * state.dailySize, (state.dailyPage + 1) * state.dailySize);
+  document.getElementById('dailyList').innerHTML = pageRows.length ? pageRows.map(function (t) {
     const dateTag = state.dailyMode === 'range' ? '<div class="dr-emp-sub mono">' + t.gen + '</div>' : '';
     return '<div class="daily-row"><div class="dr-emp"><div class="dr-emp-name">' + esc(EMP[t.emp].name) + '</div><div class="dr-emp-sub">#' + t.emp + ' &middot; ' + TRACKS[t.track].label + '</div>' + dateTag + '</div>' +
       '<div class="dr-change">' + esc(changeText(t)) + '</div>' +
       '<button class="occ-ticket" data-ticket-open="' + t.id + '">' + t.id + '</button>' + statusPill(t.status) + '</div>';
   }).join('') : '<div class="daily-empty">No attendance activity recorded in this ' + (state.dailyMode === 'range' ? 'range' : 'date') + '.</div>';
+  document.getElementById('dailyPager').innerHTML = pagerHTML('daily', state.dailyPage, rows.length, state.dailySize, 'ticket', PAGE_SIZES.daily);
   const printable = exportable(rows).length;
   document.getElementById('dailyCount').textContent = rows.length + ' ticket' + (rows.length === 1 ? '' : 's') + (state.dailyMode === 'range' ? ' in this range' : ' on this date');
   ['printDayBtn', 'exportExcelBtn', 'exportPdfBtn'].forEach(function (id) { document.getElementById(id).disabled = printable === 0; });
@@ -1193,89 +1862,130 @@ function commSummary(t) {
   const rem = t.log.filter(function (e) { return e.type === 'reminder'; }).length;
   return 'With ' + esc(t.sup) + ' since ' + (s ? s.ts.split(' ')[0] : '') + ' (<span class="' + (days >= 3 ? 'late' : '') + '">' + days + ' day' + (days === 1 ? '' : 's') + '</span>)' + (rem ? ' &middot; ' + rem + ' reminder' + (rem === 1 ? '' : 's') : '');
 }
+function matchesQuery(t) {
+  const q = state.commQuery.trim().toLowerCase();
+  if (!q) return true;
+  return t.id.indexOf(q) > -1 || String(t.emp).indexOf(q) > -1 || EMP[t.emp].name.toLowerCase().indexOf(q) > -1;
+}
 function commFiltered() {
-  return TICKETS.filter(function (t) { return state.commFilter === 'all' || t.status === state.commFilter; })
-    .sort(function (a, b) { return cmpDate(b.gen, a.gen) || Number(b.id) - Number(a.id); });
+  const f = state.commFilter;
+  return idx().sorted.filter(function (t) {
+    const okStatus = f === 'all' || (f === 'open' ? OPEN_STATUS.indexOf(t.status) > -1 : t.status === f);
+    return okStatus && matchesQuery(t);
+  });
+}
+function pagerHTML(kind, page, total, size, noun, sizes) {
+  if (!total) return '';
+  const pages = Math.max(1, Math.ceil(total / size));
+  const a = page * size + 1, b = Math.min(total, (page + 1) * size);
+  const sizeSel = sizes ? '<label class="pg-size">Per page <select data-pagesize="' + kind + '" aria-label="Rows per page">' + sizes.map(function (s) { return '<option' + (s === size ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></label>' : '';
+  const left = '<div class="pager-left"><span class="info">Showing ' + a + ' to ' + b + ' of ' + total + ' ' + noun + (total === 1 ? '' : 's') + '</span>' + sizeSel + '</div>';
+  if (pages <= 1) return '<div class="pager">' + left + '</div>';
+  const btn = function (p, label, cls, disabled, aria) { return '<button class="pg-btn ' + cls + '" data-pager="' + kind + '" data-goto="' + p + '"' + (disabled ? ' disabled' : '') + ' aria-label="' + aria + '">' + label + '</button>'; };
+  const keep = Array.from(new Set([0, 1, pages - 2, pages - 1, page - 2, page - 1, page, page + 1, page + 2].filter(function (p) { return p >= 0 && p < pages; }))).sort(function (x, y) { return x - y; });
+  let nums = '', prev = -1;
+  keep.forEach(function (p) {
+    if (prev > -1 && p - prev > 1) nums += '<span class="pg-gap" aria-hidden="true">...</span>';
+    nums += '<button class="pg-btn pg-num' + (p === page ? ' cur' : '') + '" data-pager="' + kind + '" data-goto="' + p + '"' + (p === page ? ' aria-current="page"' : '') + ' aria-label="Page ' + (p + 1) + '">' + (p + 1) + '</button>';
+    prev = p;
+  });
+  return '<div class="pager">' + left + '<nav class="pager-nav" aria-label="' + noun + ' pages">' +
+    btn(0, '&laquo;', 'pg-first', page === 0, 'First page') + btn(page - 1, '&lsaquo;', 'pg-prev', page === 0, 'Previous page') +
+    nums + '<span class="pg-mini">Page ' + (page + 1) + ' of ' + pages + '</span>' +
+    btn(page + 1, '&rsaquo;', 'pg-next', page >= pages - 1, 'Next page') + btn(pages - 1, '&raquo;', 'pg-last', page >= pages - 1, 'Last page') + '</nav></div>';
 }
 function renderComm() {
-  document.querySelectorAll('[data-comm-view]').forEach(function (b) { b.classList.toggle('active', b.dataset.commView === state.commView); });
+  dirty.comm = false;
+  const I = idx();
+  document.querySelectorAll('[data-comm-view]').forEach(function (b) { b.classList.toggle('active', b.dataset.commView === state.commView); b.setAttribute('aria-pressed', b.dataset.commView === state.commView ? 'true' : 'false'); });
   document.getElementById('commTicketsView').style.display = state.commView === 'tickets' ? 'block' : 'none';
   document.getElementById('commEmailsView').style.display = state.commView === 'emails' ? 'block' : 'none';
-  const openN = TICKETS.filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }).length;
+  const openN = I.counts.open;
   document.getElementById('commHint').textContent = openN + ' open ticket' + (openN === 1 ? '' : 's') + ' across all employees';
 
-  // chips
-  const counts = { all: TICKETS.length };
-  Object.keys(STATUS_LABEL).forEach(function (s) { counts[s] = TICKETS.filter(function (t) { return t.status === s; }).length; });
-  document.getElementById('commChips').innerHTML = [['all', 'All']].concat(Object.keys(STATUS_LABEL).map(function (s) { return [s, STATUS_LABEL[s]]; })).map(function (c) {
-    return '<button class="chip' + (state.commFilter === c[0] ? ' active' : '') + '" data-comm-filter="' + c[0] + '">' + c[1] + '<b>' + counts[c[0]] + '</b></button>';
-  }).join('');
-
-  // list
-  const list = commFiltered();
-  state.commSel.forEach(function (id) { if (!ticketById(id)) state.commSel.delete(id); });
-  document.getElementById('commList').innerHTML = list.length ? list.map(function (t) {
-    const e = EMP[t.emp];
-    const open = !!state.commOpen[t.id];
-    const isOpenStatus = OPEN_STATUS.indexOf(t.status) > -1;
-    const tl = sortedLog(t).map(function (ev) {
-      return '<div class="tl-item"><span class="tl-dot t-' + ev.type + '">' + ICONS[LOG_ICON[ev.type] || 'mail'] + '</span><div class="tl-text">' + esc(logText(ev)) + '</div>' +
-        '<div class="tl-meta">' + esc(fmtTs(ev.ts)) + ' &middot; ' + esc(ev.actor) + (ev.channel ? ' &middot; ' + esc(ev.channel) : '') + '</div></div>';
+  if (state.commView === 'tickets') {
+    document.getElementById('commChips').innerHTML = [['open', 'Open'], ['all', 'All']].concat(Object.keys(STATUS_LABEL).map(function (s) { return [s, STATUS_LABEL[s]]; })).map(function (c) {
+      return '<button class="chip' + (state.commFilter === c[0] ? ' active' : '') + '" data-comm-filter="' + c[0] + '" aria-pressed="' + (state.commFilter === c[0]) + '">' + c[1] + '<b>' + I.counts[c[0]] + '</b></button>';
     }).join('');
-    const actions = [
-      '<button class="bbtn" data-act="print" data-id="' + t.id + '">' + ICONS.print + 'Print packet</button>',
-      (t.status === 'new' && t.lvl <= 3) ? '<button class="bbtn" data-act="send" data-id="' + t.id + '">' + ICONS.send + 'Send to supervisor</button>' : '',
-      (t.status === 'sent') ? '<button class="bbtn" data-act="remind" data-id="' + t.id + '">' + ICONS.bell + 'Send reminder</button>' : '',
-      (t.status === 'hr' || (t.status === 'new' && t.lvl >= 4)) ? '<button class="bbtn" data-act="meeting" data-id="' + t.id + '">' + ICONS.users + 'Log HR meeting</button>' : '',
-      isOpenStatus ? '<button class="bbtn primary" data-act="complete" data-id="' + t.id + '">' + ICONS.check + 'Mark complete</button>' : '',
-      '<button class="bbtn" data-ticket-open="' + t.id + '">Details</button>'
-    ].join('');
-    return '<div class="comm-card' + (open ? ' open' : '') + '"><div class="comm-head">' +
-      '<input type="checkbox" data-sel="' + t.id + '"' + (state.commSel.has(t.id) ? ' checked' : '') + ' aria-label="Select ticket ' + t.id + '" />' +
-      '<button class="comm-main" data-comm-toggle="' + t.id + '"><div class="comm-title"><span class="tn">' + t.id + '</span>' + esc(e.name) + '</div>' +
-      '<div class="comm-sub">' + TRACKS[t.track].word + ' &middot; Level ' + t.lvl + ' &middot; ' + FORM_NAMES[t.lvl] + ' &middot; generated ' + t.gen + '</div>' +
-      '<div class="comm-sub">' + commSummary(t) + '</div></button>' +
-      statusPill(t.status) +
-      '<svg class="t-chevron" data-comm-toggle="' + t.id + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>' +
-      '<div class="comm-body"><div class="timeline">' + tl + '</div><div class="comm-actions">' + actions + '</div></div></div>';
-  }).join('') : '<div class="comm-empty">No tickets with this status.</div>';
+    const list = commFiltered();
+    const pages = Math.max(1, Math.ceil(list.length / state.commSize));
+    state.commPage = Math.min(Math.max(0, state.commPage), pages - 1);
+    const pageItems = list.slice(state.commPage * state.commSize, (state.commPage + 1) * state.commSize);
+    state.commSel.forEach(function (id) { if (!ticketById(id)) state.commSel.delete(id); });
+    document.getElementById('commList').innerHTML = pageItems.length ? pageItems.map(function (t) {
+      const e = EMP[t.emp], open = !!state.commOpen[t.id];
+      let bodyHtml = '';
+      if (open) {          // timeline and actions are only built for expanded cards
+        const isOpenStatus = OPEN_STATUS.indexOf(t.status) > -1;
+        const tl = sortedLog(t).map(function (ev) {
+          return '<div class="tl-item"><span class="tl-dot t-' + ev.type + '" aria-hidden="true">' + ICONS[LOG_ICON[ev.type] || 'mail'] + '</span><div class="tl-text">' + esc(logText(ev)) + '</div>' +
+            '<div class="tl-meta">' + esc(fmtTs(ev.ts)) + ' &middot; ' + esc(ev.actor) + (ev.channel ? ' &middot; ' + esc(ev.channel) : '') + '</div></div>';
+        }).join('');
+        const actions = [
+          '<button class="bbtn" data-act="print" data-id="' + t.id + '">' + ICONS.print + 'Print packet</button>',
+          (t.status === 'new' && t.lvl <= 3) ? '<button class="bbtn" data-act="send" data-id="' + t.id + '">' + ICONS.send + 'Send to supervisor</button>' : '',
+          (t.status === 'sent') ? '<button class="bbtn" data-act="remind" data-id="' + t.id + '">' + ICONS.bell + 'Send reminder</button>' : '',
+          (t.status === 'hr' || (t.status === 'new' && t.lvl >= 4)) ? '<button class="bbtn" data-act="meeting" data-id="' + t.id + '">' + ICONS.users + 'Log HR meeting</button>' : '',
+          isOpenStatus ? '<button class="bbtn primary" data-act="complete" data-id="' + t.id + '">' + ICONS.check + 'Mark complete</button>' : '',
+          '<button class="bbtn" data-ticket-open="' + t.id + '">Details</button>'
+        ].join('');
+        bodyHtml = '<div class="timeline">' + tl + '</div><div class="comm-actions">' + actions + '</div>';
+      }
+      return '<div class="comm-card' + (open ? ' open' : '') + '"><div class="comm-head">' +
+        '<label class="sel-box"><input type="checkbox" data-sel="' + t.id + '"' + (state.commSel.has(t.id) ? ' checked' : '') + ' aria-label="Select ticket ' + t.id + ' for ' + esc(e.name) + '" /></label>' +
+        '<button class="comm-main" data-comm-toggle="' + t.id + '" aria-expanded="' + open + '"><div class="comm-title"><span class="tn">' + t.id + '</span>' + esc(e.name) + '</div>' +
+        '<div class="comm-sub">' + TRACKS[t.track].word + ' &middot; Level ' + t.lvl + ' &middot; ' + FORM_NAMES[t.lvl] + ' &middot; generated ' + t.gen + '</div>' +
+        '<div class="comm-sub">' + commSummary(t) + '</div></button>' +
+        statusPill(t.status) +
+        '<svg class="t-chevron" aria-hidden="true" focusable="false" data-comm-toggle="' + t.id + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>' +
+        '<div class="comm-body">' + bodyHtml + '</div></div>';
+    }).join('') : '<div class="comm-empty">' + (state.commQuery ? 'No tickets match your search.' : 'No tickets with this status.') + (state.commQuery ? '<br><button class="bbtn" id="commClear" style="margin-top:10px;">Clear search</button>' : '') + '</div>';
+    document.getElementById('commPager').innerHTML = pagerHTML('comm', state.commPage, list.length, state.commSize, 'ticket', PAGE_SIZES.comm);
 
-  // bulk bar
-  const n = state.commSel.size;
-  document.getElementById('bulkCount').textContent = n + ' selected';
-  document.getElementById('commSelectAll').checked = list.length > 0 && list.every(function (t) { return state.commSel.has(t.id); });
-  ['bulkPrint', 'bulkRemind', 'bulkComplete'].forEach(function (id) { document.getElementById(id).disabled = n === 0; });
-
-  // daily emails view
-  const byDate = {};
-  TICKETS.forEach(function (t) { (byDate[t.gen] = byDate[t.gen] || []).push(t); });
-  const dates = Object.keys(byDate).sort(function (a, b) { return cmpDate(b, a); });
-  document.getElementById('emailList').innerHTML = dates.map(function (d) {
-    const ts = byDate[d];
-    const live = ts.filter(function (t) { return t.status !== 'excused'; });
-    const openT = live.filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }).length;
-    return '<div class="email-row"><div class="email-ico">' + ICONS.mail + '</div><div class="email-main"><div class="email-title">' + formatLong(d) + ' &middot; 2:01 AM</div>' +
-      '<div class="email-sub">Attendance Disciplines &middot; ' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ' &middot; sent to HR notification list &middot; ' + (openT ? openT + ' still open' : 'all closed') + '</div></div>' +
-      '<button class="bbtn" data-email="' + d + '">View email</button></div>';
-  }).join('');
+    const n = state.commSel.size, pageAll = pageItems.length > 0 && pageItems.every(function (t) { return state.commSel.has(t.id); });
+    const allSel = list.length > 0 && list.every(function (t) { return state.commSel.has(t.id); });
+    document.getElementById('bulkCount').textContent = n + ' selected';
+    document.getElementById('commSelectAll').checked = pageAll;
+    const am = document.getElementById('bulkAllMatching');
+    am.hidden = !(pageAll && list.length > pageItems.length && !allSel);
+    am.textContent = 'Select all ' + list.length + ' in this view';
+    document.getElementById('bulkClear').hidden = n === 0;
+    ['bulkPrint', 'bulkRemind', 'bulkComplete'].forEach(function (id) { document.getElementById(id).disabled = n === 0; });
+  } else {
+    document.getElementById('emailOpenOnly').checked = state.emailOpenOnly;
+    let dates = Array.from(I.byDate.keys()).sort(function (a, b) { return cmpDate(b, a); });
+    if (state.emailOpenOnly) dates = dates.filter(function (d) { return I.byDate.get(d).some(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }); });
+    const epages = Math.max(1, Math.ceil(dates.length / state.emailSize));
+    state.emailPage = Math.min(Math.max(0, state.emailPage), epages - 1);
+    document.getElementById('emailList').innerHTML = dates.length ? dates.slice(state.emailPage * state.emailSize, (state.emailPage + 1) * state.emailSize).map(function (d) {
+      const live = I.byDate.get(d).filter(function (t) { return t.status !== 'excused'; });
+      const openT = live.filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }).length;
+      return '<div class="email-row"><div class="email-ico" aria-hidden="true">' + ICONS.mail + '</div><div class="email-main"><div class="email-title">' + formatLong(d) + ' &middot; 2:01 AM</div>' +
+        '<div class="email-sub">Attendance Disciplines &middot; ' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ' &middot; sent to HR notification list &middot; ' + (openT ? openT + ' still open' : 'all closed') + '</div></div>' +
+        '<button class="bbtn" data-email="' + d + '" aria-label="View email for ' + formatLong(d) + '">View email</button></div>';
+    }).join('') : '<div class="comm-empty">No daily emails match.</div>';
+    document.getElementById('emailPager').innerHTML = pagerHTML('email', state.emailPage, dates.length, state.emailSize, 'email', PAGE_SIZES.email);
+  }
+  updatePrefLabels();
 }
 
 /* ================================================================
    RENDER ALL
    ================================================================ */
-function render() { renderEmployee(); renderByLevel(); renderDaily(); renderComm(); }
+function render() { Object.keys(dirty).forEach(function (k) { dirty[k] = true; }); renderTab(state.activeTab); updatePrefLabels(); }
 
 /* ================================================================
    TICKET ACTIONS
    ================================================================ */
 function nowTs() { const n = new Date(); return TODAY + ' ' + pad2(n.getHours()) + ':' + pad2(n.getMinutes()); }
 function addLog(t, type, to, channel, note, actor) { t.log.push({ ts: nowTs(), type: type, actor: actor || 'You (HR admin)', to: to || '', channel: channel || '', note: note || '' }); }
-function markSent(t, sup, method) { t.sup = sup; t.status = 'sent'; addLog(t, 'sent', sup, method, 'Packet sent to supervisor'); }
+function markSent(t, sup, method) { t.sup = sup; t.status = 'sent'; touch(); addLog(t, 'sent', sup, method, 'Packet sent to supervisor'); }
 function remind(t) { addLog(t, 'reminder', t.sup, 'Email', 'Reminder to return signed copy'); }
 function completeTicket(t) {
   if (t.status === 'sent') addLog(t, 'returned', '', 'Internal mail', 'Signed copy returned', t.sup);
   addLog(t, 'complete', '', 'Tile', 'Marked complete');
   t.status = 'complete';
+  touch();
 }
 
 function emailLine(t) { return t.emp + ' ' + EMP[t.emp].name + ' has reached ' + TRACKS[t.track].word + ' Level ' + t.lvl + ' (' + FORM_NAMES[t.lvl] + ') by a level change of 1.  Ticket ID: ' + t.id; }
@@ -1287,10 +1997,7 @@ function showEmail(date) {
     '<div class="email-preview"><p class="email-line">The following employees have had a discipline level change.</p>' + lines + '</div>',
     '<button class="btn ghost" id="copyEmailBtn">Copy text</button><button class="btn primary" id="closeBtn2">Close</button>');
   const text = 'The following employees have had a discipline level change.\n' + list.map(emailLine).join('\n');
-  document.getElementById('copyEmailBtn').addEventListener('click', function () {
-    if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { toast('Email text copied.'); }, function () { toast('Copy is not available in this browser.'); });
-    else toast('Copy is not available in this browser.');
-  });
+  document.getElementById('copyEmailBtn').addEventListener('click', function () { copyText(text); });
 }
 
 function showTicketModal(id) {
@@ -1310,7 +2017,7 @@ function showTicketModal(id) {
     '<button class="btn ghost" id="ticketCommBtn">View communication</button>' +
     (t.status !== 'excused' ? '<button class="btn ghost" id="ticketPdfBtn">Download packet</button>' : '') +
     (isOpenStatus ? '<button class="btn primary" id="ticketCompleteBtn">Mark complete</button>' : '<button class="btn primary" id="closeBtn2">Close</button>'));
-  document.getElementById('ticketCommBtn').addEventListener('click', function () { closeModal(); state.commOpen[t.id] = true; state.commFilter = 'all'; switchTab('comm'); state.commView = 'tickets'; renderComm(); });
+  document.getElementById('ticketCommBtn').addEventListener('click', function () { closeModal(); state.commOpen[t.id] = true; state.commFilter = 'all'; state.commQuery = ''; document.getElementById('commSearch').value = ''; state.commPage = Math.floor(commFiltered().findIndex(function (x) { return x.id === t.id; }) / state.commSize); switchTab('comm'); state.commView = 'tickets'; renderComm(); });
   const pdfBtn = document.getElementById('ticketPdfBtn');
   if (pdfBtn) pdfBtn.addEventListener('click', function () { downloadPackets([t]); });
   const cBtn = document.getElementById('ticketCompleteBtn');
@@ -1739,7 +2446,6 @@ function buildPackets(list, withCal) {
   });
   return doc;
 }
-function withCalendar() { return document.getElementById('calToggle').checked; }
 function packetList(list) {
   const live = exportable(list);
   if (live.length < list.length) toast((list.length - live.length) + ' excused ticket' + (list.length - live.length === 1 ? ' was' : 's were') + ' left out.');
@@ -1756,19 +2462,40 @@ function packetFileName(list) {
   else base = 'Attendance_Tickets_' + fileLabel() + '_' + list.length + '_Tickets';
   return base + '_' + stampText() + '.pdf';
 }
+function guardLarge(count, withCal, verb, go) {
+  const pages = count * (withCal ? 22 : 2);
+  if (pages <= LARGE_PAGES) { go(withCal); return; }
+  const buttons = [{ label: 'Cancel', kind: 'ghost' }];
+  if (withCal) buttons.push({ label: verb + ' without calendar (' + (count * 2) + ' pages)', kind: 'ghost', run: function () { go(false); } });
+  buttons.push({ label: 'Continue anyway', kind: 'primary', run: function () { go(withCal); } });
+  uiDialog({ title: 'Large job', focus: '#dlgFoot .btn',
+    body: '<p class="dlg-msg">' + count + ' tickets is about <b>' + pages + ' pages</b>. A job this size can take a while and may slow or freeze this browser tab.</p><p class="dlg-hint">Consider a smaller group first, for example one day, or only the New tickets.</p>',
+    buttons: buttons });
+}
 function downloadPackets(list) {
   const live = packetList(list);
   if (!live.length) { toast('No tickets to export.'); return; }
-  const doc = buildPackets(live, withCalendar());
-  if (!doc) return;
-  doc.save(packetFileName(live));
-  toast('PDF downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
+  chooseCalendar(live.length, function (withCal) {
+    guardLarge(live.length, withCal, 'Download', function (wc) {
+      ensureLib('pdf').then(function () {
+        const doc = buildPackets(live, wc);
+        if (!doc) return;
+        doc.save(packetFileName(live));
+        toast('PDF downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
+      }).catch(libError);
+    });
+  });
 }
 function printPackets(list) {
   const live = packetList(list);
   if (!live.length) { toast('No tickets to print.'); return; }
+  chooseCalendar(live.length, function (withCal) {
+    guardLarge(live.length, withCal, 'Print', function (wc) { runPrint(live, wc); });
+  });
+}
+function runPrint(live, withCal) {
   const area = document.getElementById('printArea');
-  area.innerHTML = buildPrintHTML(live, withCalendar());
+  area.innerHTML = buildPrintHTML(live, withCal);
   live.forEach(function (t) { addLog(t, 'printed', '', 'Print', 'Ticket packet printed'); });
   document.body.classList.add('printing');
   const done = function () { document.body.classList.remove('printing'); area.innerHTML = ''; window.removeEventListener('afterprint', done); };
@@ -1857,19 +2584,21 @@ function buildListPDF(live) {
 function exportListPdf() {
   const live = packetList(dailyTickets());
   if (!live.length) { toast('No tickets to export.'); return; }
-  const doc = buildListPDF(live);
-  if (!doc) return;
-  doc.save(listFileName(live, 'pdf'));
-  toast('PDF downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
+  ensureLib('pdf').then(function () {
+    const doc = buildListPDF(live);
+    if (!doc) return;
+    doc.save(listFileName(live, 'pdf'));
+    toast('PDF downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
+  }).catch(libError);
 }
 
 /* ================================================================
    EXCEL EXPORT (same layout as the daily discipline email, plus detail sheets)
    ================================================================ */
 function exportExcel() {
-  if (typeof XLSX === 'undefined') { toast('Excel library failed to load. Check your internet connection.'); return; }
   const live = packetList(dailyTickets());
   if (!live.length) { toast('No tickets to export.'); return; }
+  ensureLib('xlsx').then(function () {
   const wb = XLSX.utils.book_new();
   const add = function (name, aoa, widths) { const ws = XLSX.utils.aoa_to_sheet(aoa); ws['!cols'] = widths.map(function (w) { return { wch: w }; }); XLSX.utils.book_append_sheet(wb, ws, name); };
   add('Level Changes', [['Employee #', 'Employee Name', 'Track', 'Level', 'Level Name', 'Level Change', 'Ticket ID', 'Email Line']].concat(live.map(function (t) {
@@ -1889,6 +2618,7 @@ function exportExcel() {
   add('Distribution Tracker', trk, [10, 11, 20, 16, 7, 18, 16, 18, 12, 10]);
   XLSX.writeFile(wb, listFileName(live, 'xlsx'));
   toast('Excel file downloaded (' + live.length + ' ticket' + (live.length === 1 ? '' : 's') + ').');
+  }).catch(libError);
 }
 
 /* ================================================================
@@ -1901,21 +2631,46 @@ document.addEventListener('click', function (e) {
   const tabBtn = q('.tab-btn');
   if (tabBtn) { switchTab(tabBtn.dataset.tab); return; }
 
+  // ----- print settings, paging, search helpers
+  if (q('[data-open-print-settings]')) { showPrintSettings(); return; }
+  const pg = q('[data-pager]');
+  if (pg) {
+    const kind = pg.dataset.pager, to = Number(pg.dataset.goto);
+    if (kind === 'email') { state.emailPage = to; renderComm(); } else if (kind === 'comm') { state.commPage = to; renderComm(); }
+    else if (kind === 'bl') { state.blPage = to; renderByLevel(); } else { state.dailyPage = to; renderDaily(); }
+    const top = document.getElementById({ comm: 'commSearch', email: 'emailList', bl: 'blKpis', daily: 'dailyList' }[kind]);
+    if (top && top.getBoundingClientRect().top < 0) top.scrollIntoView({ block: 'start' });
+    return;
+  }
+  if (q('#bulkAllMatching')) { commFiltered().forEach(function (t) { state.commSel.add(t.id); }); renderComm(); return; }
+  if (q('#bulkClear')) { state.commSel.clear(); renderComm(); return; }
+  if (q('#commClear')) { state.commQuery = ''; document.getElementById('commSearch').value = ''; state.commPage = 0; renderComm(); return; }
+  if (q('#dlgClose') || T.id === 'dlgOverlay') { cancelDialog(); return; }
+  if (q('.emp-search') && !q('.clear-btn')) { document.getElementById('empSearchInput').focus(); }
+
   // ----- ticket detail from anywhere
   const open = q('[data-ticket-open]');
   if (open) { showTicketModal(open.dataset.ticketOpen); return; }
 
   // ----- by level
   const lp = q('[data-level-track]');
-  if (lp) { state.levelTrack = lp.dataset.levelTrack; renderByLevel(); return; }
+  if (lp) { state.levelTrack = lp.dataset.levelTrack; state.blPage = 0; renderByLevel(); return; }
+  const bl = q('[data-bl-level]');
+  if (bl) { const v = bl.dataset.blLevel, nv = v === 'all' ? null : /^\d$/.test(v) ? Number(v) : v; state.blLevel = state.blLevel === nv ? null : nv; state.blPage = 0; renderByLevel(); return; }
+  const bc = q('[data-bl-clear]');
+  if (bc) {
+    if (bc.dataset.blClear === 'all') { state.blLevel = null; state.blQuery = ''; state.blDept = ''; state.blShift = ''; state.blSup = ''; state.blStatus = 'Active'; document.getElementById('blSearch').value = ''; }
+    else state.blLevel = null;
+    state.blPage = 0; renderByLevel(); return;
+  }
   const go = q('[data-goto-emp]');
-  if (go) { state.currentEmp = Number(go.dataset.gotoEmp); state.openTracks = {}; state.searchFocused = false; render(); switchTab('employee'); toast('Viewing ' + EMP[state.currentEmp].name + '.'); return; }
+  if (go) { state.currentEmp = Number(go.dataset.gotoEmp); touchRecent(state.currentEmp); state.openTracks = {}; state.searchFocused = false; switchTab('employee'); render(); toast('Viewing ' + EMP[state.currentEmp].name + '.'); return; }
 
   // ----- communication
   const cv = q('[data-comm-view]');
   if (cv) { state.commView = cv.dataset.commView; renderComm(); return; }
   const cf = q('[data-comm-filter]');
-  if (cf) { state.commFilter = cf.dataset.commFilter; renderComm(); return; }
+  if (cf) { state.commFilter = cf.dataset.commFilter; state.commPage = 0; renderComm(); return; }
   const ct = q('[data-comm-toggle]');
   if (ct) { const id = ct.dataset.commToggle; state.commOpen[id] = !state.commOpen[id]; renderComm(); return; }
   const em = q('[data-email]');
@@ -1927,13 +2682,12 @@ document.addEventListener('click', function (e) {
       case 'print': printPackets([t]); break;
       case 'send': showSendModal(t.id); break;
       case 'remind': remind(t); render(); toast('Reminder sent to ' + t.sup + '.'); break;
-      case 'meeting': {
-        const txt = prompt('HR meeting date and time (for example 10/19/26 10:00 AM):');
-        if (txt && txt.trim()) { addLog(t, 'meeting', 'Employee, supervisor, union steward', 'Calendar', 'HR meeting scheduled for ' + txt.trim()); render(); toast('HR meeting logged.'); }
+      case 'meeting':
+        meetingDialog(function (when) { addLog(t, 'meeting', 'Employee, supervisor, union steward', 'Calendar', 'HR meeting scheduled for ' + when); render(); toast('HR meeting logged.'); });
         break;
-      }
       case 'complete':
-        if (confirm('Mark ticket ' + t.id + ' complete?')) { completeTicket(t); state.commSel.delete(t.id); render(); toast('Ticket ' + t.id + ' marked complete.'); }
+        confirmDialog('Mark ticket complete', 'Mark ticket ' + t.id + ' for ' + EMP[t.emp].name + ' as complete? Do this once the signed copy is back in your hands.', 'Mark complete',
+          function () { completeTicket(t); state.commSel.delete(t.id); render(); toast('Ticket ' + t.id + ' marked complete.'); });
         break;
     }
     return;
@@ -1947,8 +2701,9 @@ document.addEventListener('click', function (e) {
   if (q('#bulkComplete')) {
     const openT = Array.from(state.commSel).map(ticketById).filter(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; });
     if (!openT.length) { toast('The selected tickets are already closed.'); return; }
-    if (!confirm('Mark ' + openT.length + ' ticket' + (openT.length === 1 ? '' : 's') + ' complete?')) return;
-    openT.forEach(function (t) { completeTicket(t); state.commSel.delete(t.id); }); render(); toast(openT.length + ' ticket' + (openT.length === 1 ? '' : 's') + ' marked complete.'); return;
+    confirmDialog('Mark tickets complete', 'Mark ' + openT.length + ' ticket' + (openT.length === 1 ? '' : 's') + ' as complete? Do this once the signed copies are back in your hands.', 'Mark complete',
+      function () { openT.forEach(function (t) { completeTicket(t); state.commSel.delete(t.id); }); render(); toast(openT.length + ' ticket' + (openT.length === 1 ? '' : 's') + ' marked complete.'); });
+    return;
   }
 
   // ----- daily activity
@@ -1983,10 +2738,10 @@ document.addEventListener('click', function (e) {
   if (q('#ticketsBadge')) { showHistory(state.currentEmp, true); return; }
   if (q('#empSearchClear')) {
     const input = document.getElementById('empSearchInput');
-    input.value = ''; input.focus(); renderEmpMenu(''); document.getElementById('empMenu').classList.add('open'); document.getElementById('empSearchClear').classList.remove('show'); return;
+    input.value = ''; input.focus(); renderEmpMenu(''); setMenuOpen(true); document.getElementById('empSearchClear').classList.remove('show'); return;
   }
   const sw = q('[data-switch]');
-  if (sw) { state.currentEmp = Number(sw.dataset.switch); state.openTracks = {}; state.searchFocused = false; document.getElementById('empMenu').classList.remove('open'); document.getElementById('empSearchBox').classList.remove('focused'); render(); toast('Switched to ' + EMP[state.currentEmp].name + '.'); return; }
+  if (sw) { state.currentEmp = Number(sw.dataset.switch); touchRecent(state.currentEmp); state.openTracks = {}; state.searchFocused = false; setMenuOpen(false); document.getElementById('empSearchBox').classList.remove('focused'); render(); toast('Switched to ' + EMP[state.currentEmp].name + '.'); return; }
   if (q('#identityBtn')) {
     const emp = EMP[state.currentEmp];
     openModal('Employee profile',
@@ -2004,23 +2759,21 @@ document.addEventListener('click', function (e) {
   if (tg) { state.openTracks[tg.dataset.toggle] = !state.openTracks[tg.dataset.toggle]; renderEmployee(); return; }
   const nb = q('[data-note]');
   if (nb) {
-    const key = nb.dataset.note;
-    const txt = prompt('Add a note for this track:');
-    if (txt && txt.trim()) {
-      const k = state.currentEmp + ':' + key;
-      (state.notes[k] = state.notes[k] || []).unshift({ date: TODAY, author: 'You', text: txt.trim() });
+    const key = nb.dataset.note, empId = state.currentEmp;
+    noteDialog(function (text) {
+      const k = empId + ':' + key;
+      (state.notes[k] = state.notes[k] || []).unshift({ date: TODAY, author: 'You', text: text });
       state.openTracks[key] = true; renderEmployee(); toast('Note added.');
-    }
+    });
     return;
   }
-  if (q('#openCloudApperBtn')) { toast('Opening the CloudApper application for ' + EMP[state.currentEmp].name + ' in a new tab...'); return; }
 
   // ----- modal
   if (q('#modalClose') || T.id === 'closeBtn1' || T.id === 'closeBtn2' || T.id === 'overlay') { closeModal(); return; }
 
   // ----- close search menu on outside click
   if (!q('.search-wrap')) {
-    document.getElementById('empMenu').classList.remove('open');
+    setMenuOpen(false);
     document.getElementById('empSearchBox').classList.remove('focused');
     state.searchFocused = false;
     document.getElementById('empSearchInput').value = EMP[state.currentEmp].name + ' (#' + state.currentEmp + ')';
@@ -2029,29 +2782,89 @@ document.addEventListener('click', function (e) {
 
 document.addEventListener('change', function (e) {
   const T = e.target;
+  if (T.dataset && T.dataset.pagesize) {
+    const kind = T.dataset.pagesize, v = Number(T.value);
+    if (kind === 'comm') { state.commSize = v; state.commPage = 0; renderComm(); }
+    else if (kind === 'email') { state.emailSize = v; state.emailPage = 0; renderComm(); }
+    else if (kind === 'bl') { state.blSize = v; state.blPage = 0; renderByLevel(); }
+    else { state.dailySize = v; state.dailyPage = 0; renderDaily(); }
+    return;
+  }
+  if (['blDept', 'blShift', 'blSup', 'blStatus', 'blSort'].indexOf(T.id) > -1) { state[T.id] = T.value; state.blPage = 0; renderByLevel(); return; }
+  if (T.id === 'emailOpenOnly') { state.emailOpenOnly = T.checked; state.emailPage = 0; renderComm(); return; }
+  if (T.id === 'emailJump') {
+    if (!T.value) return;
+    const target = fromISO(T.value), I = idx();
+    let dates = Array.from(I.byDate.keys()).sort(function (a, b) { return cmpDate(b, a); });
+    if (state.emailOpenOnly) dates = dates.filter(function (d) { return I.byDate.get(d).some(function (t) { return OPEN_STATUS.indexOf(t.status) > -1; }); });
+    let i = dates.findIndex(function (d) { return cmpDate(d, target) <= 0; });
+    if (i < 0) i = dates.length - 1;
+    state.emailPage = Math.floor(i / state.emailSize); renderComm(); return;
+  }
   if (T.matches && T.matches('[data-sel]')) {
     if (T.checked) state.commSel.add(T.dataset.sel); else state.commSel.delete(T.dataset.sel);
     renderComm(); return;
   }
   if (T.id === 'commSelectAll') {
-    commFiltered().forEach(function (t) { if (T.checked) state.commSel.add(t.id); else state.commSel.delete(t.id); });
+    commFiltered().slice(state.commPage * state.commSize, (state.commPage + 1) * state.commSize).forEach(function (t) { if (T.checked) state.commSel.add(t.id); else state.commSel.delete(t.id); });
     renderComm();
   }
 });
 
 const searchInput = document.getElementById('empSearchInput');
+let kbIndex = -1;
+function menuOptions() { return Array.from(document.querySelectorAll('#empMenu .opt')); }
+function setKb(i) {
+  const opts = menuOptions();
+  opts.forEach(function (o, n) { o.classList.toggle('kb', n === i); });
+  kbIndex = i;
+  if (opts[i]) { searchInput.setAttribute('aria-activedescendant', opts[i].id); opts[i].scrollIntoView({ block: 'nearest' }); } else searchInput.removeAttribute('aria-activedescendant');
+}
+function setMenuOpen(open) { document.getElementById('empMenu').classList.toggle('open', open); searchInput.setAttribute('aria-expanded', open ? 'true' : 'false'); if (!open) setKb(-1); }
 searchInput.addEventListener('focus', function () {
   state.searchFocused = true;
   document.getElementById('empSearchBox').classList.add('focused');
-  searchInput.select(); renderEmpMenu(''); document.getElementById('empMenu').classList.add('open');
+  searchInput.select(); renderEmpMenu(''); setMenuOpen(true);
 });
+const onSearchInput = debounce(function () { renderEmpMenu(searchInput.value); setMenuOpen(true); setKb(-1); }, 90);
 searchInput.addEventListener('input', function () {
-  renderEmpMenu(searchInput.value); document.getElementById('empMenu').classList.add('open');
   document.getElementById('empSearchClear').classList.toggle('show', !!searchInput.value);
+  onSearchInput();
 });
 searchInput.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') { searchInput.blur(); return; }
-  if (e.key === 'Enter') { const first = document.querySelector('#empMenu .opt'); if (first) first.click(); }
+  const opts = menuOptions();
+  if (e.key === 'ArrowDown') { e.preventDefault(); setMenuOpen(true); setKb(Math.min(opts.length - 1, kbIndex + 1)); return; }
+  if (e.key === 'ArrowUp') { e.preventDefault(); setKb(Math.max(0, kbIndex - 1)); return; }
+  if (e.key === 'Escape') { setMenuOpen(false); searchInput.blur(); return; }
+  if (e.key === 'Enter') { onSearchInput.flush(); const o2 = menuOptions(); const pick = o2[kbIndex] || o2[0]; if (pick) pick.click(); }
+});
+const onCommSearch = debounce(function () { renderComm(); }, 120);
+document.getElementById('commSearch').addEventListener('input', function (e) { state.commQuery = e.target.value; state.commPage = 0; onCommSearch(); });
+const onBlSearch = debounce(function () { renderByLevel(); }, 120);
+document.getElementById('blSearch').addEventListener('input', function (e) { state.blQuery = e.target.value; state.blPage = 0; onBlSearch(); });
+
+/* keyboard: Esc closes the top layer, Tab stays inside it, arrows move between tabs */
+document.addEventListener('keydown', function (e) {
+  const top = layers[layers.length - 1];
+  if (top) {
+    if (e.key === 'Escape') { e.preventDefault(); if (top.ov.id === 'dlgOverlay') cancelDialog(); else closeModal(); return; }
+    if (e.key === 'Tab') {
+      const f = focusables(top.ov.firstElementChild);
+      if (!f.length) { e.preventDefault(); return; }
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+      return;
+    }
+    if (e.key === 'Enter' && top.ov.id === 'dlgOverlay' && e.target.matches('input[type="datetime-local"],input[type="text"]')) { e.preventDefault(); const p = document.querySelector('#dlgFoot .btn.primary'); if (p) p.click(); }
+    return;
+  }
+  const tabEl = e.target.closest && e.target.closest('.tab-btn');
+  if (tabEl && ['ArrowRight', 'ArrowLeft', 'Home', 'End'].indexOf(e.key) > -1) {
+    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+    let i = tabs.indexOf(tabEl);
+    i = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+    e.preventDefault(); tabs[i].focus(); switchTab(tabs[i].dataset.tab);
+  }
 });
 document.getElementById('singleDateInput').addEventListener('change', function (e) {
   if (!e.target.value) return;
@@ -2064,7 +2877,26 @@ document.getElementById('singleDateInput').addEventListener('change', function (
 document.getElementById('singleDateInput').max = toISO(TODAY);
 document.getElementById('rangeFromInput').value = toISO(state.rangeFrom);
 document.getElementById('rangeToInput').value = toISO(state.rangeTo);
+loadCalMode();
+initByLevelControls();
 render();
+
+/* embed mode: inside an iframe (or with ?embed=1) the host supplies the frame, so drop page padding and report the height */
+(function () {
+  let embedded = false;
+  try { embedded = window.self !== window.top; } catch (e) { embedded = true; }
+  if (/[?&]embed=1/.test(location.search)) embedded = true;
+  if (!embedded) return;
+  document.documentElement.classList.add('embedded');
+  if (!window.ResizeObserver) return;
+  let last = 0;
+  new ResizeObserver(function () {
+    const h = Math.ceil(document.documentElement.scrollHeight);
+    if (Math.abs(h - last) > 2) { last = h; try { window.parent.postMessage({ source: 'cloudapper-attendance-tile', type: 'resize', height: h }, '*'); } catch (e) { /* host blocks messaging */ } }
+  }).observe(document.body);
+})();
+
+
 
 </script>
 </body>
