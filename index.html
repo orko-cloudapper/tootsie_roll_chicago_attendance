@@ -53,6 +53,7 @@
     border-radius:var(--radius);
     box-shadow:0 1px 2px rgba(20,30,50,.04), 0 10px 28px rgba(20,30,50,.07);
     overflow:visible;
+    position:relative;
   }
 
   .tile-head{
@@ -795,10 +796,50 @@
     .bl-list .lg-emp-row .lg-meta{flex-basis:100%;justify-content:flex-start;padding-left:36px;}
     .bl-list .lg-emp-row .lg-arrow{display:none;}
   }
+
+
+  /* ---- v8: sample data tag and By Level export bar ---- */
+  .bl-listbar{display:flex;align-items:center;justify-content:space-between;gap:8px 14px;flex-wrap:wrap;margin:12px 20px 0 20px;}
+  .bl-count{font-size:12px;color:var(--muted);}
+  .bl-count b{color:var(--text);font-weight:700;}
+  .bl-export{display:flex;gap:6px;flex-wrap:wrap;}
+  .bl-listbar + .bl-list{margin-top:8px;}
+  .dist-all{border-bottom:1px dashed var(--border);border-radius:7px 7px 0 0;margin-bottom:2px;}
+  @media (max-width: 560px){
+    .bl-listbar{margin:10px 16px 0 16px;}
+    .bl-export{width:100%;}
+    .bl-export #blExportXlsx{flex:1;justify-content:center;}
+  }
+
+
+  /* ---- v9: corner ribbon, strip for phones, one solid Export menu ---- */
+  .corner-ribbon{position:absolute;top:0;left:0;width:126px;height:126px;overflow:hidden;pointer-events:none;border-top-left-radius:var(--radius);z-index:8;}
+  .corner-ribbon span{position:absolute;display:block;top:28px;left:-36px;width:160px;padding:5px 0;transform:rotate(-45deg);
+    background:var(--gold);color:#fff;text-align:center;font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;line-height:11px;box-shadow:0 1px 4px rgba(0,0,0,.35);}
+  .proto-strip{display:none;background:var(--gold);color:#fff;text-align:center;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:6px 10px;border-radius:var(--radius) var(--radius) 0 0;}
+  html.embedded .corner-ribbon,html.embedded .proto-strip{border-radius:0;}
+  @media (min-width: 561px){ .tile-head{padding-left:96px;} }
+  @media (max-width: 560px){ .corner-ribbon{display:none;} .proto-strip{display:block;} }
+
+  .export-menu-wrap{position:relative;}
+  .export-menu-wrap .export-btn .chev{width:11px;height:11px;margin-left:2px;}
+  .export-menu{position:absolute;right:0;top:calc(100% + 6px);min-width:232px;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 28px rgba(20,30,50,.18);padding:6px;z-index:30;}
+  .export-menu .menu-head{padding:6px 10px 8px 10px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);margin-bottom:4px;}
+  .export-menu [role="menuitem"]{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;text-align:left;padding:8px 10px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--text);min-height:40px;}
+  .export-menu [role="menuitem"]:hover,.export-menu [role="menuitem"]:focus-visible{background:#F7F2EE;}
+  .export-menu .fi{width:30px;height:20px;border-radius:5px;font-size:9px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;letter-spacing:.02em;}
+  .export-menu .fi.x{background:#1D6F42;} .export-menu .fi.c{background:#6B5C50;} .export-menu .fi.p{background:#B3261E;}
+  @media (max-width: 560px){
+    .export-menu-wrap{width:100%;}
+    .export-menu-wrap .export-btn{width:100%;justify-content:center;}
+    .export-menu{left:0;right:0;min-width:0;}
+  }
 </style>
 </head>
 <body>
   <div class="tile" id="tile">
+    <div class="corner-ribbon proto-tag" id="protoTag" role="note" title="All names, employee numbers and tickets in this tile are fictional."><span>Prototype with<br>sample data</span></div>
+    <div class="proto-strip proto-tag" role="note">Prototype with sample data</div>
 
     <div class="tile-head">
       <div class="title-block">
@@ -901,6 +942,22 @@
         </div>
         <div class="bl-activebar" id="blActive" aria-live="polite"></div>
         <p class="bl-legend">A = Absence, L = Late Arrival, E = Early Departure. The number is the current level.</p>
+      </div>
+      <div class="bl-listbar">
+        <span class="bl-count" id="blCount" aria-live="polite"></span>
+        <div class="export-menu-wrap">
+          <button class="export-btn" id="blExportBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="blExportMenu" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            Export
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="export-menu" id="blExportMenu" role="menu" aria-label="Export format" hidden>
+            <div class="menu-head" id="blExportHead">All matching employees</div>
+            <button role="menuitem" data-bl-export="xlsx"><span class="fi x">XLS</span>Excel (.xlsx)</button>
+            <button role="menuitem" data-bl-export="csv"><span class="fi c">CSV</span>CSV (.csv)</button>
+            <button role="menuitem" data-bl-export="pdf"><span class="fi p">PDF</span>PDF (.pdf)</button>
+          </div>
+        </div>
       </div>
       <div class="bl-list" id="levelGroups"></div>
       <div class="pager-wrap" id="blPager"></div>
@@ -1079,6 +1136,7 @@ const OPEN_STATUS = ['new', 'sent', 'hr'];
 const MON = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 const PAGE_SIZES = { comm: [10, 25, 50, 100], email: [7, 14, 30], bl: [10, 25, 50], daily: [10, 25, 50] };
 const LARGE_PAGES = 600;
+const SAMPLE_DATA_TAG = true;   // set to false (or delete the tag in the header) when the tile runs on live data
 const CAL_MODE_LABEL = { with: 'with calendar', without: 'without calendar', ask: 'ask every time' };
 const SUPERVISORS = ['Kenneth Morgan', 'Tara Ellis', 'Lena Okafor', 'Marcus Bell'];
 
@@ -1703,6 +1761,7 @@ function blBase() {
 }
 function blLevelMatch(id, f) {
   const l = subjectLevel(id);
+  if (f === 'every') return true;
   if (f === null) return l >= 1;
   if (f === 'sup') return l >= 1 && l <= 3;
   if (f === 'hr') return l >= 4;
@@ -1711,7 +1770,14 @@ function blLevelMatch(id, f) {
   return l === f;
 }
 function blFilterLabel(f) {
-  return f === 'sup' ? 'Supervisor level (1 to 3)' : f === 'hr' ? 'HR managed (Level 4 and above)' : f === 'near' ? 'One occurrence from escalation' : f === 'open' ? 'With open tickets' : f === 0 ? 'No active discipline' : 'Level ' + f + ' only';
+  return f === 'every' ? 'All employees (including no discipline)' : f === 'sup' ? 'Supervisor level (1 to 3)' : f === 'hr' ? 'HR managed (Level 4 and above)' : f === 'near' ? 'One occurrence from escalation' : f === 'open' ? 'With open tickets' : f === 0 ? 'No active discipline' : 'Level ' + f + ' only';
+}
+function blSortedList(base, I) {
+  const list = base.filter(function (id) { return blLevelMatch(id, state.blLevel); });
+  if (state.blSort === 'name') list.sort(function (a, b) { return EMP[a].name.localeCompare(EMP[b].name); });
+  else if (state.blSort === 'recent') list.sort(function (a, b) { const x = I.latestAny.get(a), y = I.latestAny.get(b); return (y ? pd(y.gen) : 0) - (x ? pd(x.gen) : 0) || EMP[a].name.localeCompare(EMP[b].name); });
+  else list.sort(function (a, b) { return subjectLevel(b) - subjectLevel(a) || EMP[a].name.localeCompare(EMP[b].name); });
+  return list;
 }
 function lvlChip(track, level) {
   const full = TRACKS[track].label + ': ' + (level ? 'Level ' + level + ', ' + LEVEL_NAMES[level] : 'no active discipline');
@@ -1754,6 +1820,7 @@ function renderByLevel() {
 
   const maxC = Math.max.apply(null, lv.slice(1).concat([1]));
   let dist = '<h4>Employees by level (' + (state.levelTrack === 'all' ? 'highest level across tracks' : TRACKS[state.levelTrack].label) + ')</h4>';
+  dist += '<button class="dist-row dist-all" data-bl-level="every" aria-pressed="' + (state.blLevel === 'every') + '"><span class="d-lab">All</span><span class="d-name">Everyone, including no discipline</span><span class="d-bar"></span><span class="d-n">' + total + '</span></button>';
   for (let l = 7; l >= 0; l--) {
     const tr = tier(l), color = tr === 'ok' ? 'var(--teal)' : tr === 'mid' ? 'var(--gold)' : tr === 'crit' ? 'var(--rust)' : 'var(--muted-2)';
     dist += '<button class="dist-row' + (l === 0 ? ' dist-zero' : '') + '" data-bl-level="' + l + '" aria-pressed="' + (state.blLevel === l) + '"><span class="d-lab">Level ' + l + '</span><span class="d-name">' + LEVEL_NAMES[l] + '</span>' +
@@ -1767,16 +1834,18 @@ function renderByLevel() {
   if (state.blQuery || state.blDept || state.blShift || state.blSup || state.blStatus !== 'Active') tags.push('<button class="pref-link" data-bl-clear="all">Reset filters</button>');
   document.getElementById('blActive').innerHTML = tags.join('');
 
-  const list = base.filter(function (id) { return blLevelMatch(id, state.blLevel); });
-  if (state.blSort === 'name') list.sort(function (a, b) { return EMP[a].name.localeCompare(EMP[b].name); });
-  else if (state.blSort === 'recent') list.sort(function (a, b) { const x = I.latestAny.get(a), y = I.latestAny.get(b); return (y ? pd(y.gen) : 0) - (x ? pd(x.gen) : 0) || EMP[a].name.localeCompare(EMP[b].name); });
-  else list.sort(function (a, b) { return subjectLevel(b) - subjectLevel(a) || EMP[a].name.localeCompare(EMP[b].name); });
+  const list = blSortedList(base, I);
   const pages = Math.max(1, Math.ceil(list.length / state.blSize));
   state.blPage = Math.min(Math.max(0, state.blPage), pages - 1);
   const pageIds = list.slice(state.blPage * state.blSize, (state.blPage + 1) * state.blSize);
   document.getElementById('levelGroups').innerHTML = pageIds.length ? pageIds.map(function (id) { return blRow(id, I); }).join('')
     : '<div class="comm-empty">No employees match these filters.<br><button class="bbtn" data-bl-clear="all" style="margin-top:10px;">Reset filters</button></div>';
   document.getElementById('blPager').innerHTML = pagerHTML('bl', state.blPage, list.length, state.blSize, 'employee', PAGE_SIZES.bl);
+  const n = list.length;
+  document.getElementById('blCount').innerHTML = '<b>' + n + '</b> employee' + (n === 1 ? '' : 's') + ' match your filters';
+  document.getElementById('blExportBtn').disabled = n === 0;
+  document.getElementById('blExportHead').textContent = n ? 'Exports all ' + n + ' matching employee' + (n === 1 ? '' : 's') : 'Nothing to export';
+  if (n === 0) closeExportMenu(false);
 }
 function initByLevelControls() {
   const depts = {}; EMP_IDS.forEach(function (id) { depts[EMP[id].dept] = 1; });
@@ -2622,6 +2691,148 @@ function exportExcel() {
 }
 
 /* ================================================================
+   BY LEVEL EXPORT: every employee that matches the current filters, all pages, same order as on screen
+   ================================================================ */
+const BL_HEAD = ['Employee #', 'Employee Name', 'Department', 'Shift', 'Supervisor', 'Employment Status',
+  'Absence Level', 'Absence Level Name', 'Late Arrival Level', 'Late Arrival Level Name', 'Early Departure Level', 'Early Departure Level Name', 'Highest Level',
+  'Absence Occurrences (30 Days)', 'Late Arrival Occurrences (30 Days)', 'Early Departure Occurrences (30 Days)', 'One Occurrence From Escalation (Any Track)',
+  'Open Tickets', 'Latest Ticket #', 'Latest Ticket Date', 'Latest Ticket Track', 'Latest Ticket Status'];
+const BL_DATE_COL = 19;
+function blExportRows() {
+  const I = idx(), list = blSortedList(blBase(), I);
+  const rows = list.map(function (id) {
+    const e = EMP[id], l = e.levels, w = e.win, lt = I.latestAny.get(id);
+    return [id, e.name, e.dept, e.shift, e.supervisor, e.status,
+      l.absence, LEVEL_NAMES[l.absence], l.late, LEVEL_NAMES[l.late], l.early, LEVEL_NAMES[l.early], Math.max(l.absence, l.late, l.early),
+      w.absence, w.late, w.early, TRACK_KEYS.some(function (k) { return w[k] === 1 && l[k] < 7; }) ? 'Yes' : 'No',
+      openCount(id), lt ? Number(lt.id) : '', lt ? lt.gen : '', lt ? TRACKS[lt.track].label : '', lt ? STATUS_LABEL[lt.status] : ''];
+  });
+  return rows;
+}
+function blFilterSummary(n) {
+  const sortLabel = { level: 'Highest level', name: 'Name A to Z', recent: 'Most recent ticket' }[state.blSort];
+  const t = new Date();
+  const rows = [
+    ['Track view', state.levelTrack === 'all' ? 'All tracks (highest level across tracks)' : TRACKS[state.levelTrack].label],
+    ['Level filter', state.blLevel === null ? 'With active discipline (Level 1 and above)' : blFilterLabel(state.blLevel)],
+    ['Department', state.blDept || 'All departments'], ['Shift', state.blShift || 'All shifts'], ['Supervisor', state.blSup || 'All supervisors'],
+    ['Employment status', state.blStatus || 'All statuses'], ['Search', state.blQuery.trim() || '(none)'], ['Sorted by', sortLabel],
+    ['Employees exported', n], ['Exported on', TODAY + ' ' + pad2(t.getHours()) + ':' + pad2(t.getMinutes())],
+    ['Levels', 'Current level for each track (0 = no active discipline, 7 = discharge).'],
+    ['Occurrences (30 days)', 'Qualifying occurrences inside the 30-day window. One means the next occurrence raises the level.']];
+  if (SAMPLE_DATA_TAG) rows.push(['Data', 'Prototype with sample data. All names and numbers are fictional.']);
+  return rows;
+}
+function blFileName(n, ext) { return 'By_Level_Filtered_Employee_List_' + n + '_' + stampText() + '.' + ext; }
+function isoOf(s) { return dkey(pd(s)); }
+function exportByLevelPdf() {
+  const rows = blExportRows();
+  if (!rows.length) { toast('No employees to export.'); return; }
+  ensureLib('pdf').then(function () {
+    const JsPDF = window.jspdf && window.jspdf.jsPDF;
+    const doc = new JsPDF({ unit: 'pt', format: 'letter', orientation: 'landscape' });
+    if (typeof doc.autoTable !== 'function') throw new Error('autotable');
+    const M = 36, PW = doc.internal.pageSize.getWidth(), PH = doc.internal.pageSize.getHeight();
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(15); doc.setTextColor(105, 39, 10);
+    doc.text('By Level: Filtered Employee List', M, 40);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(90, 75, 65);
+    const sum = blFilterSummary(rows.length), pick = function (k) { const r = sum.filter(function (x) { return x[0] === k; })[0]; return r ? r[1] : ''; };
+    const meta = ['Track view', 'Level filter', 'Department', 'Shift', 'Supervisor', 'Employment status', 'Search', 'Sorted by'].map(function (k) { return k + ': ' + pick(k); }).join('     ');
+    let y = 56;
+    doc.splitTextToSize(meta, PW - M * 2).forEach(function (ln) { doc.text(ln, M, y); y += 11; });
+    doc.text(rows.length + ' employee' + (rows.length === 1 ? '' : 's') + '     Exported ' + pick('Exported on') + '     A = Absence, L = Late Arrival, E = Early Departure (current level)', M, y); y += 11;
+    if (SAMPLE_DATA_TAG) { doc.setTextColor(154, 52, 18); doc.setFont('helvetica', 'bold'); doc.text('Prototype with sample data. All names and numbers are fictional.', M, y); y += 11; }
+    const body = rows.map(function (r) {
+      return [r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[8], r[10], r[12] + ' - ' + LEVEL_NAMES[r[12]], r[17], r[18] ? r[18] + ' ' + r[21] : ''];
+    });
+    const tierFill = function (lv) { return lv >= 6 ? [253, 228, 225] : lv >= 3 ? [251, 234, 224] : lv >= 1 ? [246, 235, 217] : null; };
+    const tierText = function (lv) { return lv >= 6 ? [184, 35, 26] : lv >= 3 ? [154, 52, 18] : lv >= 1 ? [138, 90, 18] : [107, 92, 80]; };
+    doc.autoTable({
+      startY: y + 4, margin: { left: M, right: M, bottom: 34 }, theme: 'grid',
+      head: [['Emp #', 'Employee Name', 'Department', 'Shift', 'Supervisor', 'Status', 'A', 'L', 'E', 'Highest level', 'Open', 'Latest ticket']],
+      body: body,
+      styles: { font: 'helvetica', fontSize: 7, cellPadding: 3, lineColor: [230, 222, 214], lineWidth: 0.4, textColor: [40, 25, 15], overflow: 'ellipsize' },
+      headStyles: { fillColor: [105, 39, 10], textColor: 255, fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [252, 250, 248] },
+      columnStyles: { 0: { cellWidth: 40 }, 1: { cellWidth: 98 }, 2: { cellWidth: 92 }, 3: { cellWidth: 36 }, 4: { cellWidth: 92 }, 5: { cellWidth: 52 },
+        6: { cellWidth: 22, halign: 'center' }, 7: { cellWidth: 22, halign: 'center' }, 8: { cellWidth: 22, halign: 'center' }, 9: { cellWidth: 112 }, 10: { cellWidth: 28, halign: 'center' }, 11: { cellWidth: 104 } },
+      didParseCell: function (d) {
+        if (d.section === 'body' && d.column.index >= 6 && d.column.index <= 8) {
+          const lv = Number(d.cell.raw), f = tierFill(lv);
+          if (f) d.cell.styles.fillColor = f;
+          d.cell.styles.textColor = tierText(lv); d.cell.styles.fontStyle = 'bold';
+        }
+      }
+    });
+    const pages = doc.internal.getNumberOfPages();
+    for (let p = 1; p <= pages; p++) {
+      doc.setPage(p); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(120, 105, 95);
+      doc.text('Chicago Union Attendance  |  CloudApper', M, PH - 20);
+      doc.text('Page ' + p + ' of ' + pages, PW - M, PH - 20, { align: 'right' });
+    }
+    doc.save(blFileName(rows.length, 'pdf'));
+    toast('PDF downloaded (' + rows.length + ' employee' + (rows.length === 1 ? '' : 's') + ').');
+  }).catch(libError);
+}
+function closeExportMenu(refocus) {
+  const m = document.getElementById('blExportMenu'), btn = document.getElementById('blExportBtn');
+  if (!m || m.hidden) return;
+  m.hidden = true; btn.setAttribute('aria-expanded', 'false');
+  if (refocus) btn.focus();
+}
+function openExportMenu() {
+  const m = document.getElementById('blExportMenu');
+  m.hidden = false; document.getElementById('blExportBtn').setAttribute('aria-expanded', 'true');
+  m.querySelector('[role="menuitem"]').focus();
+}
+document.addEventListener('keydown', function (e) {
+  const m = document.getElementById('blExportMenu');
+  if (!m || m.hidden) return;
+  const items = Array.from(m.querySelectorAll('[role="menuitem"]')), i = items.indexOf(document.activeElement);
+  if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeExportMenu(true); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+  else if (e.key === 'Home') { e.preventDefault(); items[0].focus(); }
+  else if (e.key === 'End') { e.preventDefault(); items[items.length - 1].focus(); }
+  else if (e.key === 'Tab') closeExportMenu(false);
+}, true);
+function exportByLevelExcel() {
+  const rows = blExportRows();
+  if (!rows.length) { toast('No employees to export.'); return; }
+  ensureLib('xlsx').then(function () {
+    const wb = XLSX.utils.book_new();
+    const data = rows.map(function (r) {
+      const c = r.slice();
+      if (c[BL_DATE_COL]) { const d = pd(c[BL_DATE_COL]); c[BL_DATE_COL] = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); }
+      return c;
+    });
+    const ws = XLSX.utils.aoa_to_sheet([BL_HEAD].concat(data), { cellDates: true });
+    ws['!cols'] = [10, 22, 24, 10, 20, 13, 9, 26, 9, 26, 9, 26, 9, 12, 12, 12, 14, 9, 11, 13, 16, 16].map(function (w) { return { wch: w }; });
+    ws['!autofilter'] = { ref: 'A1:' + XLSX.utils.encode_col(BL_HEAD.length - 1) + (rows.length + 1) };
+    for (let i = 1; i <= rows.length; i++) { const cell = ws[XLSX.utils.encode_cell({ r: i, c: BL_DATE_COL })]; if (cell && cell.t === 'd') cell.z = 'mm/dd/yyyy'; }
+    XLSX.utils.book_append_sheet(wb, ws, 'Employees');
+    const fs = XLSX.utils.aoa_to_sheet([['Filter', 'Value']].concat(blFilterSummary(rows.length)));
+    fs['!cols'] = [{ wch: 24 }, { wch: 90 }];
+    XLSX.utils.book_append_sheet(wb, fs, 'Filters applied');
+    XLSX.writeFile(wb, blFileName(rows.length, 'xlsx'));
+    toast('Excel file downloaded (' + rows.length + ' employee' + (rows.length === 1 ? '' : 's') + ').');
+  }).catch(libError);
+}
+function exportByLevelCsv() {
+  const rows = blExportRows();
+  if (!rows.length) { toast('No employees to export.'); return; }
+  const cell = function (v) { const s = String(v == null ? '' : v); return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const lines = [BL_HEAD].concat(rows.map(function (r) { const c = r.slice(); if (c[BL_DATE_COL]) c[BL_DATE_COL] = isoOf(c[BL_DATE_COL]); return c; }))
+    .map(function (r) { return r.map(cell).join(','); });
+  const blob = new Blob(['\uFEFF' + lines.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = blFileName(rows.length, 'csv');
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+  toast('CSV file downloaded (' + rows.length + ' employee' + (rows.length === 1 ? '' : 's') + ').');
+}
+
+/* ================================================================
    EVENTS
    ================================================================ */
 document.addEventListener('click', function (e) {
@@ -2655,6 +2866,10 @@ document.addEventListener('click', function (e) {
   // ----- by level
   const lp = q('[data-level-track]');
   if (lp) { state.levelTrack = lp.dataset.levelTrack; state.blPage = 0; renderByLevel(); return; }
+  if (!document.getElementById('blExportMenu').hidden && !q('.export-menu-wrap')) closeExportMenu(false);
+  if (q('#blExportBtn')) { const mn = document.getElementById('blExportMenu'); if (mn.hidden) openExportMenu(); else closeExportMenu(true); return; }
+  const bx = q('[data-bl-export]');
+  if (bx) { closeExportMenu(true); ({ xlsx: exportByLevelExcel, csv: exportByLevelCsv, pdf: exportByLevelPdf })[bx.dataset.blExport](); return; }
   const bl = q('[data-bl-level]');
   if (bl) { const v = bl.dataset.blLevel, nv = v === 'all' ? null : /^\d$/.test(v) ? Number(v) : v; state.blLevel = state.blLevel === nv ? null : nv; state.blPage = 0; renderByLevel(); return; }
   const bc = q('[data-bl-clear]');
@@ -2878,6 +3093,7 @@ document.getElementById('singleDateInput').max = toISO(TODAY);
 document.getElementById('rangeFromInput').value = toISO(state.rangeFrom);
 document.getElementById('rangeToInput').value = toISO(state.rangeTo);
 loadCalMode();
+document.querySelectorAll('.proto-tag').forEach(function (el) { el.hidden = !SAMPLE_DATA_TAG; });
 initByLevelControls();
 render();
 
@@ -2895,6 +3111,8 @@ render();
     if (Math.abs(h - last) > 2) { last = h; try { window.parent.postMessage({ source: 'cloudapper-attendance-tile', type: 'resize', height: h }, '*'); } catch (e) { /* host blocks messaging */ } }
   }).observe(document.body);
 })();
+
+
 
 
 
